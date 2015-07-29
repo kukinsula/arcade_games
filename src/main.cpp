@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include "SDL.h"
 
-#include "game_controller.hpp"
-#include "event_input.hpp"
-#include "log.hpp"
-#include "console_logger.hpp"
+#include "event/game_controller.hpp"
+#include "event/event_input.hpp"
+#include "log/log.hpp"
+#include "log/console_logger.hpp"
 
 void init (void) {
 	ConsoleLogger *console_logger = new ConsoleLogger(critical);
