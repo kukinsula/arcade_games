@@ -3,7 +3,7 @@ EXEC = a.out
 DEBUG = yes
 
 ifeq ($(DEBUG), yes)
-	CXXFLAGS = -std=c++11 -W -Wall -Werror -ansi -pedantic -Wno-ignored-qualifiers -O3 -g
+	CXXFLAGS = -std=c++11 -W -Wall -ansi -pedantic -Wno-ignored-qualifiers -O3 -g
 else
 	CXXFLAGS = -std=c++11
 endif
@@ -35,6 +35,12 @@ src/event/%.o:
 	$(CC) -c $(EVENT_DIR)/$*.cpp -o $(OBJ_DIR)/$*.o $(CXXFLAGS) $(LDFLAGS)
 
 
+
+stat:
+	@echo -o "nombre de fichier *.o:" && echo $(OBJ) | wc -w
+
+
+
 clean:
 	@rm -f $(OBJ_DIR)/*.o
 
@@ -44,6 +50,3 @@ purge: clean
 mrproper: clean purge
 
 .PHONY: clean purge
-
-test:
-	@echo $(OBJ)
