@@ -34,20 +34,20 @@ class EventInput {
 		std::vector<GameControllerDeviceListener*> game_controller_device_listeners;
 		std::vector<QuitListener*> quit_listeners;
 
-		void key_press (SDL_KeyboardEvent key_event);
-		void key_unpress (SDL_KeyboardEvent key_event);
-		void mouse_move (SDL_MouseMotionEvent mouse_motion_event);
-		void mouse_button_press (SDL_MouseButtonEvent mouse_button_event);
-		void mouse_button_unpress (SDL_MouseButtonEvent mouse_button_event);
-		void mouse_wheel (SDL_MouseWheelEvent mouse_wheel_event);
-		void window (SDL_WindowEvent window_event);
-		void drop_file (SDL_DropEvent drop_event);
-		void controller_button_press (SDL_ControllerButtonEvent controller_button_event);
-		void controller_button_unpress (SDL_ControllerButtonEvent controller_button_event);
-		void controller_axis_motion (SDL_ControllerAxisEvent controller_axis_event);
-		void add_controller_device (SDL_ControllerDeviceEvent controller_device_event);
-		void remove_controller_device (SDL_ControllerDeviceEvent controller_device_event);
-		void remapped_controller_device (SDL_ControllerDeviceEvent controller_device_event);
+		void key_pressed (SDL_KeyboardEvent key_event);
+		void key_unpressed (SDL_KeyboardEvent key_event);
+		void mouse_moved (SDL_MouseMotionEvent mouse_motion_event);
+		void mouse_button_pressed (SDL_MouseButtonEvent mouse_button_event);
+		void mouse_button_unpressed (SDL_MouseButtonEvent mouse_button_event);
+		void mouse_wheeled (SDL_MouseWheelEvent mouse_wheel_event);
+		void window_event (SDL_WindowEvent window_event);
+		void file_dropped (SDL_DropEvent drop_event);
+		void game_controller_button_pressed (SDL_ControllerButtonEvent controller_button_event);
+		void game_controller_button_unpressed (SDL_ControllerButtonEvent controller_button_event);
+		void game_controller_axis_motion (SDL_ControllerAxisEvent controller_axis_event);
+		void game_controller_device_added (SDL_ControllerDeviceEvent controller_device_event);
+		void game_controller_device_removed (SDL_ControllerDeviceEvent controller_device_event);
+		void game_controller_device_remapped (SDL_ControllerDeviceEvent controller_device_event);
 		void quit ();
 
 	public:

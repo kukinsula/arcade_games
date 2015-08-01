@@ -20,7 +20,7 @@ void Log::write (LogLevel level, std::string message) {
 	}
 }
 
-void Log::clean (void) {
+void Log::quit (void) {
 	for (int i = 0; (unsigned) i < Log::loggers.size(); i++) {
 		delete Log::loggers[i];
 	}

@@ -25,7 +25,7 @@ bool EventInput::is_key_up (SDL_Keycode key) const {
 void EventInput::handle_event () {
 	SDL_Event event;
 	this->running = true;
-	UserAction *user_action = NULL;
+	// UserAction *user_action = NULL;
 
 	SDL_StartTextInput();
 
@@ -34,87 +34,87 @@ void EventInput::handle_event () {
 
 		switch (event.type) {
 			case SDL_KEYDOWN:
-				this->key_press(event.key);
+				this->key_pressed(event.key);
 				break;
 
 			case SDL_KEYUP:
-				this->key_unpress(event.key);
+				this->key_unpressed(event.key);
 				break;
 
 			case SDL_MOUSEMOTION:
-				this->mouse_move(event.motion);
+				this->mouse_moved(event.motion);
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
-				this->mouse_button_press(event.button);
+				this->mouse_button_pressed(event.button);
 				break;
 
 			case SDL_MOUSEBUTTONUP:
-				this->mouse_button_unpress(event.button);
+				this->mouse_button_unpressed(event.button);
 				break;
 
 			case SDL_MOUSEWHEEL:
-				this->mouse_wheel(event.wheel);
+				this->mouse_wheeled(event.wheel);
 				break;
 
 			case SDL_WINDOWEVENT:
-				this->window(event.window);
+				this->window_event(event.window);
 				break;
 
 			case SDL_DROPFILE:
-				this->drop_file(event.drop);
+				this->file_dropped(event.drop);
 				break;
 
 			case SDL_TEXTINPUT:
-				printf("SDL_TEXTINPUT => text = *%s*, start = %d, length = %d\n", event.edit.text, event.edit.start, event.edit.length);
+				// printf("SDL_TEXTINPUT => text = *%s*, start = %d, length = %d\n", event.edit.text, event.edit.start, event.edit.length);
 				break;
 
 			case SDL_TEXTEDITING:
-				printf("SDL_TEXTEDITING\n");
+				// printf("SDL_TEXTEDITING\n");
 				break;
 
 			case SDL_DOLLARGESTURE:
-				printf("SDL_DOLLARGESTURE\n");
+				// printf("SDL_DOLLARGESTURE\n");
 				break;
 
 			case SDL_MULTIGESTURE:
-				printf("SDL_MULTIGESTURE\n");
+				// printf("SDL_MULTIGESTURE\n");
 				break;
 
 			case SDL_CONTROLLERDEVICEADDED:
-				this->add_controller_device(event.cdevice);
+				this->game_controller_device_added(event.cdevice);
 				break;
 
 			case SDL_CONTROLLERDEVICEREMOVED:
-				this->remove_controller_device(event.cdevice);
+				this->game_controller_device_removed(event.cdevice);
 				break;
 
 			case SDL_CONTROLLERDEVICEREMAPPED:
-				this->remapped_controller_device(event.cdevice);
+				this->game_controller_device_remapped(event.cdevice);
 				break;
 
 			case SDL_CONTROLLERBUTTONDOWN:
-				this->controller_button_press(event.cbutton);
+				this->game_controller_button_pressed(event.cbutton);
 				break;
 
 			case SDL_CONTROLLERBUTTONUP:
-				this->controller_button_unpress(event.cbutton);
+				this->game_controller_button_unpressed(event.cbutton);
 				break;
 
 			case SDL_CONTROLLERAXISMOTION:
-				this->controller_axis_motion(event.caxis);
+				this->game_controller_axis_motion(event.caxis);
 				break;
 
 			case SDL_USEREVENT:
-				user_action = (UserAction*) event.user.data1;
+				// user_action = (UserAction*) event.user.data1;
 
-				printf("SDL_USEREVENT => ");
+				// printf("SDL_USEREVENT => ");
 
-				if (user_action->type == MOUSE_OVER) {
-					printf("MOUSE_OVER bidon = %d", user_action->bidon);
-				}
+				// if (user_action->type == MOUSE_OVER) {
+				// 	printf("MOUSE_OVER bidon = %d", user_action->bidon);
+				// }
 
-				printf("\n");
+				// printf("\n");
 				break;
 
 			case SDL_QUIT:
@@ -131,7 +131,7 @@ void EventInput::pause () {
 	this->running = false;
 }
 
-void EventInput::key_press (SDL_KeyboardEvent key_event) {
+void EventInput::key_pressed (SDL_KeyboardEvent key_event) {
 	this->keys = SDL_GetKeyboardState(NULL);
 
 	for (int i = 0; (unsigned) i < this->key_listeners.size(); i++) {
@@ -139,7 +139,7 @@ void EventInput::key_press (SDL_KeyboardEvent key_event) {
 	}
 }
 
-void EventInput::key_unpress (SDL_KeyboardEvent key_event) {
+void EventInput::key_unpressed (SDL_KeyboardEvent key_event) {
 	this->keys = SDL_GetKeyboardState(NULL);
 
 	for (int i = 0; (unsigned) i < this->key_listeners.size(); i++) {
@@ -147,36 +147,49 @@ void EventInput::key_unpress (SDL_KeyboardEvent key_event) {
 	}
 }
 
-void EventInput::mouse_move (SDL_MouseMotionEvent mouse_motion_event) {
-	Uint32 event_type;
-	SDL_Event event;
-	UserAction user_action;
+void EventInput::mouse_moved (SDL_MouseMotionEvent mouse_motion_event) {
+	// Uint32 event_type;
+	// SDL_Event event;
+	// UserAction user_action;
+	// int ret = 0;
 
 	this->mouse_x = mouse_motion_event.x;
 	this->mouse_y = mouse_motion_event.y;
 	this->mouse_x_rel = mouse_motion_event.xrel;
 	this->mouse_y_rel = mouse_motion_event.yrel;
 
-	if (this->mouse_x < 100 && this->mouse_y < 100) {
-		user_action.type = MOUSE_OVER;
-		user_action.bidon = 42;
+	// if (this->mouse_x < 100 && this->mouse_y < 100) {
+	// 	user_action.type = MOUSE_OVER;
+	// 	user_action.bidon = 42;
 
-		event_type = SDL_RegisterEvents(10);
-		printf("on_left_corner: event_type == SDL_USEREVENT = %d\n", event_type == SDL_USEREVENT);
+	// 	event_type = SDL_RegisterEvents(1);
+	// 	printf("on_left_corner, event_type = %d\n", event_type);
 
-		event.type = event_type;
-		event.user.code = MOUSE_OVER;
-		event.user.data1 = (void*) (&user_action);
+	// 	event.type = event_type;
+	// 	event.user.code = MOUSE_OVER;
+	// 	event.user.data1 = (void*) (&user_action);
 
-		SDL_PushEvent(&event);
-	}
+	// 	ret = SDL_PushEvent(&event);
+
+	// 	if (ret == 1){
+	// 		printf("SDL_PushEvent succes\n");
+	// 	}
+
+	// 	else if (ret == 0){
+	// 		printf("SDL_PushEvent filtered\n");
+	// 	}
+
+	// 	else {
+	// 		printf("SDL_PushEvent error: %s\n", SDL_GetError() );
+	// 	}
+	// }
 
 	for (int i = 0; (unsigned) i < this->mouse_motion_listeners.size(); i++) {
 		this->mouse_motion_listeners[i]->on_mouse_move(this, mouse_motion_event);
 	}
 }
 
-void EventInput::mouse_button_press (SDL_MouseButtonEvent mouse_button_event) {
+void EventInput::mouse_button_pressed (SDL_MouseButtonEvent mouse_button_event) {
 	this->mouse_buttons[mouse_button_event.button] = 1;
 
 	for (int i = 0; (unsigned) i < this->mouse_button_listeners.size(); i++) {
@@ -184,7 +197,7 @@ void EventInput::mouse_button_press (SDL_MouseButtonEvent mouse_button_event) {
 	}
 }
 
-void EventInput::mouse_button_unpress (SDL_MouseButtonEvent mouse_button_event) {
+void EventInput::mouse_button_unpressed (SDL_MouseButtonEvent mouse_button_event) {
 	this->mouse_buttons[mouse_button_event.button] = 0;
 
 	for (int i = 0; (unsigned) i < this->mouse_button_listeners.size(); i++) {
@@ -192,13 +205,13 @@ void EventInput::mouse_button_unpress (SDL_MouseButtonEvent mouse_button_event) 
 	}
 }
 
-void EventInput::mouse_wheel (SDL_MouseWheelEvent mouse_wheel_event) {
+void EventInput::mouse_wheeled (SDL_MouseWheelEvent mouse_wheel_event) {
 	for (int i = 0; (unsigned) i < this->mouse_wheel_listeners.size(); i++) {
 		this->mouse_wheel_listeners[i]->on_mouse_wheel(this, mouse_wheel_event);
 	}
 }
 
-void EventInput::window (SDL_WindowEvent window_event) {
+void EventInput::window_event (SDL_WindowEvent window_event) {
 	WindowListener *window_listener;
 
 	for (int i = 0; (unsigned) i < this->window_listeners.size(); i++) {
@@ -264,43 +277,43 @@ void EventInput::window (SDL_WindowEvent window_event) {
 	}
 }
 
-void EventInput::drop_file (SDL_DropEvent drop_event) {
+void EventInput::file_dropped (SDL_DropEvent drop_event) {
 	for (int i = 0; (unsigned) i < this->drop_file_listeners.size(); i++) {
 		this->drop_file_listeners[i]->on_drop_file(this, drop_event);
 	}
 }
 
-void EventInput::controller_button_press (SDL_ControllerButtonEvent controller_button_event) {
+void EventInput::game_controller_button_pressed (SDL_ControllerButtonEvent controller_button_event) {
 	for (int i = 0; (unsigned) i < this->game_controller_button_listeners.size(); i++) {
 		this->game_controller_button_listeners[i]->on_game_controller_button_press(this, controller_button_event);
 	}
 }
 
-void EventInput::controller_button_unpress (SDL_ControllerButtonEvent controller_button_event) {
+void EventInput::game_controller_button_unpressed (SDL_ControllerButtonEvent controller_button_event) {
 	for (int i = 0; (unsigned) i < this->game_controller_button_listeners.size(); i++) {
 		this->game_controller_button_listeners[i]->on_game_controller_button_unpress(this, controller_button_event);
 	}
 }
 
-void EventInput::controller_axis_motion (SDL_ControllerAxisEvent controller_axis_event) {
+void EventInput::game_controller_axis_motion (SDL_ControllerAxisEvent controller_axis_event) {
 	for (int i = 0; (unsigned) i < this->game_controller_axis_motion_listeners.size(); i++) {
 		this->game_controller_axis_motion_listeners[i]->on_game_controller_axis_motion(this, controller_axis_event);
 	}
 }
 
-void EventInput::add_controller_device (SDL_ControllerDeviceEvent controller_device_event) {
+void EventInput::game_controller_device_added (SDL_ControllerDeviceEvent controller_device_event) {
 	for (int i = 0; (unsigned) i < this->game_controller_device_listeners.size(); i++) {
 		this->game_controller_device_listeners[i]->on_controller_device_added(this, controller_device_event);
 	}
 }
 
-void EventInput::remove_controller_device (SDL_ControllerDeviceEvent controller_device_event) {
+void EventInput::game_controller_device_removed (SDL_ControllerDeviceEvent controller_device_event) {
 	for (int i = 0; (unsigned) i < this->game_controller_device_listeners.size(); i++) {
 		this->game_controller_device_listeners[i]->on_controller_device_removed(this, controller_device_event);
 	}
 }
 
-void EventInput::remapped_controller_device (SDL_ControllerDeviceEvent controller_device_event) {
+void EventInput::game_controller_device_remapped (SDL_ControllerDeviceEvent controller_device_event) {
 	for (int i = 0; (unsigned) i < this->game_controller_device_listeners.size(); i++) {
 		this->game_controller_device_listeners[i]->on_controller_device_remapped(this, controller_device_event);
 	}

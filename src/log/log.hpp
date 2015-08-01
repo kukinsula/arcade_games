@@ -17,7 +17,7 @@ class Log {
 		static void write (std::string message);
 		static void write (LogLevel level, std::string message);
 
-		static void clean ();
+		static void quit ();
 };
 
 #endif

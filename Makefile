@@ -8,7 +8,7 @@ else
 	CXXFLAGS = -std=c++11
 endif
 
-LDFLAGS = `sdl2-config --cflags --libs`
+LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_image
 
 SRC_DIR = src
 OBJ_DIR = obj

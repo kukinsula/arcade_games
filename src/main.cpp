@@ -4,17 +4,16 @@
 #include "main.hpp"
 
 #include "event/game_controller.hpp"
+#include "event/window.hpp"
 #include "event/event_input.hpp"
 #include "log/log.hpp"
 #include "log/console_logger.hpp"
 
 
-SDL_Window *window;
-
-
 int main (void) {
-	EventInput input;
 	GameController controller;
+	Window window("Arcade Games");
+	EventInput &input = window.get_event_input();
 
 	init();
 
@@ -29,21 +28,7 @@ int main (void) {
 	input.add_game_controller_device_listener(&controller);
 	input.add_quit_listener(&controller);
 
-	window = SDL_CreateWindow(
-		"Arcade Games",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
-	);
-
-	if (window == NULL) {
-		printf("Can't set video mode: %s\n", SDL_GetError() );
-		return 1;
-	}
-
-	input.handle_event();
+	window.show();
 
 	uninit();
 
@@ -102,8 +87,6 @@ void init (void) {
 }
 
 void uninit (void) {
-	Log::clean();
-
-	SDL_DestroyWindow(window);
+	Log::quit();
 	SDL_Quit();
 }
