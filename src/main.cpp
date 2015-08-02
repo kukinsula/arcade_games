@@ -3,9 +3,9 @@
 
 #include "main.hpp"
 
-#include "event/game_controller.hpp"
-#include "event/window.hpp"
-#include "event/event_handler.hpp"
+#include "window/game_controller.hpp"
+#include "window/window.hpp"
+#include "window/event_handler.hpp"
 #include "log/log.hpp"
 #include "log/console_logger.hpp"
 

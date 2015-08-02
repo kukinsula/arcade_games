@@ -16,10 +16,10 @@ OBJ_DIR = obj
 LOG_DIR = $(SRC_DIR)/log
 LOG_SRC = $(wildcard $(LOG_DIR)/*.cpp)
 
-EVENT_DIR = $(SRC_DIR)/event
-EVENT_SRC = $(wildcard $(EVENT_DIR)/*.cpp)
+WINDOW_DIR = $(SRC_DIR)/window
+WINDOW_SRC = $(wildcard $(WINDOW_DIR)/*.cpp)
 
-SRC = $(LOG_SRC) $(EVENT_SRC)
+SRC = $(LOG_SRC) $(WINDOW_SRC)
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
 
 
@@ -31,8 +31,8 @@ $(EXEC): $(OBJ)
 src/log/%.o:
 	$(CC) -c $(LOG_DIR)/$*.cpp -o $(OBJ_DIR)/$*.o $(CXXFLAGS)
 
-src/event/%.o:
-	$(CC) -c $(EVENT_DIR)/$*.cpp -o $(OBJ_DIR)/$*.o $(CXXFLAGS) $(LDFLAGS)
+src/window/%.o:
+	$(CC) -c $(WINDOW_DIR)/$*.cpp -o $(OBJ_DIR)/$*.o $(CXXFLAGS) $(LDFLAGS)
 
 
 
