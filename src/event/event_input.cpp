@@ -184,30 +184,30 @@ void EventInput::mouse_moved (SDL_MouseMotionEvent mouse_motion_event) {
 	// 	}
 	// }
 
-	for (int i = 0; (unsigned) i < this->mouse_motion_listeners.size(); i++) {
-		this->mouse_motion_listeners[i]->on_mouse_move(this, mouse_motion_event);
+	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
+		this->mouse_listeners[i]->on_mouse_move(this, mouse_motion_event);
 	}
 }
 
 void EventInput::mouse_button_pressed (SDL_MouseButtonEvent mouse_button_event) {
 	this->mouse_buttons[mouse_button_event.button] = 1;
 
-	for (int i = 0; (unsigned) i < this->mouse_button_listeners.size(); i++) {
-		this->mouse_button_listeners[i]->on_mouse_button_press(this, mouse_button_event);
+	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
+		this->mouse_listeners[i]->on_mouse_button_press(this, mouse_button_event);
 	}
 }
 
 void EventInput::mouse_button_unpressed (SDL_MouseButtonEvent mouse_button_event) {
 	this->mouse_buttons[mouse_button_event.button] = 0;
 
-	for (int i = 0; (unsigned) i < this->mouse_button_listeners.size(); i++) {
-		this->mouse_button_listeners[i]->on_mouse_button_unpress(this, mouse_button_event);
+	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
+		this->mouse_listeners[i]->on_mouse_button_unpress(this, mouse_button_event);
 	}
 }
 
 void EventInput::mouse_wheeled (SDL_MouseWheelEvent mouse_wheel_event) {
-	for (int i = 0; (unsigned) i < this->mouse_wheel_listeners.size(); i++) {
-		this->mouse_wheel_listeners[i]->on_mouse_wheel(this, mouse_wheel_event);
+	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
+		this->mouse_listeners[i]->on_mouse_wheel(this, mouse_wheel_event);
 	}
 }
 
@@ -284,38 +284,38 @@ void EventInput::file_dropped (SDL_DropEvent drop_event) {
 }
 
 void EventInput::game_controller_button_pressed (SDL_ControllerButtonEvent controller_button_event) {
-	for (int i = 0; (unsigned) i < this->game_controller_button_listeners.size(); i++) {
-		this->game_controller_button_listeners[i]->on_game_controller_button_press(this, controller_button_event);
+	for (int i = 0; (unsigned) i < this->game_controller_listeners.size(); i++) {
+		this->game_controller_listeners[i]->on_game_controller_button_press(this, controller_button_event);
 	}
 }
 
 void EventInput::game_controller_button_unpressed (SDL_ControllerButtonEvent controller_button_event) {
-	for (int i = 0; (unsigned) i < this->game_controller_button_listeners.size(); i++) {
-		this->game_controller_button_listeners[i]->on_game_controller_button_unpress(this, controller_button_event);
+	for (int i = 0; (unsigned) i < this->game_controller_listeners.size(); i++) {
+		this->game_controller_listeners[i]->on_game_controller_button_unpress(this, controller_button_event);
 	}
 }
 
 void EventInput::game_controller_axis_motion (SDL_ControllerAxisEvent controller_axis_event) {
-	for (int i = 0; (unsigned) i < this->game_controller_axis_motion_listeners.size(); i++) {
-		this->game_controller_axis_motion_listeners[i]->on_game_controller_axis_motion(this, controller_axis_event);
+	for (int i = 0; (unsigned) i < this->game_controller_listeners.size(); i++) {
+		this->game_controller_listeners[i]->on_game_controller_axis_motion(this, controller_axis_event);
 	}
 }
 
 void EventInput::game_controller_device_added (SDL_ControllerDeviceEvent controller_device_event) {
-	for (int i = 0; (unsigned) i < this->game_controller_device_listeners.size(); i++) {
-		this->game_controller_device_listeners[i]->on_controller_device_added(this, controller_device_event);
+	for (int i = 0; (unsigned) i < this->game_controller_listeners.size(); i++) {
+		this->game_controller_listeners[i]->on_controller_device_added(this, controller_device_event);
 	}
 }
 
 void EventInput::game_controller_device_removed (SDL_ControllerDeviceEvent controller_device_event) {
-	for (int i = 0; (unsigned) i < this->game_controller_device_listeners.size(); i++) {
-		this->game_controller_device_listeners[i]->on_controller_device_removed(this, controller_device_event);
+	for (int i = 0; (unsigned) i < this->game_controller_listeners.size(); i++) {
+		this->game_controller_listeners[i]->on_controller_device_removed(this, controller_device_event);
 	}
 }
 
 void EventInput::game_controller_device_remapped (SDL_ControllerDeviceEvent controller_device_event) {
-	for (int i = 0; (unsigned) i < this->game_controller_device_listeners.size(); i++) {
-		this->game_controller_device_listeners[i]->on_controller_device_remapped(this, controller_device_event);
+	for (int i = 0; (unsigned) i < this->game_controller_listeners.size(); i++) {
+		this->game_controller_listeners[i]->on_controller_device_remapped(this, controller_device_event);
 	}
 }
 
@@ -335,16 +335,8 @@ void EventInput::add_key_listener (KeyListener *key_listener) {
 	this->key_listeners.push_back(key_listener);
 }
 
-void EventInput::add_mouse_motion_listener (MouseMotionListener *mouse_motion_listener) {
-	this->mouse_motion_listeners.push_back(mouse_motion_listener);
-}
-
-void EventInput::add_mouse_button_listener (MouseButtonListener *mouse_button_listener) {
-	this->mouse_button_listeners.push_back(mouse_button_listener);
-}
-
-void EventInput::add_mouse_wheel_listener (MouseWheelListener *mouse_wheel_listener) {
-	this->mouse_wheel_listeners.push_back(mouse_wheel_listener);
+void EventInput::add_mouse_listener (MouseListener *mouse_listener) {
+	this->mouse_listeners.push_back(mouse_listener);
 }
 
 void EventInput::add_window_listener (WindowListener *window_listener) {
@@ -355,16 +347,8 @@ void EventInput::add_drop_file_listener (DropFileListener *drop_file_listener) {
 	this->drop_file_listeners.push_back(drop_file_listener);
 }
 
-void EventInput::add_game_controller_button_listener (GameControllerButtonListener *game_controller_button_listener) {
-	this->game_controller_button_listeners.push_back(game_controller_button_listener);
-}
-
-void EventInput::add_game_controller_axis_motion_listener (GameControllerAxisMotionListener *game_controller_axis_motion_listener) {
-	this->game_controller_axis_motion_listeners.push_back(game_controller_axis_motion_listener);
-}
-
-void EventInput::add_game_controller_device_listener (GameControllerDeviceListener *game_controller_device_listener) {
-	this->game_controller_device_listeners.push_back(game_controller_device_listener);
+void EventInput::add_game_controller_listener (GameControllerListener *game_controller_listener) {
+	this->game_controller_listeners.push_back(game_controller_listener);
 }
 
 void EventInput::add_quit_listener (QuitListener *quit_listener) {
@@ -375,16 +359,8 @@ void EventInput::remove_key_listener (KeyListener *key_listener) {
 	this->key_listeners.erase(std::remove(this->key_listeners.begin(), this->key_listeners.end(), key_listener), this->key_listeners.end() );
 }
 
-void EventInput::remove_mouse_motion_listener (MouseMotionListener *mouse_motion_listener) {
-	this->mouse_motion_listeners.erase(std::remove(this->mouse_motion_listeners.begin(), this->mouse_motion_listeners.end(), mouse_motion_listener), this->mouse_motion_listeners.end() );
-}
-
-void EventInput::remove_mouse_button_listener (MouseButtonListener *mouse_button_listener) {
-	this->mouse_button_listeners.erase(std::remove(this->mouse_button_listeners.begin(), this->mouse_button_listeners.end(), mouse_button_listener), this->mouse_button_listeners.end() );
-}
-
-void EventInput::remove_mouse_wheel_listener (MouseWheelListener *mouse_wheel_listener) {
-	this->mouse_wheel_listeners.erase(std::remove(this->mouse_wheel_listeners.begin(), this->mouse_wheel_listeners.end(), mouse_wheel_listener), this->mouse_wheel_listeners.end() );
+void EventInput::remove_mouse_listener (MouseListener *mouse_listener) {
+	this->mouse_listeners.erase(std::remove(this->mouse_listeners.begin(), this->mouse_listeners.end(), mouse_listener), this->mouse_listeners.end() );
 }
 
 void EventInput::remove_window_listener (WindowListener *window_listener) {
@@ -395,16 +371,8 @@ void EventInput::remove_drop_file_listener (DropFileListener *drop_file_listener
 	this->drop_file_listeners.erase(std::remove(this->drop_file_listeners.begin(), this->drop_file_listeners.end(), drop_file_listener), this->drop_file_listeners.end() );
 }
 
-void EventInput::remove_game_controller_button_listener (GameControllerButtonListener *game_controller_button_listener) {
-	this->game_controller_button_listeners.erase(std::remove(this->game_controller_button_listeners.begin(), this->game_controller_button_listeners.end(), game_controller_button_listener), this->game_controller_button_listeners.end() );
-}
-
-void EventInput::remove_game_controller_axis_motion_listener (GameControllerAxisMotionListener *game_controller_axis_motion_listener) {
-	this->game_controller_axis_motion_listeners.erase(std::remove(this->game_controller_axis_motion_listeners.begin(), this->game_controller_axis_motion_listeners.end(), game_controller_axis_motion_listener), this->game_controller_axis_motion_listeners.end() );
-}
-
-void EventInput::remove_game_controller_device_listener (GameControllerDeviceListener *game_controller_device_listener) {
-	this->game_controller_device_listeners.erase(std::remove(this->game_controller_device_listeners.begin(), this->game_controller_device_listeners.end(), game_controller_device_listener), this->game_controller_device_listeners.end() );
+void EventInput::remove_game_controller_listener (GameControllerListener *game_controller_listener) {
+	this->game_controller_listeners.erase(std::remove(this->game_controller_listeners.begin(), this->game_controller_listeners.end(), game_controller_listener), this->game_controller_listeners.end() );
 }
 
 void EventInput::remove_quit_listener (QuitListener *quit_listener) {

@@ -5,26 +5,18 @@
 
 #include "event_input.hpp"
 #include "key_listener.hpp"
-#include "mouse_motion_listener.hpp"
-#include "mouse_button_listener.hpp"
-#include "mouse_wheel_listener.hpp"
+#include "mouse_listener.hpp"
 #include "drop_file_listener.hpp"
 #include "window_listener.hpp"
-#include "game_controller_button_listener.hpp"
-#include "game_controller_axis_motion_listener.hpp"
-#include "game_controller_device_listener.hpp"
+#include "game_controller_listener.hpp"
 #include "quit_listener.hpp"
 
 class GameController : 
 	public KeyListener,
-	public MouseMotionListener,
-	public MouseButtonListener,
-	public MouseWheelListener,
+	public MouseListener,
 	public WindowListener,
 	public DropFileListener,
-	public GameControllerButtonListener,
-	public GameControllerAxisMotionListener,
-	public GameControllerDeviceListener,
+	public GameControllerListener,
 	public QuitListener {
 
 	public:

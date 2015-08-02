@@ -18,14 +18,14 @@ int main (void) {
 	init();
 
 	input.add_key_listener(&controller);
-	input.add_mouse_motion_listener(&controller);
-	input.add_mouse_button_listener(&controller);
-	input.add_mouse_wheel_listener(&controller);
+	input.add_mouse_listener(&controller);
+	input.add_mouse_listener(&controller);
+	input.add_mouse_listener(&controller);
 	input.add_window_listener(&controller);
 	input.add_drop_file_listener(&controller);
-	input.add_game_controller_button_listener(&controller);
-	input.add_game_controller_axis_motion_listener(&controller);
-	input.add_game_controller_device_listener(&controller);
+	input.add_game_controller_listener(&controller);
+	input.add_game_controller_listener(&controller);
+	input.add_game_controller_listener(&controller);
 	input.add_quit_listener(&controller);
 
 	window.show();
