@@ -71,12 +71,12 @@ void Window::show () {
     			SDL_RenderCopy(this->renderer, texture, &src_rect, &dest_rect);
 	        	SDL_RenderPresent(this->renderer);
 
-				this->input.handle_event();
+				this->event_handler.handle_event();
 			}
 		}
 	}
 }
 
-EventInput & Window::get_event_input (void) {
-	return this->input;
+EventHandler & Window::get_event_input (void) {
+	return this->event_handler;
 }

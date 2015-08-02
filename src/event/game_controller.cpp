@@ -9,7 +9,7 @@ GameController::GameController () {
 GameController::~GameController () {
 }
 
-void GameController::on_key_press (EventInput *input, SDL_KeyboardEvent key_event) {
+void GameController::on_key_press (EventHandler *input, SDL_KeyboardEvent key_event) {
 	switch (key_event.keysym.sym) {
 		case SDLK_UP:
 			printf("GameController::on_key_press => SDLK_UP\n");
@@ -45,11 +45,11 @@ void GameController::on_key_press (EventInput *input, SDL_KeyboardEvent key_even
 	}
 }
 
-void GameController::on_mouse_move (EventInput *, SDL_MouseMotionEvent) {
+void GameController::on_mouse_move (EventHandler *, SDL_MouseMotionEvent) {
 	// printf("GameController::on_mouse_move (%d, %d)\n", mouse_motion_event.x, mouse_motion_event.y);
 }
 
-void GameController::on_mouse_button_press (EventInput *, SDL_MouseButtonEvent mouse_button_event) {
+void GameController::on_mouse_button_press (EventHandler *, SDL_MouseButtonEvent mouse_button_event) {
 	if (mouse_button_event.button == SDL_BUTTON_LEFT) {
 		printf("GameController::on_mouse_button_press => SDL_BUTTON_LEFT !\n");
 	}
@@ -63,70 +63,70 @@ void GameController::on_mouse_button_press (EventInput *, SDL_MouseButtonEvent m
 	}
 }
 
-void GameController::on_mouse_wheel (EventInput *, SDL_MouseWheelEvent mouse_wheel_event) {
+void GameController::on_mouse_wheel (EventHandler *, SDL_MouseWheelEvent mouse_wheel_event) {
 	MouseWheelDirection direction = get_mouse_wheel_direction(mouse_wheel_event);
 	std::string direction_str = mouse_wheel_direction_to_string(direction);
 
 	printf("GameController::on_mouse_wheel => %s\n", direction_str.c_str() );
 }
 
-void GameController::on_window_show (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_show (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_show\n");
 }
 
-void GameController::on_window_hide (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_hide (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_hide\n");
 }
 
-void GameController::on_window_expose (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_expose (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_expose\n");
 }
 
-void GameController::on_window_move (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_move (EventHandler *, SDL_WindowEvent) {
 	// printf("GameController::on_window_move\n");
 }
 
-void GameController::on_window_resize (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_resize (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_resize\n");
 }
 
-void GameController::on_window_minimize (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_minimize (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_minimize\n");
 }
 
-void GameController::on_window_maximize (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_maximize (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_maximize\n");
 }
 
-void GameController::on_window_restore (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_restore (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_restore\n");
 }
 
-void GameController::on_window_mouse_enter (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_mouse_enter (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_mouse_enter\n");
 }
 
-void GameController::on_window_mouse_leave (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_mouse_leave (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_mouse_leave\n");
 }
 
-void GameController::on_window_focus_gain (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_focus_gain (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_focus_gain\n");
 }
 
-void GameController::on_window_focus_lost (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_focus_lost (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_focus_lost\n");
 }
 
-void GameController::on_window_close (EventInput *, SDL_WindowEvent) {
+void GameController::on_window_close (EventHandler *, SDL_WindowEvent) {
 	printf("GameController::on_window_close\n");
 }
 
-void GameController::on_drop_file (EventInput *, SDL_DropEvent drop_event) {
+void GameController::on_drop_file (EventHandler *, SDL_DropEvent drop_event) {
 	printf("GameController::on_drop_file => %s\n", drop_event.file);
 }
 
-void GameController::on_game_controller_button_press (EventInput *, SDL_ControllerButtonEvent controller_button_event) {
+void GameController::on_game_controller_button_press (EventHandler *, SDL_ControllerButtonEvent controller_button_event) {
 	printf("GameController::on_game_controller_button_press => ");
 
 	if (controller_button_event.button == SDL_CONTROLLER_BUTTON_X) {
@@ -178,7 +178,7 @@ void GameController::on_game_controller_button_press (EventInput *, SDL_Controll
 	}
 }
 
-void GameController::on_game_controller_button_unpress (EventInput *, SDL_ControllerButtonEvent controller_button_event) {
+void GameController::on_game_controller_button_unpress (EventHandler *, SDL_ControllerButtonEvent controller_button_event) {
 	printf("GameController::on_game_controller_button_unpress => ");
 
 	if (controller_button_event.button == SDL_CONTROLLER_BUTTON_X) {
@@ -230,22 +230,22 @@ void GameController::on_game_controller_button_unpress (EventInput *, SDL_Contro
 	}
 }
 
-void GameController::on_game_controller_axis_motion (EventInput *, SDL_ControllerAxisEvent controller_axis_event) {
+void GameController::on_game_controller_axis_motion (EventHandler *, SDL_ControllerAxisEvent controller_axis_event) {
 	printf("GameController::on_game_controller_axis_motion => axis = %d, value = %d\n", controller_axis_event.axis, controller_axis_event.value);
 }
 
-void GameController::on_controller_device_added (EventInput *, SDL_ControllerDeviceEvent) {
+void GameController::on_controller_device_added (EventHandler *, SDL_ControllerDeviceEvent) {
 	printf("GameController::on_controller_device_added\n");
 }
 
-void GameController::on_controller_device_removed (EventInput *, SDL_ControllerDeviceEvent) {
+void GameController::on_controller_device_removed (EventHandler *, SDL_ControllerDeviceEvent) {
 	printf("GameController::on_controller_device_removed\n");
 }
 
-void GameController::on_controller_device_remapped (EventInput *, SDL_ControllerDeviceEvent) {
+void GameController::on_controller_device_remapped (EventHandler *, SDL_ControllerDeviceEvent) {
 	printf("GameController::on_controller_device_remapped\n");
 }
 
-void GameController::on_quit (EventInput *) {
+void GameController::on_quit (EventHandler *) {
 	printf("GameController::on_quit\n");
 }

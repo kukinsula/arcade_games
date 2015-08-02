@@ -1,5 +1,5 @@
-#ifndef EVENT_INPUT
-#define EVENT_INPUT
+#ifndef EVENT_HANDLER
+#define EVENT_HANDLER
 
 #include <vector>
 
@@ -10,7 +10,7 @@
 #include "game_controller_listener.hpp"
 #include "quit_listener.hpp"
 
-class EventInput {
+class EventHandler {
 	private:
 		const Uint8 *keys;
 		int mouse_x, mouse_y;
@@ -42,8 +42,8 @@ class EventInput {
 		void quit ();
 
 	public:
-		EventInput ();
-		~EventInput ();
+		EventHandler ();
+		~EventHandler ();
 
 		void handle_event ();
 		void pause ();

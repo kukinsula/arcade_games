@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "event_input.hpp"
+#include "event_handler.hpp"
 
 #define DEFAULT_WINDOW_HEIGHT 640
 #define DEFAULT_WINDOW_WIDTH 480
@@ -12,7 +12,7 @@ class Window {
 	private:
 		std::string title;
 		int height, width;
-		EventInput input;
+		EventHandler event_handler;
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 
@@ -23,7 +23,7 @@ class Window {
 
 		void show ();
 
-		EventInput & get_event_input (void);
+		EventHandler & get_event_input (void);
 
 };
 

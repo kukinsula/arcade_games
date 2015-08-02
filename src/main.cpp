@@ -5,7 +5,7 @@
 
 #include "event/game_controller.hpp"
 #include "event/window.hpp"
-#include "event/event_input.hpp"
+#include "event/event_handler.hpp"
 #include "log/log.hpp"
 #include "log/console_logger.hpp"
 
@@ -13,20 +13,20 @@
 int main (void) {
 	GameController controller;
 	Window window("Arcade Games");
-	EventInput &input = window.get_event_input();
+	EventHandler &event_handler = window.get_event_input();
 
 	init();
 
-	input.add_key_listener(&controller);
-	input.add_mouse_listener(&controller);
-	input.add_mouse_listener(&controller);
-	input.add_mouse_listener(&controller);
-	input.add_window_listener(&controller);
-	input.add_drop_file_listener(&controller);
-	input.add_game_controller_listener(&controller);
-	input.add_game_controller_listener(&controller);
-	input.add_game_controller_listener(&controller);
-	input.add_quit_listener(&controller);
+	event_handler.add_key_listener(&controller);
+	event_handler.add_mouse_listener(&controller);
+	event_handler.add_mouse_listener(&controller);
+	event_handler.add_mouse_listener(&controller);
+	event_handler.add_window_listener(&controller);
+	event_handler.add_drop_file_listener(&controller);
+	event_handler.add_game_controller_listener(&controller);
+	event_handler.add_game_controller_listener(&controller);
+	event_handler.add_game_controller_listener(&controller);
+	event_handler.add_quit_listener(&controller);
 
 	window.show();
 

@@ -1,11 +1,11 @@
 #ifndef QUIT_LISTENER
 #define QUIT_LISTENER
 
-class EventInput;
+class EventHandler;
 
 class QuitListener {
 	public:
-		virtual void on_quit (EventInput *input) = 0;
+		virtual void on_quit (EventHandler *input) = 0;
 };
 
 #endif
