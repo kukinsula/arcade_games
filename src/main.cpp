@@ -17,7 +17,7 @@ int main (void) {
 
 	init();
 
-	event_handler.add_key_listener(&controller);
+	event_handler.add_keyboard_listener(&controller);
 	event_handler.add_mouse_listener(&controller);
 	event_handler.add_mouse_listener(&controller);
 	event_handler.add_mouse_listener(&controller);

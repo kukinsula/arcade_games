@@ -4,7 +4,7 @@
 #include "SDL.h"
 
 #include "event_handler.hpp"
-#include "key_listener.hpp"
+#include "keyboard_listener.hpp"
 #include "mouse_listener.hpp"
 #include "drop_file_listener.hpp"
 #include "window_listener.hpp"
@@ -12,7 +12,7 @@
 #include "quit_listener.hpp"
 
 class GameController : 
-	public KeyListener,
+	public KeyboardListener,
 	public MouseListener,
 	public WindowListener,
 	public DropFileListener,

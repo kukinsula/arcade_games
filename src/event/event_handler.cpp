@@ -34,11 +34,11 @@ void EventHandler::handle_event () {
 
 		switch (event.type) {
 			case SDL_KEYDOWN:
-				this->key_pressed(event.key);
+				this->keyboard_pressed(event.key);
 				break;
 
 			case SDL_KEYUP:
-				this->key_unpressed(event.key);
+				this->keyboard_unpressed(event.key);
 				break;
 
 			case SDL_MOUSEMOTION:
@@ -131,19 +131,19 @@ void EventHandler::pause () {
 	this->running = false;
 }
 
-void EventHandler::key_pressed (SDL_KeyboardEvent key_event) {
+void EventHandler::keyboard_pressed (SDL_KeyboardEvent key_event) {
 	this->keys = SDL_GetKeyboardState(NULL);
 
-	for (int i = 0; (unsigned) i < this->key_listeners.size(); i++) {
-		this->key_listeners[i]->on_key_press(this, key_event);
+	for (int i = 0; (unsigned) i < this->keyboard_listeners.size(); i++) {
+		this->keyboard_listeners[i]->on_key_press(this, key_event);
 	}
 }
 
-void EventHandler::key_unpressed (SDL_KeyboardEvent key_event) {
+void EventHandler::keyboard_unpressed (SDL_KeyboardEvent key_event) {
 	this->keys = SDL_GetKeyboardState(NULL);
 
-	for (int i = 0; (unsigned) i < this->key_listeners.size(); i++) {
-		this->key_listeners[i]->on_key_unpress(this, key_event);
+	for (int i = 0; (unsigned) i < this->keyboard_listeners.size(); i++) {
+		this->keyboard_listeners[i]->on_key_unpress(this, key_event);
 	}
 }
 
@@ -331,8 +331,8 @@ bool EventHandler::is_running () const {
 	return this->running;
 }
 
-void EventHandler::add_key_listener (KeyListener *key_listener) {
-	this->key_listeners.push_back(key_listener);
+void EventHandler::add_keyboard_listener (KeyboardListener *keyboard_listener) {
+	this->keyboard_listeners.push_back(keyboard_listener);
 }
 
 void EventHandler::add_mouse_listener (MouseListener *mouse_listener) {
@@ -355,8 +355,8 @@ void EventHandler::add_quit_listener (QuitListener *quit_listener) {
 	this->quit_listeners.push_back(quit_listener);
 }
 
-void EventHandler::remove_key_listener (KeyListener *key_listener) {
-	this->key_listeners.erase(std::remove(this->key_listeners.begin(), this->key_listeners.end(), key_listener), this->key_listeners.end() );
+void EventHandler::remove_keyboard_listener (KeyboardListener *keyboard_listener) {
+	this->keyboard_listeners.erase(std::remove(this->keyboard_listeners.begin(), this->keyboard_listeners.end(), keyboard_listener), this->keyboard_listeners.end() );
 }
 
 void EventHandler::remove_mouse_listener (MouseListener *mouse_listener) {

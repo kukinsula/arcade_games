@@ -1,9 +1,9 @@
-#ifndef KEY_LISTENER
-#define KEY_LISTENER
+#ifndef KEYBOARD_LISTENER
+#define KEYBOARD_LISTENER
 
 class EventHandler;
 
-class KeyListener {
+class KeyboardListener {
 	public:
 		virtual void on_key_press (EventHandler *handler, SDL_KeyboardEvent key_event);
 		virtual void on_key_unpress (EventHandler *handler, SDL_KeyboardEvent key_event);

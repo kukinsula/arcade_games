@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "key_listener.hpp"
+#include "keyboard_listener.hpp"
 #include "mouse_listener.hpp"
 #include "window_listener.hpp"
 #include "drop_file_listener.hpp"
@@ -18,15 +18,15 @@ class EventHandler {
 		char mouse_buttons[8];
 		bool running;
 
-		std::vector<KeyListener*> key_listeners;
+		std::vector<KeyboardListener*> keyboard_listeners;
 		std::vector<MouseListener*> mouse_listeners;
 		std::vector<WindowListener*> window_listeners;
 		std::vector<DropFileListener*> drop_file_listeners;
 		std::vector<GameControllerListener*> game_controller_listeners;
 		std::vector<QuitListener*> quit_listeners;
 
-		void key_pressed (SDL_KeyboardEvent key_event);
-		void key_unpressed (SDL_KeyboardEvent key_event);
+		void keyboard_pressed (SDL_KeyboardEvent key_event);
+		void keyboard_unpressed (SDL_KeyboardEvent key_event);
 		void mouse_moved (SDL_MouseMotionEvent mouse_motion_event);
 		void mouse_button_pressed (SDL_MouseButtonEvent mouse_button_event);
 		void mouse_button_unpressed (SDL_MouseButtonEvent mouse_button_event);
@@ -48,14 +48,14 @@ class EventHandler {
 		void handle_event ();
 		void pause ();
 
-		void add_key_listener (KeyListener *key_listener);
+		void add_keyboard_listener (KeyboardListener *keyboard_listener);
 		void add_mouse_listener (MouseListener *mouse_listener);
 		void add_window_listener (WindowListener *window_listener);
 		void add_drop_file_listener (DropFileListener *drop_file_listener);
 		void add_game_controller_listener (GameControllerListener *game_controller_listener);
 		void add_quit_listener (QuitListener *quit_listener);
 
-		void remove_key_listener (KeyListener *key_listener);
+		void remove_keyboard_listener (KeyboardListener *keyboard_listener);
 		void remove_mouse_listener (MouseListener *mouse_listener);
 		void remove_window_listener (WindowListener *window_listener);
 		void remove_drop_file_listener (DropFileListener *drop_file_listener);
