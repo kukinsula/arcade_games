@@ -8,8 +8,7 @@ class ConsoleLogger : public Logger {
 		ConsoleLogger ();
 		ConsoleLogger (LogLevel level);
 
-		void write (std::string message);
-		void write (LogLevel level, std::string message);
+		void write (LogMessage log_message);
 };
 
 #endif

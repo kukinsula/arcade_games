@@ -4,7 +4,15 @@
 class EventHandler;
 
 class GameControllerListener {
+	private:
+		static const char *game_controller_mapping_file_name;
+		SDL_GameController *game_controller;
+		int number_of_joysticks;
+
 	public:
+		GameControllerListener ();
+		~GameControllerListener ();
+
 		virtual void on_controller_device_added (EventHandler * handler, SDL_ControllerDeviceEvent controller_device_event);
 		virtual void on_controller_device_removed (EventHandler * handler, SDL_ControllerDeviceEvent controller_device_event);
 		virtual void on_controller_device_remapped (EventHandler * handler, SDL_ControllerDeviceEvent controller_device_event);

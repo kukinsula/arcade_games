@@ -12,8 +12,8 @@
 
 int main (void) {
 	GameController controller;
+	EventHandler event_handler;
 	Window window("Arcade Games");
-	EventHandler &event_handler = window.get_event_input();
 
 	init();
 
@@ -28,7 +28,8 @@ int main (void) {
 	event_handler.add_game_controller_listener(&controller);
 	event_handler.add_quit_listener(&controller);
 
-	window.show();
+	window.set_event_handler(event_handler);
+	window.open();
 
 	uninit();
 
@@ -37,7 +38,7 @@ int main (void) {
 
 void init (void) {
 	const char *game_controller_mapping_file_name = "data/gamecontrollerdb.txt";
-	ConsoleLogger *console_logger = new ConsoleLogger(critical);
+	ConsoleLogger *console_logger = new ConsoleLogger(info);
 	SDL_GameController *game_controller = NULL;
 	const char *game_controller_name;
 	int number_of_joysticks = 0;
@@ -45,6 +46,8 @@ void init (void) {
 	bool game_controller_detected = false;
 
 	Log::add_logger(console_logger);
+
+	MSG(info, "starting Arcade Games");
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
 	SDL_GameControllerEventState(SDL_ENABLE);
@@ -87,6 +90,8 @@ void init (void) {
 }
 
 void uninit (void) {
+	MSG(info, "closing Arcade Games");
+
 	Log::quit();
 	SDL_Quit();
 }

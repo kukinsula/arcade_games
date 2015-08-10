@@ -22,7 +22,7 @@ bool EventHandler::is_key_up (SDL_Keycode key) const {
 	return this->keys[key] == 0;
 }
 
-void EventHandler::handle_event () {
+void EventHandler::start () {
 	SDL_Event event;
 	this->running = true;
 	// UserAction *user_action = NULL;

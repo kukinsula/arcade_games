@@ -6,16 +6,10 @@ void Log::add_logger (Logger *logger) {
 	Log::loggers.push_back(logger);
 }
 
-void Log::write (std::string message) {
+void Log::write (LogMessage log_message) {
 	for (int i = 0; (unsigned) i < Log::loggers.size(); i++) {
-		Log::loggers[i]->write(message);
-	}
-}
-
-void Log::write (LogLevel level, std::string message) {
-	for (int i = 0; (unsigned) i < Log::loggers.size(); i++) {
-		if (Log::loggers[i]->get_level() >= level) {
-			Log::loggers[i]->write(level, message);
+		if (log_message.get_level() >= Log::loggers[i]->get_level() ) {
+			Log::loggers[i]->write(log_message);
 		}
 	}
 }

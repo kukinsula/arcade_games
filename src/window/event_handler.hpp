@@ -45,7 +45,7 @@ class EventHandler {
 		EventHandler ();
 		~EventHandler ();
 
-		void handle_event ();
+		void start ();
 		void pause ();
 
 		void add_keyboard_listener (KeyboardListener *keyboard_listener);

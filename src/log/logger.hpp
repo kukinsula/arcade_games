@@ -4,6 +4,7 @@
 #include <string>
 
 #include "log_level.hpp"
+#include "log_message.hpp"
 
 class Logger {
 	private:
@@ -14,8 +15,7 @@ class Logger {
 		Logger (LogLevel level);
 		virtual ~Logger ();
 
-		virtual void write (std::string message) = 0;
-		virtual void write (LogLevel level, std::string message) = 0;
+		virtual void write (LogMessage log_message) = 0;
 
 		LogLevel get_level () const;
 };

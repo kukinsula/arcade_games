@@ -17,7 +17,7 @@ Window::~Window () {
 	SDL_DestroyWindow(this->window);
 }
 
-void Window::show () {
+void Window::open () {
 	SDL_Texture *texture = NULL;
 	SDL_Surface *surface = NULL;
 	SDL_Rect src_rect, dest_rect;
@@ -71,10 +71,18 @@ void Window::show () {
     			SDL_RenderCopy(this->renderer, texture, &src_rect, &dest_rect);
 	        	SDL_RenderPresent(this->renderer);
 
-				this->event_handler.handle_event();
+				this->event_handler.start();
 			}
 		}
 	}
+}
+
+void Window::close () {
+	this->event_handler.pause();
+}
+
+void Window::set_event_handler (EventHandler event_handler) {
+	this->event_handler = event_handler;
 }
 
 EventHandler & Window::get_event_input (void) {

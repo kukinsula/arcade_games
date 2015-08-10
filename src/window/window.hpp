@@ -21,8 +21,10 @@ class Window {
 		Window (std::string title);
 		~Window ();
 
-		void show ();
+		void open ();
+		void close ();
 
+		void set_event_handler (EventHandler event_handler);
 		EventHandler & get_event_input (void);
 
 };

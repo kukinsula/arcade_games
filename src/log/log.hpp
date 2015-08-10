@@ -6,6 +6,7 @@
 
 #include "logger.hpp"
 #include "log_level.hpp"
+#include "log_message.hpp"
 
 class Log {
 	private:
@@ -13,11 +14,19 @@ class Log {
 
 	public:
 		static void add_logger (Logger *logger);
-
-		static void write (std::string message);
-		static void write (LogLevel level, std::string message);
-
+		static void write (LogMessage log_message);
 		static void quit ();
 };
+
+#define MSG(LEVEL, MESSAGE) \
+	Log::write( \
+		LogMessage( \
+			MESSAGE, \
+			LEVEL, \
+			__FILE__, \
+			__func__, \
+			__LINE__ \
+		) \
+	);
 
 #endif
