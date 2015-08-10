@@ -14,35 +14,35 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 LOG_DIR = $(SRC_DIR)/log
-LOG_SRC = $(wildcard $(LOG_DIR)/*.cpp)
-
 WINDOW_DIR = $(SRC_DIR)/window
-WINDOW_SRC = $(wildcard $(WINDOW_DIR)/*.cpp)
 
-SRC = $(LOG_SRC) $(WINDOW_SRC)
-OBJ = $(patsubst %.cpp, %.o, $(SRC))
-
-
-all: $(EXEC)
-
-$(EXEC): $(OBJ)
-	$(CC) $(SRC_DIR)/main.cpp $(OBJ_DIR)/*.o -o $(EXEC) $(CXXFLAGS) $(LDFLAGS)
-
-src/log/%.o:
-	$(CC) -c $(LOG_DIR)/$*.cpp -o $(OBJ_DIR)/$*.o $(CXXFLAGS)
-
-src/window/%.o:
-	$(CC) -c $(WINDOW_DIR)/$*.cpp -o $(OBJ_DIR)/$*.o $(CXXFLAGS) $(LDFLAGS)
+SRC_PATH = $(wildcard $(SRC_DIR)/*.cpp $(SRC_DIR)/*/*.cpp) 
+SRC_FILES = $(notdir $(SRC_PATH) )
+OBJ_FILES = $(patsubst %.cpp, %.o, $(SRC_FILES) )
+OBJ_PATH = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_PATH) )
 
 
 
-stat:
-	@echo -o "nombre de fichier *.o:" && echo $(OBJ) | wc -w
+$(EXEC): $(OBJ_PATH)
+	$(CC) $(OBJ_PATH) -o $(EXEC) $(CXXFLAGS) $(LDFLAGS)
+
+# TODO
+prepare:
+	# @echo creating directories
+
+obj/main.o: $(SRC_DIR)/main.cpp
+	$(CC) -c $< -o $@ $(CXXFLAGS) $(LDFLAGS)
+
+obj/log/%.o: $(LOG_DIR)/%.cpp
+	$(CC) -c $(patsubst $(OBJ_DIR)/%.o, $(SRC_DIR)/%.cpp, $@) -o $@ $(CXXFLAGS) $(LDFLAGS)
+
+obj/window/%.o: $(WINDOW_DIR)/%.cpp
+	$(CC) -c $(patsubst $(OBJ_DIR)/%.o, $(SRC_DIR)/%.cpp, $@) -o $@ $(CXXFLAGS) $(LDFLAGS)
 
 
 
 clean:
-	@rm -f $(OBJ_DIR)/*.o
+	@rm -f $(OBJ_DIR)/*.o $(OBJ_DIR)/*/*.o
 
 purge: clean
 	@rm -f $(EXEC)
