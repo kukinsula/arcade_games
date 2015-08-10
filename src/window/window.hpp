@@ -17,8 +17,7 @@ class Window {
 		SDL_Renderer *renderer;
 
 	public:
-		Window (std::string title, int height, int width);
-		Window (std::string title);
+		Window (std::string title, int height = DEFAULT_WINDOW_HEIGHT, int width = DEFAULT_WINDOW_WIDTH);
 		~Window ();
 
 		void open ();

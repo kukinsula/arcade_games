@@ -9,10 +9,6 @@ Window::Window (std::string title, int height, int width) :
 	width(width) {
 }
 
-Window::Window (std::string title) :
-	Window(title, DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH) {
-}
-
 Window::~Window () {
 	SDL_DestroyWindow(this->window);
 }
