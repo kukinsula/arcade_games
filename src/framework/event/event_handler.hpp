@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "../window/window.hpp"
+
 #include "keyboard_listener.hpp"
 #include "mouse_listener.hpp"
 #include "window_listener.hpp"
@@ -17,6 +19,7 @@ class EventHandler {
 		int mouse_x_rel, mouse_y_rel;
 		char mouse_buttons[8];
 		bool running;
+		Window *window;
 
 		std::vector<KeyboardListener*> keyboard_listeners;
 		std::vector<MouseListener*> mouse_listeners;
@@ -64,6 +67,8 @@ class EventHandler {
 
 		bool is_key_down (SDL_Keycode key) const;
 		bool is_key_up (SDL_Keycode key) const;
+
+		void set_window (Window *window);
 
 		int get_mouse_x () const;
 		int get_mouse_y () const;

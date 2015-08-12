@@ -1,6 +1,8 @@
 #ifndef KEYBOARD_LISTENER
 #define KEYBOARD_LISTENER
 
+#include "SDL.h"
+
 class EventHandler;
 
 class KeyboardListener {

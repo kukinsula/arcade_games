@@ -3,17 +3,21 @@
 
 #include "main.hpp"
 
-#include "window/game_controller.hpp"
-#include "window/window.hpp"
-#include "window/event_handler.hpp"
-#include "log/log.hpp"
-#include "log/console_logger.hpp"
+#include "tests/game_controller.hpp"
+#include "framework/window/window.hpp"
+#include "framework/event/event_handler.hpp"
+#include "framework/log/log.hpp"
+#include "framework/log/console_logger.hpp"
+#include "framework/log/file_logger.hpp"
+#include "framework/view/rectangle.hpp"
 
 
 int main (void) {
 	GameController controller;
 	EventHandler event_handler;
 	Window window("Arcade Games");
+	Rectangle *rectangle = new Rectangle(0, 0, 100, 100);
+	Rectangle *rectangle2 = new Rectangle(540, 380, 100, 100);
 
 	init();
 
@@ -28,8 +32,15 @@ int main (void) {
 	event_handler.add_game_controller_listener(&controller);
 	event_handler.add_quit_listener(&controller);
 
-	window.set_event_handler(event_handler);
+	window.set_event_handler(&event_handler);
+	window.add_widget(rectangle);
+	window.add_widget(rectangle2);
+
+	rectangle->add_action_listener(&controller);
+	rectangle2->add_action_listener(&controller);
+
 	window.open();
+
 
 	uninit();
 
@@ -38,7 +49,8 @@ int main (void) {
 
 void init (void) {
 	const char *game_controller_mapping_file_name = "data/gamecontrollerdb.txt";
-	ConsoleLogger *console_logger = new ConsoleLogger(info);
+	ConsoleLogger *console_logger = new ConsoleLogger(critical);
+	FileLogger *file_logger = new FileLogger("log.txt", critical);
 	SDL_GameController *game_controller = NULL;
 	const char *game_controller_name;
 	int number_of_joysticks = 0;
@@ -46,6 +58,7 @@ void init (void) {
 	bool game_controller_detected = false;
 
 	Log::add_logger(console_logger);
+	Log::add_logger(file_logger);
 
 	MSG(info, "starting Arcade Games");
 

@@ -1,6 +1,8 @@
 #include <algorithm>
 #include "SDL.h"
 
+#include "../log/log.hpp"
+
 #include "event_handler.hpp"
 #include "user_action.hpp"
 
@@ -24,8 +26,8 @@ bool EventHandler::is_key_up (SDL_Keycode key) const {
 
 void EventHandler::start () {
 	SDL_Event event;
+	SDL_UserEvent user_event;
 	this->running = true;
-	// UserAction *user_action = NULL;
 
 	SDL_StartTextInput();
 
@@ -106,15 +108,23 @@ void EventHandler::start () {
 				break;
 
 			case SDL_USEREVENT:
-				// user_action = (UserAction*) event.user.data1;
+				user_event = event.user;
 
-				// printf("SDL_USEREVENT => ");
+				printf("SDL_USEREVENT => ");
 
-				// if (user_action->type == MOUSE_OVER) {
-				// 	printf("MOUSE_OVER bidon = %d", user_action->bidon);
-				// }
+				if (user_event.code == MOUSE_OVER) {
+					printf("MOUSE_OVER = %d", user_event.code);
+				}
 
-				// printf("\n");
+				else if (user_event.code == MOUSE_CLICK_OVER) {
+					printf("MOUSE_CLICK_OVER = %d", user_event.code);
+				}
+
+				else {
+					printf("PROBLEME = %d", user_event.code);
+				}
+
+				printf("\n");
 				break;
 
 			case SDL_QUIT:
@@ -148,52 +158,53 @@ void EventHandler::keyboard_unpressed (SDL_KeyboardEvent key_event) {
 }
 
 void EventHandler::mouse_moved (SDL_MouseMotionEvent mouse_motion_event) {
-	// Uint32 event_type;
-	// SDL_Event event;
-	// UserAction user_action;
-	// int ret = 0;
+	std::vector<Widget*> widgets = this->window->get_widgets();
+	std::vector<ActionListener*> action_listeners;
+	Widget *widget = NULL;
 
 	this->mouse_x = mouse_motion_event.x;
 	this->mouse_y = mouse_motion_event.y;
 	this->mouse_x_rel = mouse_motion_event.xrel;
 	this->mouse_y_rel = mouse_motion_event.yrel;
 
-	// if (this->mouse_x < 100 && this->mouse_y < 100) {
-	// 	user_action.type = MOUSE_OVER;
-	// 	user_action.bidon = 42;
-
-	// 	event_type = SDL_RegisterEvents(1);
-	// 	printf("on_left_corner, event_type = %d\n", event_type);
-
-	// 	event.type = event_type;
-	// 	event.user.code = MOUSE_OVER;
-	// 	event.user.data1 = (void*) (&user_action);
-
-	// 	ret = SDL_PushEvent(&event);
-
-	// 	if (ret == 1){
-	// 		printf("SDL_PushEvent succes\n");
-	// 	}
-
-	// 	else if (ret == 0){
-	// 		printf("SDL_PushEvent filtered\n");
-	// 	}
-
-	// 	else {
-	// 		printf("SDL_PushEvent error: %s\n", SDL_GetError() );
-	// 	}
-	// }
-
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
 		this->mouse_listeners[i]->on_mouse_move(this, mouse_motion_event);
+	}
+
+	for (unsigned int i = 0; i < widgets.size(); i++) {
+		widget = widgets[i];
+
+		if (widget->is_over(mouse_motion_event.x, mouse_motion_event.y) ) {
+			action_listeners = widget->get_action_listeners();
+
+			for (int j = 0; (unsigned) j < action_listeners.size(); j++) {
+				action_listeners[j]->on_mouse_over_widget(this, widget);
+			}
+		}
 	}
 }
 
 void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent mouse_button_event) {
+	std::vector<Widget*> widgets = this->window->get_widgets();
+	std::vector<ActionListener*> action_listeners;
+	Widget *widget = NULL;
+
 	this->mouse_buttons[mouse_button_event.button] = 1;
 
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
 		this->mouse_listeners[i]->on_mouse_button_press(this, mouse_button_event);
+	}
+
+	for (unsigned int i = 0; i < widgets.size(); i++) {
+		widget = widgets[i];
+
+		if (widget->is_over(mouse_button_event.x, mouse_button_event.y) ) {
+			action_listeners = widget->get_action_listeners();
+
+			for (int j = 0; (unsigned) j < action_listeners.size(); j++) {
+				action_listeners[j]->on_mouse_click_on_widget(this, widget);
+			}
+		}
 	}
 }
 
@@ -377,6 +388,10 @@ void EventHandler::remove_game_controller_listener (GameControllerListener *game
 
 void EventHandler::remove_quit_listener (QuitListener *quit_listener) {
 	this->quit_listeners.erase(std::remove(this->quit_listeners.begin(), this->quit_listeners.end(), quit_listener), this->quit_listeners.end() );
+}
+
+void EventHandler::set_window (Window *window) {
+	this->window = window;
 }
 
 int EventHandler::get_mouse_x () const {

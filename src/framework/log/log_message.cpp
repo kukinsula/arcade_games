@@ -1,3 +1,6 @@
+
+
+
 #include "log_message.hpp"
 
 LogMessage::LogMessage (

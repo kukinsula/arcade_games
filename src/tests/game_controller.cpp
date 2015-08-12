@@ -1,8 +1,9 @@
 #include <sstream>
 
-#include "mouse_wheel_direction.hpp"
+#include "../framework/event/mouse_wheel_direction.hpp"
+#include "../framework/log/log.hpp"
+
 #include "game_controller.hpp"
-#include "../log/log.hpp"
 
 GameController::GameController () {
 }
@@ -10,7 +11,25 @@ GameController::GameController () {
 GameController::~GameController () {
 }
 
-void GameController::on_key_press (EventHandler *input, SDL_KeyboardEvent key_event) {
+void GameController::on_mouse_over_widget (EventHandler *, Widget *widget) {
+	std::stringstream sstm;
+
+	sstm << "GameController::on_mouse_over_widget => widget = ";
+	sstm << widget;
+
+	MSG(info, sstm.str() );
+}
+
+void GameController::on_mouse_click_on_widget (EventHandler *, Widget *widget) {
+	std::stringstream sstm;
+
+	sstm << "GameController::on_mouse_click_on_widget => widget = ";
+	sstm << widget;
+
+	MSG(info, sstm.str() );
+}
+
+void GameController::on_key_press (EventHandler *handler, SDL_KeyboardEvent key_event) {
 	switch (key_event.keysym.sym) {
 		case SDLK_UP:
 			MSG(info, "GameController::on_key_press => SDLK_UP");
@@ -30,7 +49,7 @@ void GameController::on_key_press (EventHandler *input, SDL_KeyboardEvent key_ev
 
 		case SDLK_ESCAPE:
 			MSG(info, "GameController::on_key_press => SDLK_ESCAPE");
-			input->pause();
+			handler->pause();
 			break;
 
 		case SDLK_SPACE:
@@ -41,7 +60,7 @@ void GameController::on_key_press (EventHandler *input, SDL_KeyboardEvent key_ev
 			break;
 	}
 
-	if (input->is_key_down(SDL_SCANCODE_DOWN) && input->is_key_down(SDL_SCANCODE_RIGHT) ) {
+	if (handler->is_key_down(SDL_SCANCODE_DOWN) && handler->is_key_down(SDL_SCANCODE_RIGHT) ) {
 		MSG(info, "GameController::on_key_press => DOWN and RIGHT");
 	}
 }
