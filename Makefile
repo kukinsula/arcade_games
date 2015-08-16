@@ -1,56 +1,71 @@
+# main variables
 CC = g++
 EXEC = a.out
 DEBUG = true
 
+# shell code colors
 CLOSE_COLOR = \033[0m
 GREEN = \033[1;32m
 YELLOW = \033[1;33m
 
-CURRENT_SYSTEM_MS = \
-	$(shell date +%s%N | cut -b1-13)
-
-START_TIME = $(call CURRENT_SYSTEM_MS)
-END_TIME =
-
+# C++ compilation options
 ifeq ($(DEBUG), true)
-	CXXFLAGS = -std=c++0x -W -Wall -ansi -pedantic -Wno-ignored-qualifiers -O3 -g
+	CXXFLAGS = -std=c++11 -W -Wall -ansi -pedantic -Wno-ignored-qualifiers -O3 -g
 else
-	CXXFLAGS = -std=c++0x
+	CXXFLAGS = -std=c++11
 endif
 
+# library compilation options
 LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_image
 
+# directories
 SRC_DIR = src
 OBJ_DIR = .obj
 
 SRC_DIRS = $(shell find $(SRC_DIR) -type d)
 OBJ_DIRS = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC_DIRS) )
 
-CPP_FILES_PATH = $(shell find src/ -type f -name '*.cpp' | sort)
+# C++ source files path
+CPP_FILES_PATH = $(sort $(shell find src/ -type f -name '*.cpp') )
 CPP_FILES_NAME = $(notdir $(CPP_FILES_PATH) )
-HEADER_FILES_PATH = $(shell find src/ -type f -name '*.hpp' | sort)
-SRC_FILES_PATH = $(shell echo $(CPP_FILES_PATH) $(HEADER_FILES_PATH) | sort)
 
+# header source files path
+HEADER_FILES_PATH = $(sort $(shell find src/ -type f -name '*.hpp') )
+HEADER_FILES_NAME = $(notdir $(HEADER_FILES_PATH) )
+
+# all sources
+SRC_FILES_PATH = $(CPP_FILES_PATH) $(HEADER_FILES_PATH)
+
+# obj files
 OBJ_FILES_PATH = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(CPP_FILES_PATH) )
 OBJ_FILES_NAME = $(notdir $(OBJ_FILES_PATH) )
 
-COUNT := 0
+# statistic figures
+NUMBER_OF_CPP_LINES = $(shell find $(SRC_DIR) -type f -name '*.cpp' -exec cat {} + | wc -l)
+NUMBER_OF_HEADER_LINES = $(shell find $(SRC_DIR) -type f -name '*.hpp' -exec cat {} + | wc -l)
+TOTAL_NUMBER_OF_LINES = $(shell expr $(NUMBER_OF_CPP_LINES) + $(NUMBER_OF_HEADER_LINES) )
+
+# percent counter
+COUNT = 0
 TOTAL_PERCENT = 100
-NUMBER_COMPILATION_UNITS = $(shell echo $(OBJ_FILES_PATH) $(EXEC) | wc -w)
-STEP := $(shell echo $$(( $(TOTAL_PERCENT) / $(NUMBER_COMPILATION_UNITS) )) )
+NUMBER_COMPILATION_UNITS = $(shell echo $(CPP_FILES_PATH) $(EXEC) | wc -w)
+STEP = $(shell echo 'scale=1; $(TOTAL_PERCENT)/$(NUMBER_COMPILATION_UNITS)' | bc)
 
 # returns the first arg + $(STEP)
-incr_counter = \
-	$(shell expr $(1) + $(STEP) )
+incr_percent_count = \
+	$(shell echo 'scale=1; $(1) + $(STEP)' | bc)
+
 
 # compiles a .cpp file to an object .o file
 	# arg1: .cpp file
 	# arg2: .o file
 	# arg3: g++ options
-compile_unit = \
+compile_obj = \
 	@$(CC) -c $(1) -o $(2) $(CXXFLAGS) $(3); \
-	$(eval COUNT = $(call incr_counter, $(COUNT) ) ) \
+	$(eval COUNT = $(call incr_percent_count, $(COUNT) ) ) \
 	echo "[$(GREEN)$(COUNT)%$(CLOSE_COLOR)] ..... $(YELLOW)$(notdir $(2) )$(CLOSE_COLOR)"; \
+
+
 
 
 
@@ -58,38 +73,38 @@ $(EXEC): $(OBJ_FILES_PATH)
 	@$(CC) $(OBJ_FILES_PATH) -o $(EXEC) $(CXXFLAGS) $(LDFLAGS)
 	@echo "[$(GREEN)$(TOTAL_PERCENT)%$(CLOSE_COLOR)] ..... $(GREEN)$(EXEC)$(CLOSE_COLOR)";
 
-$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp
-	$(call compile_unit, $<, $@, $(LDFLAGS) )
+$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/main.hpp
+	$(call compile_obj, $<, $@, $(LDFLAGS) )
 
-$(OBJ_DIR)/tests/%.o: src//tests/%.cpp
-	$(call compile_unit, $<, $@, $(LDFLAGS) )
+$(OBJ_DIR)/tests/%.o: $(SRC_DIR)/tests/%.cpp $(SRC_DIR)/tests/%.hpp
+	$(call compile_obj, $<, $@, $(LDFLAGS) )
 
-$(OBJ_DIR)/framework/log/%.o: src/framework/log/%.cpp
-	$(call compile_unit, $<, $@)
+$(OBJ_DIR)/framework/util/%.o: $(SRC_DIR)/framework/util/%.cpp $(SRC_DIR)/framework/util/%.hpp
+	$(call compile_obj, $<, $@)
 
-$(OBJ_DIR)/framework/event/%.o: src/framework/event/%.cpp
-	$(call compile_unit, $<, $@, $(LDFLAGS) )
+$(OBJ_DIR)/framework/log/%.o: $(SRC_DIR)/framework/log/%.cpp $(SRC_DIR)/framework/log/%.hpp
+	$(call compile_obj, $<, $@)
 
-$(OBJ_DIR)/framework/window/%.o: src/framework/window/%.cpp
-	$(call compile_unit, $<, $@, $(LDFLAGS) )
+$(OBJ_DIR)/framework/event/%.o: $(SRC_DIR)/framework/event/%.cpp $(SRC_DIR)/framework/event/%.hpp
+	$(call compile_obj, $<, $@, $(LDFLAGS) )
 
-$(OBJ_DIR)/framework/view/%.o: src/framework/view/%.cpp
-	$(call compile_unit, $<, $@, $(LDFLAGS) )
+$(OBJ_DIR)/framework/window/%.o: $(SRC_DIR)/framework/window/%.cpp $(SRC_DIR)/framework/window/%.hpp
+	$(call compile_obj, $<, $@, $(LDFLAGS) )
 
-
-test:
-	@echo $(START_TIME)
-	@echo $(CURRENT_SYSTEM_MS)
-	@echo $(call calculate_compilation_time, $(CURRENT_SYSTEM_MS) )
+$(OBJ_DIR)/framework/widget/%.o: $(SRC_DIR)/framework/widget/%.cpp $(SRC_DIR)/framework/widget/%.hpp
+	$(call compile_obj, $<, $@, $(LDFLAGS) )
 
 
-prepare:
-	@mkdir -p $(OBJ_DIRS)
+
+valgrind:
+	valgrind ./$(EXEC) --leak-check=full --track-origins=yes -v
 
 stat:
-	@echo number of C++ files : $(shell echo $(CPP_FILES_PATH) | wc -w)
-	@echo number of header files : $(shell echo $(HEADER_FILES_PATH) | wc -w)
-	@echo number of C++ lines :
+	@echo cpp : $(shell echo $(CPP_FILES_PATH) | wc -w) files / $(NUMBER_OF_CPP_LINES) lines
+	@echo hpp : $(shell echo $(HEADER_FILES_PATH) | wc -w) files / $(NUMBER_OF_HEADER_LINES) lines
+	@echo total: $(shell expr $(shell echo $(HEADER_FILES_PATH) | wc -w) + $(shell echo $(HEADER_FILES_PATH) | wc -w) ) files / $(TOTAL_NUMBER_OF_LINES) lines
+
+wc:
 	@wc -l $(SRC_FILES_PATH)
 
 help:
@@ -115,6 +130,9 @@ help:
 	@echo "--------------------------------------------------------------------------"
 	@echo
 
+prepare:
+	@mkdir -p $(OBJ_DIRS)
+
 clean:
 	@rm -f $(OBJ_FILES_PATH)
 
@@ -123,4 +141,4 @@ purge:
 
 mrproper: clean purge
 
-.PHONY: help prepare clean purge
+.PHONY: help clean purge

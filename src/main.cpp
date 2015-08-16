@@ -3,44 +3,31 @@
 
 #include "main.hpp"
 
-#include "tests/game_controller.hpp"
 #include "framework/window/window.hpp"
+#include "framework/window/view.hpp"
 #include "framework/event/event_handler.hpp"
 #include "framework/log/log.hpp"
 #include "framework/log/console_logger.hpp"
 #include "framework/log/file_logger.hpp"
-#include "framework/view/rectangle.hpp"
+#include "framework/log/xml_logger.hpp"
+#include "framework/widget/rectangle.hpp"
+#include "framework/widget/line.hpp"
+
+#include "tests/test_controller.hpp"
+#include "tests/keyboard_controller_test.hpp"
+#include "tests/mouse_controller_test.hpp"
+#include "tests/window_controller_test.hpp"
+#include "tests/widget_controller_test.hpp"
+#include "tests/drop_file_controller_test.hpp"
+#include "tests/drag_and_drop_controller_test.hpp"
+#include "tests/game_controller_test.hpp"
+#include "tests/test_view.hpp"
 
 
 int main (void) {
-	GameController controller;
-	EventHandler event_handler;
-	Window window("Arcade Games");
-	Rectangle *rectangle = new Rectangle(0, 0, 100, 100);
-	Rectangle *rectangle2 = new Rectangle(540, 380, 100, 100);
-
 	init();
 
-	event_handler.add_keyboard_listener(&controller);
-	event_handler.add_mouse_listener(&controller);
-	event_handler.add_mouse_listener(&controller);
-	event_handler.add_mouse_listener(&controller);
-	event_handler.add_window_listener(&controller);
-	event_handler.add_drop_file_listener(&controller);
-	event_handler.add_game_controller_listener(&controller);
-	event_handler.add_game_controller_listener(&controller);
-	event_handler.add_game_controller_listener(&controller);
-	event_handler.add_quit_listener(&controller);
-
-	window.set_event_handler(&event_handler);
-	window.add_widget(rectangle);
-	window.add_widget(rectangle2);
-
-	rectangle->add_action_listener(&controller);
-	rectangle2->add_action_listener(&controller);
-
-	window.open();
-
+	keyboard_controller_test();
 
 	uninit();
 
@@ -48,58 +35,155 @@ int main (void) {
 }
 
 void init (void) {
-	const char *game_controller_mapping_file_name = "data/gamecontrollerdb.txt";
 	ConsoleLogger *console_logger = new ConsoleLogger(critical);
 	FileLogger *file_logger = new FileLogger("log.txt", critical);
-	SDL_GameController *game_controller = NULL;
-	const char *game_controller_name;
-	int number_of_joysticks = 0;
-	int index_detected_game_controller = 0;
-	bool game_controller_detected = false;
+	XMLLogger *xml_logger = new XMLLogger("log.xml", critical);
 
 	Log::add_logger(console_logger);
 	Log::add_logger(file_logger);
+	Log::add_logger(xml_logger);
 
 	MSG(info, "starting Arcade Games");
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
 	SDL_GameControllerEventState(SDL_ENABLE);
+}
 
-	number_of_joysticks = SDL_NumJoysticks();
-	printf("Number of joysticks = %d\n", number_of_joysticks);
+void keyboard_controller_test (void) {
+	Window window("Test keyboard controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	KeyboardControllerTest controller;
+	Rectangle rectangle(0, 0, 40, 40);
+	View view;
 
-	SDL_GameControllerAddMappingsFromFile(game_controller_mapping_file_name);
+	view.add_widget(&rectangle);
+	view.set_controller(&controller);
 
-	for (int i = 0; i < number_of_joysticks; i++) {
-		if (SDL_IsGameController(i)) {
-			printf("Joystick #%d is a game controller\n", i);
-			game_controller_detected = true;
-			index_detected_game_controller = i;
-		}
+	controller.set_view(&view);
 
-		else {
-			printf("Joystick #%d is not a game controller\n", i);
-		}
-	}
+	event_handler->add_keyboard_listener(&controller);
 
-	if (game_controller_detected) {
-		game_controller = SDL_GameControllerOpen(index_detected_game_controller);
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
 
-		if (game_controller == NULL) {
-			printf("failed opening game controller #0: %s\n", SDL_GetError() );
-		}
+	window.open();
+	window.close();
+}
 
-		else {
-			game_controller_name = SDL_GameControllerName(game_controller);
-			printf("game controller found: %s\n", game_controller_name);
+void mouse_controller_test (void) {
+	Window window("Test mouse controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	MouseControllerTest controller;
+	View view;
 
-			if (SDL_GameControllerMapping(game_controller) == NULL) {
-				printf("no mapping found for game controller %s\n", game_controller_name);
-				SDL_GameControllerClose(game_controller);
-				game_controller = NULL;
-			}
-		}
-	}
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_mouse_listener(&controller);
+	event_handler->add_keyboard_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+}
+
+void window_controller_test (void) {
+	Window window("Test window controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	WindowControllerTest controller;
+	View view;
+
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_window_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+}
+
+void widget_controller_test (void) {
+	Window window("Test window controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	WidgetControllerTest controller;
+	Rectangle rectangle(0, 0, 40, 40);
+	Rectangle rectangle2(300, 300, 40, 40);
+	View view;
+
+	rectangle2.set_background_color(Color::RED);
+
+	view.add_widget(&rectangle);
+	view.add_widget(&rectangle2);
+	view.set_controller(&controller);
+
+	rectangle.add_widget_listener(&controller);
+	rectangle2.add_widget_listener(&controller);
+	controller.set_view(&view);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+}
+
+void drop_file_controller_test (void) {
+	Window window("Test drop file controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	DropFileControllerTest controller;
+	View view;
+
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_drop_file_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+}
+
+void drag_and_drop_controller_test (void) {
+	Window window("Test drag and drop controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	DragAndDropControllerTest controller;
+	View view;
+
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_drag_and_drop_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+}
+
+void game_controller_test (void) {
+	Window window("Test drag and drop controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	GameControllerTest controller;
+	View view;
+
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_game_controller_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
 }
 
 void uninit (void) {
