@@ -27,4 +27,4 @@
 *.out
 *.app
 
-log.txt
+log.*
