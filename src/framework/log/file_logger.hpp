@@ -16,6 +16,9 @@ class FileLogger : public Logger {
 		~FileLogger ();
 
 		void write (LogMessage log_message);
+
+	protected:
+		std::ofstream& get_file ();
 };
 
 #endif

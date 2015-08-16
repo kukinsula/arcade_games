@@ -19,14 +19,6 @@ class Log {
 };
 
 #define MSG(LEVEL, MESSAGE) \
-	Log::write( \
-		LogMessage( \
-			MESSAGE, \
-			LEVEL, \
-			__FILE__, \
-			__func__, \
-			__LINE__ \
-		) \
-	);
+	Log::write(LogMessage(MESSAGE, LEVEL, __FILE__,	__func__, __LINE__) );
 
 #endif

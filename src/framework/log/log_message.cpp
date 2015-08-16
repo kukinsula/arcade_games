@@ -1,8 +1,8 @@
-
-
-
 #include "log_message.hpp"
 
+int LogMessage::num = 0;
+
+#include <stdio.h>
 LogMessage::LogMessage (
 	std::string text,
 	LogLevel level,
@@ -14,9 +14,9 @@ LogMessage::LogMessage (
 	level(level),
 	file_name(file_name),
 	function_name(function_name),
-	line_number(line_number)
-
-	{}
+	line_number(line_number),
+	id(++LogMessage::num) {
+}
 
 std::string LogMessage::get_text () const {
 	return this->text;
@@ -36,6 +36,10 @@ const char* LogMessage::get_function_name () const {
 
 int LogMessage::get_line_number () const {
 	return this->line_number;
+}
+
+int LogMessage::get_id () const {
+	return this->id;
 }
 
 // std::ostream& operator<<(std::ostream& os, const LogMessage &log_message) {

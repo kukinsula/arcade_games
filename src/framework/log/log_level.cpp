@@ -5,27 +5,27 @@ std::string get_level_string (LogLevel level) {
 
 	switch (level) {
 		case spam:
-			str = "SPAM";
+			str = "spam";
 			break;
 
 		case debug:
-			str = "DEBUG";
+			str = "debug";
 			break;
 
 		case info:
-			str = "INFO";
+			str = "info";
 			break;
 
 		case warning:
-			str = "WARNING";
+			str = "warning";
 			break;
 
 		case error:
-			str = "ERROR";
+			str = "error";
 			break;
 
 		case critical:
-			str = "CRITICAL";
+			str = "critical";
 			break;
 
 		default:

@@ -19,6 +19,3 @@ void Log::quit (void) {
 		delete Log::loggers[i];
 	}
 }
-
-
-

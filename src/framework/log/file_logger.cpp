@@ -25,3 +25,7 @@ void FileLogger::write (LogMessage log_message) {
 
 	this->file << sstm.str();
 }
+
+std::ofstream& FileLogger::get_file () {
+	return this->file;
+}
