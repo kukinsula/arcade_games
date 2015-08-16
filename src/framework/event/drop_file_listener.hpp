@@ -5,7 +5,7 @@ class EventHandler;
 
 class DropFileListener {
 	public:
-		virtual void on_drop_file (EventHandler *handler, SDL_DropEvent drop_event) = 0; 
+		virtual void on_drop_file (EventHandler *handler, SDL_DropEvent drop_event) = 0;
 };
 
 #endif

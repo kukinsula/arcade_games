@@ -1,23 +1,39 @@
 #include "SDL.h"
 #include <SDL2/SDL_image.h>
 
+#include "../log/log.hpp"
+
 #include "window.hpp"
 
 Window::Window (std::string title, int height, int width) :
 	title(title),
 	height(height),
-	width(width) {
+	width(width),
+	event_handler(NULL),
+	window(NULL),
+	renderer(NULL),
+	view(NULL) {
+	
+	this->event_handler = new EventHandler(this);		
+}
+
+Window::Window (const Window &window) :
+	title(window.title),
+	height(window.height),
+	width(window.width),
+	event_handler(window.event_handler),
+	window(window.window),
+	renderer(window.renderer),
+	view(window.view) {
 }
 
 Window::~Window () {
 	SDL_DestroyWindow(this->window);
+
+	delete this->event_handler;
 }
 
 void Window::open () {
-	// SDL_Texture *texture = NULL;
-	// SDL_Surface *surface = NULL;
-	// SDL_Rect src_rect, dest_rect;
-
 	this->window = SDL_CreateWindow(
 		this->title.c_str(),
 		SDL_WINDOWPOS_CENTERED,
@@ -36,41 +52,11 @@ void Window::open () {
 
 		if (this->renderer == NULL) {
 			printf("Can't create 2D rendering: %s\n", SDL_GetError() );
+			return ;
 		}
 
-		else {
-			// surface = IMG_Load("image/box.png");
-
-			// if (surface == NULL) {
-				// printf("Can't load image 'image/box.png': %s\n", SDL_GetError() );
-			// }
-
-			// else {
-				// src_rect.x = 0;
-				// src_rect.y = 0;
-				// src_rect.w = 48;
-				// src_rect.h = 48;
-
-				// dest_rect.x = 0;
-				// dest_rect.y = 0;
-				// dest_rect.w = 48;
-				// dest_rect.h = 48;
-
-				// texture = SDL_CreateTextureFromSurface(this->renderer, surface);
-				// SDL_FreeSurface(surface);
-
-				// SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-				// SDL_RenderDrawLine(this->renderer, 0, this->height, this->width, 0);
-				// SDL_RenderDrawPoint(this->renderer, 400, 400);
- 
-				// SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-				// SDL_RenderClear(this->renderer);
-    			// SDL_RenderCopy(this->renderer, texture, &src_rect, &dest_rect);
-	        	// SDL_RenderPresent(this->renderer);
- 
- 				this->draw();
-				this->event_handler->start();
-		}
+		this->view->draw();
+		this->event_handler->start();
 	}
 }
 
@@ -78,30 +64,30 @@ void Window::close () {
 	this->event_handler->pause();
 }
 
-void Window::add_widget (Widget *widget) {
-	widget->set_window(this);
-	this->widgets.push_back(widget);
-}
-
-void Window::draw () {
-	for (unsigned int i = 0; i < this->widgets.size(); i++) {
-		this->widgets[i]->draw();
-	}
-}
-
 void Window::set_event_handler (EventHandler *event_handler) {
 	event_handler->set_window(this);
 	this->event_handler = event_handler;
 }
 
-EventHandler* Window::get_event_input (void) {
+void Window::set_view (View *view) {
+	std::vector<Widget*> widgets = view->get_widgets();
+
+	this->view = view;
+	this->view->set_window(this);
+
+	for (unsigned int i = 0; i < widgets.size(); i++) {
+		widgets[i]->set_window(this);
+	}
+}
+
+EventHandler* Window::get_event_handler (void) {
 	return this->event_handler;
+}
+
+View* Window::get_view (void) {
+	return this->view;
 }
 
 SDL_Renderer* Window::get_renderer (void) {
 	return this->renderer;
-}
-
-std::vector<Widget*> Window::get_widgets () const {
-	return this->widgets;
 }

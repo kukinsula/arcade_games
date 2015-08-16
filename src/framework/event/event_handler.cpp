@@ -4,13 +4,25 @@
 #include "../log/log.hpp"
 
 #include "event_handler.hpp"
-#include "user_action.hpp"
 
-EventHandler::EventHandler () : 
+EventHandler::EventHandler (Window *window) : 
+	window(window),
 	keys(NULL),
-	running(false) {
+	running(false),
+	is_dragging(false),
+	is_dragging_widget(false),
+	dragged_widget(NULL) {
 
 	memset(this->mouse_buttons, 0, sizeof(this->mouse_buttons) );
+}
+
+EventHandler::EventHandler (const EventHandler &event_handler) :
+	window(event_handler.window),
+	keys(event_handler.keys),
+	running(event_handler.running),
+	is_dragging(event_handler.is_dragging),
+	is_dragging_widget(event_handler.is_dragging_widget),
+	dragged_widget(event_handler.dragged_widget) {
 }
 
 EventHandler::~EventHandler () {
@@ -26,7 +38,6 @@ bool EventHandler::is_key_up (SDL_Keycode key) const {
 
 void EventHandler::start () {
 	SDL_Event event;
-	SDL_UserEvent user_event;
 	this->running = true;
 
 	SDL_StartTextInput();
@@ -68,19 +79,15 @@ void EventHandler::start () {
 				break;
 
 			case SDL_TEXTINPUT:
-				// printf("SDL_TEXTINPUT => text = *%s*, start = %d, length = %d\n", event.edit.text, event.edit.start, event.edit.length);
 				break;
 
 			case SDL_TEXTEDITING:
-				// printf("SDL_TEXTEDITING\n");
 				break;
 
 			case SDL_DOLLARGESTURE:
-				// printf("SDL_DOLLARGESTURE\n");
 				break;
 
 			case SDL_MULTIGESTURE:
-				// printf("SDL_MULTIGESTURE\n");
 				break;
 
 			case SDL_CONTROLLERDEVICEADDED:
@@ -108,23 +115,6 @@ void EventHandler::start () {
 				break;
 
 			case SDL_USEREVENT:
-				user_event = event.user;
-
-				printf("SDL_USEREVENT => ");
-
-				if (user_event.code == MOUSE_OVER) {
-					printf("MOUSE_OVER = %d", user_event.code);
-				}
-
-				else if (user_event.code == MOUSE_CLICK_OVER) {
-					printf("MOUSE_CLICK_OVER = %d", user_event.code);
-				}
-
-				else {
-					printf("PROBLEME = %d", user_event.code);
-				}
-
-				printf("\n");
 				break;
 
 			case SDL_QUIT:
@@ -158,8 +148,8 @@ void EventHandler::keyboard_unpressed (SDL_KeyboardEvent key_event) {
 }
 
 void EventHandler::mouse_moved (SDL_MouseMotionEvent mouse_motion_event) {
-	std::vector<Widget*> widgets = this->window->get_widgets();
-	std::vector<ActionListener*> action_listeners;
+	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
+	std::vector<WidgetListener*> widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse_x = mouse_motion_event.x;
@@ -167,52 +157,165 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent mouse_motion_event) {
 	this->mouse_x_rel = mouse_motion_event.xrel;
 	this->mouse_y_rel = mouse_motion_event.yrel;
 
+	// ON_MOUSE_MOVE
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
 		this->mouse_listeners[i]->on_mouse_move(this, mouse_motion_event);
 	}
 
+	// ON_DRAGGING
+	if (this->is_dragging) {
+		for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
+			this->drag_and_drop_listeners[i]->on_dragging(this);
+		}
+	}
+
+	// ON_DRAGGING_WIDGET
+	if (this->is_dragging_widget) {
+		widget_listeners = this->dragged_widget->get_widget_listeners();
+
+		for (unsigned int i = 0; i < widget_listeners.size(); i++) {
+			widget_listeners[i]->on_dragging_widget(this, this->dragged_widget);
+		}
+	}
+
+	// ON_MOUSE_OVER_WIDGET
 	for (unsigned int i = 0; i < widgets.size(); i++) {
 		widget = widgets[i];
 
 		if (widget->is_over(mouse_motion_event.x, mouse_motion_event.y) ) {
-			action_listeners = widget->get_action_listeners();
+			widget_listeners = widget->get_widget_listeners();
 
-			for (int j = 0; (unsigned) j < action_listeners.size(); j++) {
-				action_listeners[j]->on_mouse_over_widget(this, widget);
+			for (int j = 0; (unsigned) j < widget_listeners.size(); j++) {
+				widget_listeners[j]->on_mouse_over_widget(this, widget);
+
+				// ON_DRAG_WIDGET_OVER_WIDGET
+				if (this->is_dragging_widget) {
+					widget_listeners[j]->on_drag_widget_over_widget(this, this->dragged_widget, widget);
+				}
 			}
 		}
 	}
 }
 
 void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent mouse_button_event) {
-	std::vector<Widget*> widgets = this->window->get_widgets();
-	std::vector<ActionListener*> action_listeners;
+	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
+	std::vector<WidgetListener*> widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse_buttons[mouse_button_event.button] = 1;
 
+	// ON_MOUSE_BUTTON_PRESS
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
 		this->mouse_listeners[i]->on_mouse_button_press(this, mouse_button_event);
 	}
 
+	// ON_DRAG
+	if (mouse_button_event.button == SDL_BUTTON_LEFT && !this->is_dragging) {
+		this->is_dragging = true;
+
+		for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
+			this->drag_and_drop_listeners[i]->set_drag_point(Position(mouse_button_event.x, mouse_button_event.y) );
+			this->drag_and_drop_listeners[i]->on_drag(this);
+		}
+	}
+
+	// ON_CLICK_ON_WIDGET
 	for (unsigned int i = 0; i < widgets.size(); i++) {
 		widget = widgets[i];
 
 		if (widget->is_over(mouse_button_event.x, mouse_button_event.y) ) {
-			action_listeners = widget->get_action_listeners();
+			widget_listeners = widget->get_widget_listeners();
 
-			for (int j = 0; (unsigned) j < action_listeners.size(); j++) {
-				action_listeners[j]->on_mouse_click_on_widget(this, widget);
+			if (!this->is_dragging_widget) {
+				this->is_dragging_widget = true;
+				this->dragged_widget = widget;
 			}
+
+			for (int j = 0; (unsigned) j < widget_listeners.size(); j++) {
+				// ON_MOUSE_LEFT_CLICK_ON_WIDGET
+				if (mouse_button_event.button == SDL_BUTTON_LEFT) {
+					widget_listeners[j]->on_left_click_on_widget(this, widget);
+				}
+
+				// ON_MOUSE_RIGHT_CLICK_ON_WIDGET
+				if (mouse_button_event.button == SDL_BUTTON_RIGHT) {
+					widget_listeners[j]->on_right_click_on_widget(this, widget);
+				}
+			}
+		}
+	}
+
+	// ON_DRAG_WIDGET
+	if (this->is_dragging_widget) {
+		widget_listeners = this->dragged_widget->get_widget_listeners();
+
+		for (unsigned int i = 0; i < widget_listeners.size(); i++) {
+			widget_listeners[i]->set_drag_widget_point(Position(mouse_button_event.x, mouse_button_event.y) );
+			widget_listeners[i]->on_drag_widget(this, this->dragged_widget);
 		}
 	}
 }
 
 void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent mouse_button_event) {
+	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
+	std::vector<WidgetListener*> widget_listeners;
+	Widget *widget = NULL;
+
 	this->mouse_buttons[mouse_button_event.button] = 0;
 
+	// ON_MOUSE_BUTTON_UNPRESS
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
 		this->mouse_listeners[i]->on_mouse_button_unpress(this, mouse_button_event);
+	}
+
+	// ON_DROP_ON_WIDGET
+	if (mouse_button_event.button == SDL_BUTTON_LEFT && this->is_dragging) {
+		if (!this->is_dragging_widget) {
+			for (unsigned int i = 0; i < widgets.size(); i++) {
+				widget = widgets[i];
+
+				if (widget->is_over(mouse_button_event.x, mouse_button_event.y) ) {
+					widget_listeners = widget->get_widget_listeners();
+
+					for (unsigned int j = 0; j < widget_listeners.size(); j++) {
+						widget_listeners[j]->on_drop_on_widget(this, widget);
+					}
+				}
+			}
+		}
+
+		this->is_dragging = false;
+
+		for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
+			this->drag_and_drop_listeners[i]->set_drop_point(Position(mouse_button_event.x, mouse_button_event.y) );
+			this->drag_and_drop_listeners[i]->on_drop(this);
+		}
+	}
+
+	// ON_DROP_WIDGET
+	if (mouse_button_event.button == SDL_BUTTON_LEFT && this->is_dragging_widget) {
+		widget_listeners = this->dragged_widget->get_widget_listeners();
+
+		for (unsigned int i = 0; i < widget_listeners.size(); i++) {
+			widget_listeners[i]->set_drop_widget_point(Position(mouse_button_event.x, mouse_button_event.y) );
+			widget_listeners[i]->on_drop_widget(this, this->dragged_widget);
+		}
+
+		// ON_DROP_WIDGET_ON_WIDGET
+		for (unsigned int i = 0; i < widgets.size(); i++) {
+			widget = widgets[i];
+
+			if (widget->is_over(mouse_button_event.x, mouse_button_event.y) ) {
+				widget_listeners = widget->get_widget_listeners();
+
+				for (unsigned int j = 0; j < widget_listeners.size(); j++) {
+					widget_listeners[j]->on_drop_widget_on_widget(this, this->dragged_widget, widget);
+				}
+			}
+		}
+
+		this->is_dragging_widget = false;
+		this->dragged_widget = NULL;
 	}
 }
 
@@ -358,6 +461,10 @@ void EventHandler::add_drop_file_listener (DropFileListener *drop_file_listener)
 	this->drop_file_listeners.push_back(drop_file_listener);
 }
 
+void EventHandler::add_drag_and_drop_listener (DragAndDropListener *drag_and_drop_listener) {
+	this->drag_and_drop_listeners.push_back(drag_and_drop_listener);
+}
+
 void EventHandler::add_game_controller_listener (GameControllerListener *game_controller_listener) {
 	this->game_controller_listeners.push_back(game_controller_listener);
 }
@@ -382,6 +489,10 @@ void EventHandler::remove_drop_file_listener (DropFileListener *drop_file_listen
 	this->drop_file_listeners.erase(std::remove(this->drop_file_listeners.begin(), this->drop_file_listeners.end(), drop_file_listener), this->drop_file_listeners.end() );
 }
 
+void EventHandler::remove_drag_and_drop_listener (DragAndDropListener *drag_and_drop_listener) {
+	this->drag_and_drop_listeners.erase(std::remove(this->drag_and_drop_listeners.begin(), this->drag_and_drop_listeners.end(), drag_and_drop_listener), this->drag_and_drop_listeners.end() );
+}
+
 void EventHandler::remove_game_controller_listener (GameControllerListener *game_controller_listener) {
 	this->game_controller_listeners.erase(std::remove(this->game_controller_listeners.begin(), this->game_controller_listeners.end(), game_controller_listener), this->game_controller_listeners.end() );
 }
@@ -394,18 +505,22 @@ void EventHandler::set_window (Window *window) {
 	this->window = window;
 }
 
-int EventHandler::get_mouse_x () const {
+int EventHandler::get_mouse_x (void) const {
 	return this->mouse_x;
 }
 
-int EventHandler::get_mouse_y () const {
+int EventHandler::get_mouse_y (void) const {
 	return this->mouse_y;
 }
 
-int EventHandler::get_mouse_x_rel () const {
+int EventHandler::get_mouse_x_rel (void) const {
 	return this->mouse_x_rel;
 }
 
-int EventHandler::get_mouse_y_rel () const {
+int EventHandler::get_mouse_y_rel (void) const {
 	return this->mouse_y_rel;
+}
+
+Window* EventHandler::get_window (void) const {
+	return this->window;
 }
