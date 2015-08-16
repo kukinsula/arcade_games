@@ -1,6 +1,8 @@
 #include "keyboard_controller_test.hpp"
 
-#include "../framework/log/log.hpp"
+#include "../src/framework/log/log.hpp"
+#include "../src/framework/widget/rectangle.hpp"
+
 
 void KeyboardControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEvent key_event) {
 	View *view = this->get_view();
@@ -68,4 +70,27 @@ void KeyboardControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEv
 		widget->set_position(position);
 		this->get_view()->draw();
 	}
+}
+
+int main (void) {
+	Window window("Test keyboard controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	KeyboardControllerTest controller;
+	Rectangle rectangle(0, 0, 40, 40);
+	View view;
+
+	view.add_widget(&rectangle);
+	view.set_controller(&controller);
+
+	controller.set_view(&view);
+
+	event_handler->add_keyboard_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+
+	return 0;
 }

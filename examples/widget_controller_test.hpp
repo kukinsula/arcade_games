@@ -1,8 +1,8 @@
 #ifndef WIDGET_CONTROLLER_TEST
 #define WIDGET_CONTROLLER_TEST
 
-#include "../framework/window/controller.hpp"
-#include "../framework/event/widget_listener.hpp"
+#include "../src/framework/window/controller.hpp"
+#include "../src/framework/event/widget_listener.hpp"
 
 class WidgetControllerTest :
 	public Controller,

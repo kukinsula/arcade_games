@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "../framework/log/log.hpp"
+#include "../src/framework/log/log.hpp"
 
 #include "drag_and_drop_controller_test.hpp"
 
@@ -50,4 +50,24 @@ void DragAndDropControllerTest::on_drop (EventHandler *) {
 	// this->get_view()->draw();
 
 	// this->line = NULL;
+}
+
+int main (void) {
+	Window window("Test drag and drop controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	DragAndDropControllerTest controller;
+	View view;
+
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_drag_and_drop_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+
+	return 0;
 }

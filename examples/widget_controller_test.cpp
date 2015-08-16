@@ -2,7 +2,8 @@
 
 #include "widget_controller_test.hpp"
 
-#include "../framework/log/log.hpp"
+#include "../src/framework/log/log.hpp"
+#include "../src/framework/widget/rectangle.hpp"
 
 void WidgetControllerTest::on_mouse_over_widget (EventHandler *, Widget *widget) {
 	std::stringstream sstm;
@@ -100,4 +101,31 @@ void WidgetControllerTest::on_drop_widget_on_widget (EventHandler *, Widget *sou
 	sstm << destination_widget;
 
 	MSG(info, sstm.str() );
+}
+
+int main (void) {
+	Window window("Test window controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	WidgetControllerTest controller;
+	Rectangle rectangle(0, 0, 40, 40);
+	Rectangle rectangle2(300, 300, 40, 40);
+	View view;
+
+	rectangle2.set_background_color(Color::RED);
+
+	view.add_widget(&rectangle);
+	view.add_widget(&rectangle2);
+	view.set_controller(&controller);
+
+	rectangle.add_widget_listener(&controller);
+	rectangle2.add_widget_listener(&controller);
+	controller.set_view(&view);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+
+	return 0;
 }

@@ -1,8 +1,8 @@
 #ifndef DROP_FILE_CONTROLLER_TEST
 #define DROP_FILE_CONTROLLER_TEST
 
-#include "../framework/window/controller.hpp"
-#include "../framework/event/drop_file_listener.hpp"
+#include "../src/framework/window/controller.hpp"
+#include "../src/framework/event/drop_file_listener.hpp"
 
 class DropFileControllerTest :
 	public Controller,

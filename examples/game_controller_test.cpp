@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "../framework/log/log.hpp"
+#include "../src/framework/log/log.hpp"
 
 #include "game_controller_test.hpp"
 
@@ -132,4 +132,22 @@ void GameControllerTest::on_controller_device_removed (EventHandler *, SDL_Contr
 
 void GameControllerTest::on_controller_device_remapped (EventHandler *, SDL_ControllerDeviceEvent) {
 	MSG(info, "on_controller_device_remapped");
+}
+
+int main (void) {
+	Window window("Test drag and drop controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	GameControllerTest controller;
+	View view;
+
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_game_controller_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
 }

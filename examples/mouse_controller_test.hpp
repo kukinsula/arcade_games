@@ -1,9 +1,9 @@
 #ifndef MOUSE_CONTROLLER_TEST
 #define MOUSE_CONTROLLER_TEST
 
-#include "../framework/window/controller.hpp"
-#include "../framework/event/mouse_listener.hpp"
-#include "../framework/event/keyboard_listener.hpp"
+#include "../src/framework/window/controller.hpp"
+#include "../src/framework/event/mouse_listener.hpp"
+#include "../src/framework/event/keyboard_listener.hpp"
 
 class MouseControllerTest :
 	public Controller,

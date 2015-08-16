@@ -1,8 +1,8 @@
 #ifndef GAME_CONTROLLER_TEST
 #define GAME_CONTROLLER_TEST
 
-#include "../framework/window/controller.hpp"
-#include "../framework/event/game_controller_listener.hpp"
+#include "../src/framework/window/controller.hpp"
+#include "../src/framework/event/game_controller_listener.hpp"
 
 class GameControllerTest :
 	public Controller,

@@ -39,6 +39,11 @@ SRC_FILES_PATH = $(CPP_FILES_PATH) $(HEADER_FILES_PATH)
 # obj files
 OBJ_FILES_PATH = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(CPP_FILES_PATH) )
 OBJ_FILES_NAME = $(notdir $(OBJ_FILES_PATH) )
+FRAMEWORK = $(sort $(shell find $(OBJ_DIR)/framework -type f -name '*.o') )
+
+# examples
+EXAMPLES_CPP_FILES_PATH = $(shell find examples/ -type f -name '*.cpp')
+EXAMPLES_EXEC_FILES_PATH = $(patsubst %.cpp, %, $(EXAMPLES_CPP_FILES_PATH) )
 
 # statistic figures
 NUMBER_OF_CPP_LINES = $(shell find $(SRC_DIR) -type f -name '*.cpp' -exec cat {} + | wc -l)
@@ -64,6 +69,10 @@ compile_obj = \
 	@$(CC) -c $(1) -o $(2) $(CXXFLAGS) $(3); \
 	$(eval COUNT = $(call incr_percent_count, $(COUNT) ) ) \
 	echo "[$(GREEN)$(COUNT)%$(CLOSE_COLOR)] ..... $(YELLOW)$(notdir $(2) )$(CLOSE_COLOR)"; \
+
+compile_example = \
+	@$(CC) $(FRAMEWORK) $(1) -o $(2) $(CXXFLAGS) $(LDFLAGS); \
+	echo "$(YELLOW)$(notdir $(2) )$(CLOSE_COLOR)" \
 
 
 
@@ -93,6 +102,20 @@ $(OBJ_DIR)/framework/window/%.o: $(SRC_DIR)/framework/window/%.cpp $(SRC_DIR)/fr
 
 $(OBJ_DIR)/framework/widget/%.o: $(SRC_DIR)/framework/widget/%.cpp $(SRC_DIR)/framework/widget/%.hpp
 	$(call compile_obj, $<, $@, $(LDFLAGS) )
+
+
+
+examples: $(EXAMPLES_EXEC_FILES_PATH)
+
+examples/%: examples/%.cpp
+	@$(CC) $< $(FRAMEWORK) -o $@ $(CXXFLAGS) $(LDFLAGS)
+	@echo "$(YELLOW)$(notdir $@)$(CLOSE_COLOR)"
+
+test:
+	@echo $(EXAMPLES_CPP_FILES_PATH)
+	@echo
+	@echo $(EXAMPLES_EXEC_FILES_PATH)
+	@echo
 
 
 
@@ -136,9 +159,12 @@ prepare:
 clean:
 	@rm -f $(OBJ_FILES_PATH)
 
+clean_examples:
+	@rm -f $(EXAMPLES_EXEC_FILES_PATH)
+
 purge:
 	@rm -f $(EXEC)
 
-mrproper: clean purge
+mrproper: clean clean_examples purge
 
-.PHONY: help clean purge
+.PHONY: help clean purge examples

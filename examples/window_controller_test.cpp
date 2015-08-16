@@ -2,7 +2,7 @@
 
 #include "window_controller_test.hpp"
 
-#include "../framework/log/log.hpp"
+#include "../src/framework/log/log.hpp"
 
 void WindowControllerTest::on_window_show (EventHandler *, SDL_WindowEvent) {
 	MSG(info, "on_window_show");
@@ -62,4 +62,24 @@ void WindowControllerTest::on_window_focus_lost (EventHandler *, SDL_WindowEvent
 
 void WindowControllerTest::on_window_close (EventHandler *, SDL_WindowEvent) {
 	MSG(info, "on_window_close");
+}
+
+int main (void) {
+	Window window("Test window controller");
+	EventHandler *event_handler = window.get_event_handler();	
+	WindowControllerTest controller;
+	View view;
+
+	view.set_controller(&controller);
+	controller.set_view(&view);
+
+	event_handler->add_window_listener(&controller);
+
+	window.set_view(&view);
+	window.set_event_handler(event_handler);
+
+	window.open();
+	window.close();
+
+	return 0;
 }
