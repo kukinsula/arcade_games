@@ -1,26 +1,8 @@
-* environement de test dans src/tests/:
-	- tester séparemment keyboard_controller, mouse_controller, window_controller, drop_file_controller, widget_controller, game_controller
-	- Makefile traiter différemment les sources C++ dans src/tests/
-
-* classe EventListener qui hérite de tous listener existants
-	- c'est un raccourcis pour développeur, sinon il a le choix de n'écouter que les
-		événements qu'il souhaite (parce qu'il doit explicitement qui hérite de tel et/ou de tel Listener)
-
 * TOUS LES LISTENERS:
 	- ajouter des attributs spécifiques avec getters (ex: DropFileListener => std::string last_dropped_file_nam)
 
-* Dimension:
-	- créer classe
-	- utiliser dans Widget
-
 * Window:
 	- remplacer width/height par un attribut Dimension
-
-* Scénario d'utilisation du framework:
-	1 - créer Window, une View* et un Controller*
-	2 - lier la Window et la View* un à un
-	3 - lier le EventHandler de la Window au Controller*
-	4 - ouvrir la Window qui dessine la View* qui elle même dessine ses Widget*
 
 * Widget:
 	- ajouter dans Widget des méthodes pour changer les bornes/dimensions
@@ -39,3 +21,5 @@
 * faire des tests avec valgrind
 
 * VOIR LES CONSTRUCTEURS PAR COPIE POUR TOUT !!!
+
+* VOIR LES GETTERS RETOURNANT UNE RÉFÉRENCE PLUTÔT QUE DIRECTEMENT L'ATTRIBUT
