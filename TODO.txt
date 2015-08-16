@@ -1,16 +1,5 @@
-* TOUS LES LISTENERS:
-	- ajouter des attributs spécifiques avec getters (ex: DropFileListener => std::string last_dropped_file_nam)
-
-* Window:
-	- remplacer width/height par un attribut Dimension
-
-* Widget:
-	- ajouter dans Widget des méthodes pour changer les bornes/dimensions
-	- controller les valeurs de la View* et de la Window* dans les méthodes de draw de chaque sous classe de Widget.
-
 * EventHandler:
 	- créer les classes Mouse et Keyborad que contiendra le EventHandler
-	- corriger tous les drag/dragging/drop widget
 
 * ShortcutListener:
 	- ecouter les événements clavier à plusieurs touches en même temps
@@ -23,3 +12,10 @@
 * VOIR LES CONSTRUCTEURS PAR COPIE POUR TOUT !!!
 
 * VOIR LES GETTERS RETOURNANT UNE RÉFÉRENCE PLUTÔT QUE DIRECTEMENT L'ATTRIBUT
+
+* Window:
+	- faire un mutliton: si c'est la première fois qu'une Window est instancier
+	alors on initialise la SDL_INIt(SDL_INIT_VIDEO) faire pareil pour les autres sous systèmes.
+
+* Asset:
+	- créer classes Image, Sound, AssetManager (lazy design pattern)

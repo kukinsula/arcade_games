@@ -15,7 +15,7 @@ class WidgetControllerTest :
 
 		void on_drag_widget (EventHandler *handler, Widget *widget);
 		void on_dragging_widget (EventHandler *handler, Widget *widget);
-		void on_drag_widget_over_widget (EventHandler *handler, Widget *source_widget, Widget *destination_widget);
+		void on_dragging_widget_over_widget (EventHandler *handler, Widget *source_widget, Widget *destination_widget);
 
 		void on_drop_widget (EventHandler *handler, Widget *widget);
 		void on_drop_on_widget (EventHandler *handler, Widget *widget);

@@ -188,9 +188,9 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent mouse_motion_event) {
 			for (int j = 0; (unsigned) j < widget_listeners.size(); j++) {
 				widget_listeners[j]->on_mouse_over_widget(this, widget);
 
-				// ON_DRAG_WIDGET_OVER_WIDGET
-				if (this->is_dragging_widget) {
-					widget_listeners[j]->on_drag_widget_over_widget(this, this->dragged_widget, widget);
+				// ON_DRAGGING_WIDGET_OVER_WIDGET
+				if (this->is_dragging_widget && widget != this->dragged_widget) {
+					widget_listeners[j]->on_dragging_widget_over_widget(this, this->dragged_widget, widget);
 				}
 			}
 		}
@@ -392,7 +392,10 @@ void EventHandler::window_event (SDL_WindowEvent window_event) {
 }
 
 void EventHandler::file_dropped (SDL_DropEvent drop_event) {
+	std::string file_name(drop_event.file);
+
 	for (int i = 0; (unsigned) i < this->drop_file_listeners.size(); i++) {
+		this->drop_file_listeners[i]->set_last_dropped_file_name(file_name);
 		this->drop_file_listeners[i]->on_drop_file(this, drop_event);
 	}
 }

@@ -6,7 +6,7 @@ void WidgetListener::on_right_click_on_widget (EventHandler *, Widget *) {}
 
 void WidgetListener::on_drag_widget (EventHandler *, Widget *) {}
 void WidgetListener::on_dragging_widget (EventHandler *, Widget *) {}
-void WidgetListener::on_drag_widget_over_widget (EventHandler *, Widget *, Widget *) {}
+void WidgetListener::on_dragging_widget_over_widget (EventHandler *, Widget *, Widget *) {}
 
 void WidgetListener::on_drop_widget (EventHandler *, Widget *) {}
 void WidgetListener::on_drop_on_widget (EventHandler *, Widget *) {}

@@ -1,9 +1,10 @@
 #include "drop_file_controller_test.hpp"
 
 #include "../src/framework/log/log.hpp"
+#include "../src/framework/log/console_logger.hpp"
 
-void DropFileControllerTest::on_drop_file (EventHandler *, SDL_DropEvent drop_event) {
-	std::string str = "TestController::on_drop_file '" + std::string(drop_event.file) +"'";
+void DropFileControllerTest::on_drop_file (EventHandler *, SDL_DropEvent) {
+	std::string str = "TestController::on_drop_file '" + this->get_last_dropped_file_name() +"'";
 
 	MSG(info, str);
 }
@@ -13,6 +14,9 @@ int main (void) {
 	EventHandler *event_handler = window.get_event_handler();	
 	DropFileControllerTest controller;
 	View view;
+	ConsoleLogger *logger = new ConsoleLogger(info);
+
+	Log::add_logger(logger);
 
 	view.set_controller(&controller);
 	controller.set_view(&view);

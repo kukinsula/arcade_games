@@ -105,7 +105,7 @@ $(OBJ_DIR)/framework/widget/%.o: $(SRC_DIR)/framework/widget/%.cpp $(SRC_DIR)/fr
 
 
 
-examples: $(EXAMPLES_EXEC_FILES_PATH)
+examples: $(FRAMEWORK) $(EXAMPLES_EXEC_FILES_PATH)
 
 examples/%: examples/%.cpp
 	@$(CC) $< $(FRAMEWORK) -o $@ $(CXXFLAGS) $(LDFLAGS)

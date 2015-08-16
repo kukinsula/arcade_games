@@ -3,15 +3,16 @@
 #include "widget_controller_test.hpp"
 
 #include "../src/framework/log/log.hpp"
+#include "../src/framework/log/console_logger.hpp"
 #include "../src/framework/widget/rectangle.hpp"
 
 void WidgetControllerTest::on_mouse_over_widget (EventHandler *, Widget *widget) {
-	std::stringstream sstm;
+	// std::stringstream sstm;
 
-	sstm << "on_mouse_over_widget => widget = ";
-	sstm << widget;
+	// sstm << "on_mouse_over_widget => widget = ";
+	// sstm << widget;
 
-	MSG(info, sstm.str() );
+	// MSG(info, sstm.str() );
 }
 
 void WidgetControllerTest::on_left_click_on_widget (EventHandler *, Widget *widget) {
@@ -81,10 +82,10 @@ void WidgetControllerTest::on_drop_on_widget (EventHandler *, Widget *widget) {
 	MSG(info, sstm.str() );
 }
 
-void WidgetControllerTest::on_drag_widget_over_widget (EventHandler *, Widget *source_widget, Widget *destination_widget) {
+void WidgetControllerTest::on_dragging_widget_over_widget (EventHandler *, Widget *source_widget, Widget *destination_widget) {
 	std::stringstream sstm;
 
-	sstm << "on_drag_widget_over_widget ";
+	sstm << "on_dragging_widget_over_widget ";
 	sstm << source_widget;
 	sstm << " over ";
 	sstm << destination_widget;
@@ -110,6 +111,9 @@ int main (void) {
 	Rectangle rectangle(0, 0, 40, 40);
 	Rectangle rectangle2(300, 300, 40, 40);
 	View view;
+	ConsoleLogger *logger = new ConsoleLogger(info);
+
+	Log::add_logger(logger);
 
 	rectangle2.set_background_color(Color::RED);
 

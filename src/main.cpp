@@ -15,7 +15,15 @@
 
 
 int main (void) {
+	Window window("TEST", Dimension(400, 400) );
+	View view;
+
 	init();
+
+	window.set_view(&view);
+
+	window.open();
+	window.close();
 
 	uninit();
 

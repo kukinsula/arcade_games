@@ -44,6 +44,10 @@ bool Widget::is_over (int x, int y) const {
 	return result;
 }
 
+bool Widget::is_over (const Position &position) const {
+	return this->is_over(position.get_x(), position.get_y() );
+}
+
 void Widget::set_position (Position point) {
 	this->position = point;
 }

@@ -7,8 +7,8 @@
 #include <vector>
 
 class View;
-// class EventHandler;
 #include "../event/event_handler.hpp"
+#include "../util/dimension.hpp"
 
 #define DEFAULT_WINDOW_HEIGHT 640
 #define DEFAULT_WINDOW_WIDTH 480
@@ -16,14 +16,15 @@ class View;
 class Window {
 	private:
 		std::string title;
-		int height, width;
+		Dimension dimension;
 		EventHandler *event_handler;
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 		View *view;
 
 	public:
-		Window (std::string title, int height = DEFAULT_WINDOW_HEIGHT, int width = DEFAULT_WINDOW_WIDTH);
+		Window (std::string title, int width = DEFAULT_WINDOW_WIDTH, int height = DEFAULT_WINDOW_HEIGHT);
+		Window (std::string title, Dimension dimension);
 		Window (const Window &window);
 		~Window ();
 

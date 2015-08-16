@@ -30,6 +30,7 @@ class Widget {
 
 		void add_widget_listener (WidgetListener *widget_listener);
 		bool is_over (int x, int y) const;
+		bool is_over (const Position &position) const;
 
 		void set_position (Position point);
 		void set_dimension (Dimension dimension);

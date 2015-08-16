@@ -17,7 +17,7 @@ class WidgetListener {
 
 		virtual void on_drag_widget (EventHandler *handler, Widget *widget);
 		virtual void on_dragging_widget (EventHandler *handler, Widget *widget);
-		virtual void on_drag_widget_over_widget (EventHandler *handler, Widget *source_widget, Widget *destination_widget);
+		virtual void on_dragging_widget_over_widget (EventHandler *handler, Widget *source_widget, Widget *destination_widget);
 
 		virtual void on_drop_widget (EventHandler *handler, Widget *widget);
 		virtual void on_drop_on_widget (EventHandler *handler, Widget *widget);
