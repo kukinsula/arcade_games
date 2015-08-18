@@ -37,6 +37,7 @@ class Window {
 		EventHandler* get_event_handler (void);
 		SDL_Renderer* get_renderer (void);
 		View* get_view (void);
+		Dimension get_dimension (void) const;
 };
 
 #include "view.hpp"

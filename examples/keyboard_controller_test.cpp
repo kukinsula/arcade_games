@@ -1,10 +1,11 @@
 #include "keyboard_controller_test.hpp"
 
 #include "../src/framework/log/log.hpp"
+#include "../src/framework/log/console_logger.hpp"
 #include "../src/framework/widget/rectangle.hpp"
 
 
-void KeyboardControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEvent key_event) {
+void KeyboardControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEvent keyboard_event) {
 	View *view = this->get_view();
 	std::vector<Widget*> widgets = view->get_widgets();
 	Widget *widget = NULL;
@@ -16,10 +17,10 @@ void KeyboardControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEv
 		copy = position;
 	}
 
-	switch (key_event.keysym.sym) {
+	switch (keyboard_event.keysym.sym) {
 		case SDLK_UP:
-			MSG(info, "SDLK_UP");
 			position.set_y(position.get_y() - widget->get_dimension().get_height() );
+			MSG(info, "SDLK_UP");
 			break;
 
 		case SDLK_DOWN:
@@ -78,6 +79,9 @@ int main (void) {
 	KeyboardControllerTest controller;
 	Rectangle rectangle(0, 0, 40, 40);
 	View view;
+	ConsoleLogger *logger = new ConsoleLogger(info);
+
+	Log::add_logger(logger);
 
 	view.add_widget(&rectangle);
 	view.set_controller(&controller);

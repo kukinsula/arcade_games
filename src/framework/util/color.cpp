@@ -20,6 +20,9 @@ Color::Color () :
 	b(0) {
 }
 
+Color::~Color () {
+}
+
 int Color::get_red () const {
 	return this->r;
 }

@@ -6,6 +6,7 @@
 class Window;
 
 #include "../util/position.hpp"
+
 #include "keyboard_listener.hpp"
 #include "mouse_listener.hpp"
 #include "window_listener.hpp"
@@ -35,8 +36,8 @@ class EventHandler {
 		std::vector<GameControllerListener*> game_controller_listeners;
 		std::vector<QuitListener*> quit_listeners;
 
-		void keyboard_pressed (SDL_KeyboardEvent key_event);
-		void keyboard_unpressed (SDL_KeyboardEvent key_event);
+		void keyboard_pressed (SDL_KeyboardEvent keyboard_event);
+		void keyboard_unpressed (SDL_KeyboardEvent keyboard_event);
 		void mouse_moved (SDL_MouseMotionEvent mouse_motion_event);
 		void mouse_button_pressed (SDL_MouseButtonEvent mouse_button_event);
 		void mouse_button_unpressed (SDL_MouseButtonEvent mouse_button_event);

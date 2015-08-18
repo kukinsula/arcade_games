@@ -55,7 +55,7 @@ void DragAndDropControllerTest::on_drop (EventHandler *) {
 
 int main (void) {
 	Window window("Test drag and drop controller");
-	EventHandler *event_handler = window.get_event_handler();	
+	EventHandler *event_handler = window.get_event_handler();
 	DragAndDropControllerTest controller;
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);

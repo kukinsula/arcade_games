@@ -1,10 +1,8 @@
-* EventHandler:
-	- créer les classes Mouse et Keyborad que contiendra le EventHandler
-
 * ShortcutListener:
 	- ecouter les événements clavier à plusieurs touches en même temps
 
 * TextListener:
+	- voir les événements SDL SDL_TEXTINPUT et SDL_TEXTEDITING
 	- créer classe qui "listen" les saisies de texte (conserve tous les 100 derniers caractères tapés)
 
 * faire des tests avec valgrind
@@ -13,9 +11,27 @@
 
 * VOIR LES GETTERS RETOURNANT UNE RÉFÉRENCE PLUTÔT QUE DIRECTEMENT L'ATTRIBUT
 
+* METTRE DU VOID DANS TOUTES LES MÉTHODES SANS ARGUMENTS !
+
 * Window:
-	- faire un mutliton: si c'est la première fois qu'une Window est instancier
-	alors on initialise la SDL_INIt(SDL_INIT_VIDEO) faire pareil pour les autres sous systèmes.
+	- voir la gestion du multi-window dans SDL sinon
+	- faire un mutliton: si c'est la première fois qu'une Window est instancier alors on initialise la SDL_InitSubSystem(SDL_INIT_VIDEO)
+	- faire pareil pour les autres sous systèmes (Cf. SDL_InitSubSystem).
 
 * Asset:
-	- créer classes Image, Sound, AssetManager (lazy design pattern)
+	- créer classes Image, Sound, ...
+	- créer une Factory par type d'asset
+	- créer AssetManager (lazy design pattern)
+
+* LogMessage:
+	- surcharger l'opérateur << pour pouvoir écrire MSG(info, "test i = ") << i
+
+* View:
+	- système de View en arbre: une View peut contenir des Widget* et des View*. Widget devient une sous class de View cela
+		permet de mettre en place le design pattern Composition. Pour la dessiner il faut parcourir toute l'arborescence de View* en appelant la méthode draw.
+
+* Position:
+	- surcharger les opératuers +/-/+=/-=/
+
+* Color:
+	- gérer la transparence

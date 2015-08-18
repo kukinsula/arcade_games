@@ -28,19 +28,15 @@ EventHandler::EventHandler (const EventHandler &event_handler) :
 EventHandler::~EventHandler () {
 }
 
-bool EventHandler::is_key_down (SDL_Keycode key) const {
-	return this->keys[key] == 1;
-}
-
-bool EventHandler::is_key_up (SDL_Keycode key) const {
-	return this->keys[key] == 0;
-}
-
 void EventHandler::start () {
 	SDL_Event event;
-	this->running = true;
+	// char *text = "";
+	// char *composition = NULL;
+	// Sint32 cursor;
+	// Sint32 selection_len;
+	// bool is_text_input_on = false;
 
-	SDL_StartTextInput();
+	this->running = true;
 
 	while (this->running) {
 		SDL_WaitEvent(&event);
@@ -79,9 +75,31 @@ void EventHandler::start () {
 				break;
 
 			case SDL_TEXTINPUT:
+				// if (!is_text_input_on) {
+				// 	SDL_StartTextInput();
+				// 	is_text_input_on = true;
+				// }
+
+				// text = event.edit.text;
+
+				// if (strcmp(text, "X") == 0) {
+				// 	MSG(info, "ICI");
+				// 	SDL_StopTextInput();
+				// }
+
+				// MSG(info, "SDL_TEXTINPUT");
+				// MSG(info, text)
 				break;
 
 			case SDL_TEXTEDITING:
+				// text = event.edit.text;
+
+				// MSG(info, "SDL_TEXTEDITING");
+				// MSG(info, text )
+
+				// text = event.edit.text;
+				// cursor = event.edit.start;
+				// selection_len = event.edit.length;
 				break;
 
 			case SDL_DOLLARGESTURE:
@@ -131,19 +149,19 @@ void EventHandler::pause () {
 	this->running = false;
 }
 
-void EventHandler::keyboard_pressed (SDL_KeyboardEvent key_event) {
+void EventHandler::keyboard_pressed (SDL_KeyboardEvent keyboard_event) {
 	this->keys = SDL_GetKeyboardState(NULL);
 
 	for (int i = 0; (unsigned) i < this->keyboard_listeners.size(); i++) {
-		this->keyboard_listeners[i]->on_key_press(this, key_event);
+		this->keyboard_listeners[i]->on_key_press(this, keyboard_event);
 	}
 }
 
-void EventHandler::keyboard_unpressed (SDL_KeyboardEvent key_event) {
+void EventHandler::keyboard_unpressed (SDL_KeyboardEvent keyboard_event) {
 	this->keys = SDL_GetKeyboardState(NULL);
 
 	for (int i = 0; (unsigned) i < this->keyboard_listeners.size(); i++) {
-		this->keyboard_listeners[i]->on_key_unpress(this, key_event);
+		this->keyboard_listeners[i]->on_key_unpress(this, keyboard_event);
 	}
 }
 

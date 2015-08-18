@@ -115,3 +115,7 @@ View* Window::get_view (void) {
 SDL_Renderer* Window::get_renderer (void) {
 	return this->renderer;
 }
+
+Dimension Window::get_dimension (void) const {
+	return this->dimension;
+}

@@ -6,8 +6,9 @@ class Color {
 		int r, g, b;
 
 	public:
-		Color (int r, int g, int b);
 		Color ();
+		Color (int r, int g, int b);
+		~Color ();
 
 		static Color RED;
 		static Color GREEN;
