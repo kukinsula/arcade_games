@@ -168,6 +168,79 @@ void WidgetControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEven
 	}
 }
 
+void WidgetControllerTest::on_game_controller_button_press (EventHandler *, SDL_ControllerButtonEvent controller_button_event) {
+	// std::string str = "on_game_controller_button_press => ";
+
+	// if (controller_button_event.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+	// 	str += "SDL_CONTROLLER_BUTTON_DPAD_UP";
+	// }
+
+	// if (controller_button_event.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+	// 	str += "SDL_CONTROLLER_BUTTON_DPAD_DOWN";
+	// }
+
+	// if (controller_button_event.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+	// 	str += "SDL_CONTROLLER_BUTTON_DPAD_LEFT";
+	// }
+
+	// if (controller_button_event.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+	// 	str += "SDL_CONTROLLER_BUTTON_DPAD_RIGHT";
+	// }
+
+	// MSG(info, str);
+
+	bool is_widget_selected = this->selected_widget != NULL;
+	Dimension widget_dimension, window_dimension = this->get_view()->get_window()->get_dimension();
+	Position position;
+
+	if (is_widget_selected) {
+		position = this->selected_widget->get_position();
+		widget_dimension = this->selected_widget->get_dimension();
+	}
+
+	switch (controller_button_event.button) {
+		case SDL_CONTROLLER_BUTTON_DPAD_UP:
+			position.set_y(position.get_y() - widget_dimension.get_height() );
+			break;
+
+		case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+			position.set_y(position.get_y() + widget_dimension.get_height() );
+			break;
+
+		case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+			position.set_x(position.get_x() - widget_dimension.get_width() );
+			break;
+
+		case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+			position.set_x(position.get_x() + widget_dimension.get_width() );
+			break;
+
+		default:
+			break;
+	}
+
+	if (is_widget_selected) {
+		if (position.get_x() < 0) {
+			position.set_x(0);
+		}
+
+		if (position.get_y() < 0) {
+			position.set_y(0);
+		}
+
+		if (position.get_x() > window_dimension.get_width() - this->selected_widget->get_dimension().get_width() ) {
+			position.set_x(window_dimension.get_width() - this->selected_widget->get_dimension().get_width() );
+		}
+
+		if (position.get_y() > window_dimension.get_height() - this->selected_widget->get_dimension().get_height() ) {
+			position.set_y(window_dimension.get_height() - this->selected_widget->get_dimension().get_height() );
+		}
+
+		this->selected_widget->set_position(position);
+		this->get_view()->draw();
+	}
+}
+
 int main (void) {
 	Window window("Test widget controller", Dimension(400, 400) );
 	EventHandler *event_handler = window.get_event_handler();	
@@ -179,6 +252,9 @@ int main (void) {
 	Rectangle rectangle5(180, 180, 40, 40);
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
+
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
+	SDL_GameControllerEventState(SDL_ENABLE);
 
 	Log::add_logger(logger);
 
@@ -196,6 +272,7 @@ int main (void) {
 	view.set_controller(&controller);
 
 	event_handler->add_keyboard_listener(&controller);
+	event_handler->add_game_controller_listener(&controller);
 
 	rectangle.add_widget_listener(&controller);
 	rectangle2.add_widget_listener(&controller);

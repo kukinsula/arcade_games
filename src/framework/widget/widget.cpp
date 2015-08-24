@@ -1,4 +1,5 @@
 #include "../window/window.hpp"
+#include "../log/log.hpp"
 
 #include "widget.hpp"
 
@@ -32,6 +33,8 @@ void Widget::add_widget_listener (WidgetListener *widget_listener) {
 	this->widget_listeners.push_back(widget_listener);
 }
 
+void Widget::add_widget (Widget *widget) {}
+
 bool Widget::is_over (int x, int y) const {
 	Position position = this->position;
 	Dimension dimension = this->dimension;
@@ -46,6 +49,33 @@ bool Widget::is_over (int x, int y) const {
 
 bool Widget::is_over (const Position &position) const {
 	return this->is_over(position.get_x(), position.get_y() );
+}
+
+bool Widget::is_panel (void) const {
+	return false;
+}
+
+void Widget::draw () {
+	SDL_Rect rect;
+	Position position = this->get_position();
+	Dimension dimension = this->get_dimension();
+	Color background_color = this->get_background_color();
+	SDL_Renderer *renderer = NULL;
+
+	MSG(info, "Widget");
+
+	rect.x = position.get_x();
+	rect.y = position.get_y();
+	rect.w = dimension.get_width();
+	rect.h = dimension.get_height();
+
+	renderer = this->get_window_renderer();
+
+	if (renderer != NULL) {
+		SDL_SetRenderDrawColor(renderer, background_color.get_red(), background_color.get_green(), background_color.get_blue(), 255);
+		SDL_RenderFillRect(renderer, &rect);
+		SDL_RenderPresent(renderer);
+	}
 }
 
 void Widget::set_position (Position point) {

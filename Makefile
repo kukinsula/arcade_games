@@ -60,11 +60,11 @@ TOTAL_NUMBER_OF_LINES = $(shell expr $(NUMBER_OF_CPP_LINES) + $(NUMBER_OF_HEADER
 COUNT = 0
 TOTAL_PERCENT = 100
 NUMBER_COMPILATION_UNITS = $(shell echo $(CPP_FILES_PATH) $(EXEC) | wc -w)
-STEP = $(shell echo 'scale=1; $(TOTAL_PERCENT)/$(NUMBER_COMPILATION_UNITS)' | bc)
+STEP = $(shell echo 'scale=2; $(TOTAL_PERCENT)/$(NUMBER_COMPILATION_UNITS)' | bc)
 
 # returns the first arg + $(STEP)
 incr_percent_count = \
-	$(shell echo 'scale=1; $(1) + $(STEP)' | bc)
+	$(shell echo 'scale=2; $(1) + $(STEP)' | bc)
 
 
 # compiles a .cpp file to an object .o file

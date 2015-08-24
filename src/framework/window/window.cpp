@@ -8,7 +8,7 @@
 
 Window::Window (std::string title, int width, int height) :
 	title(title),
-	dimension(Dimension(width, height) ),
+	dimension(width, height),
 	event_handler(NULL),
 	window(NULL),
 	renderer(NULL),

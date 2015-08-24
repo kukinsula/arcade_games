@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "../src/framework/log/log.hpp"
+#include "../src/framework/log/console_logger.hpp"
 
 #include "game_controller_test.hpp"
 
@@ -122,7 +123,9 @@ void GameControllerTest::on_game_controller_axis_motion (EventHandler *, SDL_Con
 	MSG(info, sstm.str() );
 }
 
-void GameControllerTest::on_controller_device_added (EventHandler *, SDL_ControllerDeviceEvent) {
+void GameControllerTest::on_controller_device_added (EventHandler *handler, SDL_ControllerDeviceEvent controller_device_event) {
+	GameControllerListener::on_controller_device_added(handler, controller_device_event);
+
 	MSG(info, "on_controller_device_added");
 }
 
@@ -139,6 +142,12 @@ int main (void) {
 	EventHandler *event_handler = window.get_event_handler();	
 	GameControllerTest controller;
 	View view;
+	ConsoleLogger *logger = new ConsoleLogger(info);
+
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
+	SDL_GameControllerEventState(SDL_ENABLE);
+
+	Log::add_logger(logger);
 
 	view.set_controller(&controller);
 	controller.set_view(&view);

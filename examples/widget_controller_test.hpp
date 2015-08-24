@@ -4,11 +4,13 @@
 #include "../src/framework/window/controller.hpp"
 #include "../src/framework/event/widget_listener.hpp"
 #include "../src/framework/event/keyboard_listener.hpp"
+#include "../src/framework/event/game_controller_listener.hpp"
 
 class WidgetControllerTest :
 	public Controller,
 	public KeyboardListener,
-	public WidgetListener {
+	public WidgetListener ,
+	public GameControllerListener {
 
 	private:
 		Widget *selected_widget;
@@ -29,6 +31,8 @@ class WidgetControllerTest :
 		void on_drop_widget_on_widget (EventHandler *handler, Widget *source_widget, Widget *destination_widget);
 
 		void on_key_press (EventHandler *handler, SDL_KeyboardEvent keyboard_event);
+
+		void on_game_controller_button_press (EventHandler *handler, SDL_ControllerButtonEvent controller_button_event);
 };
 
 #endif

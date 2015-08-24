@@ -1,5 +1,7 @@
 #include "view.hpp"
 
+#include "../log/log.hpp"
+
 View::View () :
 	window(NULL),
 	controller(NULL) {

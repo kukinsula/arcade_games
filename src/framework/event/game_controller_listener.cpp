@@ -60,3 +60,7 @@ void GameControllerListener::on_game_controller_button_unpress (EventHandler *, 
 
 void GameControllerListener::on_game_controller_axis_motion (EventHandler *, SDL_ControllerAxisEvent) {
 }
+
+SDL_GameController* GameControllerListener::get_game_controller (void) const {
+	return this->game_controller;
+}

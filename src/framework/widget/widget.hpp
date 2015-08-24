@@ -44,7 +44,10 @@ class Widget {
 		Color get_background_color ();
 		std::vector<WidgetListener*> get_widget_listeners () const;
 
-		virtual void draw () = 0;
+		virtual void draw ();
+
+		virtual bool is_panel (void) const;
+		virtual void add_widget (Widget *widget);
 };
 
 #endif

@@ -18,6 +18,9 @@
 	- faire un mutliton: si c'est la première fois qu'une Window est instancier alors on initialise la SDL_InitSubSystem(SDL_INIT_VIDEO)
 	- faire pareil pour les autres sous systèmes (Cf. SDL_InitSubSystem).
 
+* EventHandler:
+	- supprimer les attributs mouse_x/y, keys ... et remplacer par un SDL_Event avec un getter
+
 * Asset:
 	- créer classes Image, Sound, ...
 	- créer une Factory par type d'asset
@@ -27,6 +30,7 @@
 	- surcharger l'opérateur << pour pouvoir écrire MSG(info, "test i = ") << i
 
 * View:
+	- ajouter classe Panel classe fille de Widget: un Panel contiendra des Widget* 
 	- système de View en arbre: une View peut contenir des Widget* et des View*. Widget devient une sous class de View cela
 		permet de mettre en place le design pattern Composition. Pour la dessiner il faut parcourir toute l'arborescence de View* en appelant la méthode draw.
 

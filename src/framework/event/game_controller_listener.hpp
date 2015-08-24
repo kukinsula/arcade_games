@@ -21,6 +21,8 @@ class GameControllerListener {
 		virtual void on_game_controller_button_unpress (EventHandler *handler, SDL_ControllerButtonEvent controller_button_event);
 
 		virtual void on_game_controller_axis_motion (EventHandler *handler, SDL_ControllerAxisEvent controller_axis_event);
+
+		SDL_GameController* get_game_controller (void) const;
 };
 
 #endif
