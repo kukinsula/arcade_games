@@ -1,14 +1,16 @@
 #ifndef WIDGET_CONTROLLER_TEST
 #define WIDGET_CONTROLLER_TEST
 
-#include "../src/framework/window/controller.hpp"
-#include "../src/framework/event/widget_listener.hpp"
-#include "../src/framework/event/keyboard_listener.hpp"
-#include "../src/framework/event/game_controller_listener.hpp"
+#include "../src/window/controller.hpp"
+#include "../src/event/widget_listener.hpp"
+#include "../src/event/keyboard_listener.hpp"
+#include "../src/event/shortcut_listener.hpp"
+#include "../src/event/game_controller_listener.hpp"
 
 class WidgetControllerTest :
 	public Controller,
 	public KeyboardListener,
+	public ShortcutListener,
 	public WidgetListener ,
 	public GameControllerListener {
 
@@ -33,6 +35,8 @@ class WidgetControllerTest :
 		void on_key_press (EventHandler *handler, SDL_KeyboardEvent keyboard_event);
 
 		void on_game_controller_button_press (EventHandler *handler, SDL_ControllerButtonEvent controller_button_event);
+
+		void on_shortcut (EventHandler *handler);
 };
 
 #endif

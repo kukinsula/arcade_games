@@ -1,8 +1,8 @@
 #ifndef DRAG_AND_DROP_CONTROLLER_TEST
 #define DRAG_AND_DROP_CONTROLLER_TEST
 
-#include "../src/framework/window/controller.hpp"
-#include "../src/framework/event/drag_and_drop_listener.hpp"
+#include "../src/window/controller.hpp"
+#include "../src/event/drag_and_drop_listener.hpp"
 
 class DragAndDropControllerTest :
 	public Controller,

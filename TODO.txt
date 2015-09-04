@@ -7,16 +7,10 @@
 
 * faire des tests avec valgrind
 
-* VOIR LES CONSTRUCTEURS PAR COPIE POUR TOUT !!!
-
-* VOIR LES GETTERS RETOURNANT UNE RÉFÉRENCE PLUTÔT QUE DIRECTEMENT L'ATTRIBUT
-
-* METTRE DU VOID DANS TOUTES LES MÉTHODES SANS ARGUMENTS !
-
 * Window:
-	- voir la gestion du multi-window dans SDL sinon
-	- faire un mutliton: si c'est la première fois qu'une Window est instancier alors on initialise la SDL_InitSubSystem(SDL_INIT_VIDEO)
-	- faire pareil pour les autres sous systèmes (Cf. SDL_InitSubSystem).
+	- voir la gestion du multi-window dans SDL sinon faire un mutliton
+	- si c'est la première fois qu'une Window est instanciée alors seulement on initialise la SDL_InitSubSystem(SDL_INIT_VIDEO)
+		- faire pareil pour les autres sous systèmes (Cf. SDL_InitSubSystem).
 
 * EventHandler:
 	- supprimer les attributs mouse_x/y, keys ... et remplacer par un SDL_Event avec un getter
@@ -37,5 +31,19 @@
 * Position:
 	- surcharger les opératuers +/-/+=/-=/
 
+* init:
+	- faire un fichier init.cpp et init_sdl.cpp
+
+* WidgetListener:
+	- découper en plusieurs classes: MouseOverWidgetListener, MouseClickListener et WidgetDragAndDropListener
+		- faudra faire des listes séparés de chacun des type de WidgetListener dans Widget
+
 * Color:
-	- gérer la transparence
+	- FIX alpha color
+
+* Makefile:
+	- supprimer le dossier framework/. juste faire des dossiers directement dans src/
+	- ne plus faire de libframework.a, juste utiliser l'ensemble des .o
+
+* CppUnit:
+	- tester tous les sous systèmes

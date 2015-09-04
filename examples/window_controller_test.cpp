@@ -2,8 +2,8 @@
 
 #include "window_controller_test.hpp"
 
-#include "../src/framework/log/log.hpp"
-#include "../src/framework/log/console_logger.hpp"
+#include "../src/log/log.hpp"
+#include "../src/log/console_logger.hpp"
 
 void WindowControllerTest::on_window_show (EventHandler *, SDL_WindowEvent) {
 	MSG(info, "on_window_show");
@@ -67,7 +67,7 @@ void WindowControllerTest::on_window_close (EventHandler *, SDL_WindowEvent) {
 
 int main (void) {
 	Window window("Test window controller");
-	EventHandler *event_handler = window.get_event_handler();	
+	EventHandler &event_handler = window.get_event_handler();	
 	WindowControllerTest controller;
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
@@ -77,10 +77,9 @@ int main (void) {
 	view.set_controller(&controller);
 	controller.set_view(&view);
 
-	event_handler->add_window_listener(&controller);
+	event_handler.add_window_listener(&controller);
 
 	window.set_view(&view);
-	window.set_event_handler(event_handler);
 
 	window.open();
 	window.close();

@@ -3,15 +3,15 @@
 
 #include "main.hpp"
 
-#include "framework/window/window.hpp"
-#include "framework/window/view.hpp"
-#include "framework/event/event_handler.hpp"
-#include "framework/log/log.hpp"
-#include "framework/log/console_logger.hpp"
-#include "framework/log/file_logger.hpp"
-#include "framework/log/xml_logger.hpp"
-#include "framework/widget/rectangle.hpp"
-#include "framework/widget/line.hpp"
+#include "window/window.hpp"
+#include "window/view.hpp"
+#include "event/event_handler.hpp"
+#include "log/log.hpp"
+#include "log/console_logger.hpp"
+#include "log/file_logger.hpp"
+#include "log/xml_logger.hpp"
+#include "widget/rectangle.hpp"
+#include "widget/line.hpp"
 
 
 int main (void) {

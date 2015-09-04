@@ -2,10 +2,10 @@
 
 #include "widget_controller_test.hpp"
 
-#include "../src/framework/log/log.hpp"
-#include "../src/framework/log/console_logger.hpp"
-#include "../src/framework/widget/rectangle.hpp"
-#include "../src/framework/window/window.hpp"
+#include "../src/log/log.hpp"
+#include "../src/log/console_logger.hpp"
+#include "../src/widget/rectangle.hpp"
+#include "../src/window/window.hpp"
 
 WidgetControllerTest::WidgetControllerTest () :
 	selected_widget(NULL) {
@@ -241,9 +241,13 @@ void WidgetControllerTest::on_game_controller_button_press (EventHandler *, SDL_
 	}
 }
 
+void WidgetControllerTest::on_shortcut (EventHandler *) {
+	MSG(info, "ICI ca marche");
+}
+
 int main (void) {
-	Window window("Test widget controller", Dimension(400, 400) );
-	EventHandler *event_handler = window.get_event_handler();	
+	Window window("Test widget controller", 400, 400);
+	EventHandler &event_handler = window.get_event_handler();	
 	WidgetControllerTest controller;
 	Rectangle rectangle(0, 0, 40, 40);
 	Rectangle rectangle2(0, 360, 40, 40);
@@ -252,13 +256,20 @@ int main (void) {
 	Rectangle rectangle5(180, 180, 40, 40);
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
+	Color color(0x00, 0x00, 0xFF, 0xFF);
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
 	SDL_GameControllerEventState(SDL_ENABLE);
 
 	Log::add_logger(logger);
 
-	rectangle2.set_background_color(Color::BLUE);
+	std::vector<SDL_Keycode> keycodes(SDLK_a);
+
+	controller.set_keycodes(keycodes);
+
+	color.set_alpha(0);
+
+	rectangle2.set_background_color(color);
 	rectangle3.set_background_color(Color::GREEN);
 	rectangle4.set_background_color(Color::RED);
 	rectangle5.set_background_color(Color::STRONG_GRAY);
@@ -271,8 +282,9 @@ int main (void) {
 
 	view.set_controller(&controller);
 
-	event_handler->add_keyboard_listener(&controller);
-	event_handler->add_game_controller_listener(&controller);
+	event_handler.add_keyboard_listener(&controller);
+	event_handler.add_shortcut_listener(&controller);
+	event_handler.add_game_controller_listener(&controller);
 
 	rectangle.add_widget_listener(&controller);
 	rectangle2.add_widget_listener(&controller);
@@ -282,7 +294,6 @@ int main (void) {
 	controller.set_view(&view);
 
 	window.set_view(&view);
-	window.set_event_handler(event_handler);
 
 	window.open();
 	window.close();

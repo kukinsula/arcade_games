@@ -1,8 +1,8 @@
 #ifndef WINDOW_CONTROLLER_TEST
 #define WINDOW_CONTROLLER_TEST
 
-#include "../src/framework/window/controller.hpp"
-#include "../src/framework/event/window_listener.hpp"
+#include "../src/window/controller.hpp"
+#include "../src/event/window_listener.hpp"
 
 class WindowControllerTest :
 	public Controller,

@@ -1,7 +1,7 @@
 #include <sstream>
 
-#include "../src/framework/log/log.hpp"
-#include "../src/framework/log/console_logger.hpp"
+#include "../src/log/log.hpp"
+#include "../src/log/console_logger.hpp"
 
 #include "drag_and_drop_controller_test.hpp"
 
@@ -55,7 +55,7 @@ void DragAndDropControllerTest::on_drop (EventHandler *) {
 
 int main (void) {
 	Window window("Test drag and drop controller");
-	EventHandler *event_handler = window.get_event_handler();
+	EventHandler &event_handler = window.get_event_handler();
 	DragAndDropControllerTest controller;
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
@@ -65,10 +65,9 @@ int main (void) {
 	view.set_controller(&controller);
 	controller.set_view(&view);
 
-	event_handler->add_drag_and_drop_listener(&controller);
+	event_handler.add_drag_and_drop_listener(&controller);
 
 	window.set_view(&view);
-	window.set_event_handler(event_handler);
 
 	window.open();
 	window.close();

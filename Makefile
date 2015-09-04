@@ -20,32 +20,24 @@ endif
 # library compilation options
 LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_image
 
-# framework's lib
-FRAMEWORK_LIB = libframework.a
-
 # directories
 SRC_DIR = src
 OBJ_DIR = .obj
-FRAMEWORK_SRC_DIR = $(SRC_DIR)/framework
-FRAMEWORK_OBJ_DIR = $(OBJ_DIR)/framework
 
 SRC_DIRS = $(shell find $(SRC_DIR) -type d)
 OBJ_DIRS = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC_DIRS) )
 
 # C++ source files path
 CPP_FILES_PATH = $(sort $(shell find $(SRC_DIR)/ -type f -name '*.cpp') )
-FRAMEWORK_CPP_FILES_PATH = $(sort $(shell find $(FRAMEWORK_SRC_DIR)/ -type f -name '*.cpp') )
 
 # header source files path
 HEADER_FILES_PATH = $(sort $(shell find $(SRC_DIR)/ -type f -name '*.hpp') )
-FRAMEWORK_HEADER_FILES_PATH = $(sort $(shell find $(FRAMEWORK_SRC_DIR)/ -type f -name '*.hpp') )
 
 # all sources
 SRC_FILES_PATH = $(CPP_FILES_PATH) $(HEADER_FILES_PATH)
 
 # obj files
-OBJ_FILES_PATH = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(CPP_FILES_PATH) )
-FRAMEWORK_OBJ_FILES_PATH = $(patsubst $(FRAMEWORK_SRC_DIR)/%.cpp, $(FRAMEWORK_OBJ_DIR)/%.o, $(FRAMEWORK_CPP_FILES_PATH) )
+OBJ_FILES_PATH = $(filter-out $(OBJ_DIR)/main.o, $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(CPP_FILES_PATH) ) )
 
 # examples
 EXAMPLES_CPP_FILES_PATH = $(shell find examples/ -type f -name '*.cpp')
@@ -84,67 +76,18 @@ compile_example = \
 
 
 
-all: framework examples
+all: $(OBJ_FILES_PATH)
 
-# framework rules
-framework: $(FRAMEWORK_LIB)
-
-$(FRAMEWORK_LIB): $(FRAMEWORK_OBJ_FILES_PATH)
-	@echo "\n[$(GREEN)$(TOTAL_PERCENT)%$(CLOSE_COLOR)] ... \033[1;39;41mcompiling $(FRAMEWORK_LIB)$(CLOSE_COLOR)\n"
-	@ar rcs $(FRAMEWORK_LIB) $(FRAMEWORK_OBJ_FILES_PATH)
-
-$(OBJ_DIR)/framework/util/%.o: $(SRC_DIR)/framework/util/%.cpp $(SRC_DIR)/framework/util/%.hpp
-	$(call compile_obj, $<, $@)
-
-$(OBJ_DIR)/framework/log/%.o: $(SRC_DIR)/framework/log/%.cpp $(SRC_DIR)/framework/log/%.hpp
-	$(call compile_obj, $<, $@)
-
-$(OBJ_DIR)/framework/event/%.o: $(SRC_DIR)/framework/event/%.cpp $(SRC_DIR)/framework/event/%.hpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(SRC_DIR)/%.hpp $(SRC_DIR)/%.hpp
 	$(call compile_obj, $<, $@, $(LDFLAGS) )
 
-$(OBJ_DIR)/framework/window/%.o: $(SRC_DIR)/framework/window/%.cpp $(SRC_DIR)/framework/window/%.hpp
-	$(call compile_obj, $<, $@, $(LDFLAGS) )
-
-$(OBJ_DIR)/framework/widget/%.o: $(SRC_DIR)/framework/widget/%.cpp $(SRC_DIR)/framework/widget/%.hpp
-	$(call compile_obj, $<, $@, $(LDFLAGS) )
 
 # examples rules
-examples: $(FRAMEWORK_LIB) $(EXAMPLES_EXEC_FILES_PATH)
+examples: $(OBJ_FILES_PATH) $(EXAMPLES_EXEC_FILES_PATH)
 
 examples/%: examples/%.cpp examples/%.hpp
-	@$(CC) $< $(FRAMEWORK_LIB) -o $@ $(CXXFLAGS) $(LDFLAGS)
+	@$(CC) $< $(OBJ_FILES_PATH) -o $@ $(CXXFLAGS) $(LDFLAGS)
 	@echo "$(YELLOW)$(notdir $@)$(CLOSE_COLOR)"
-
-
-
-DIRS = \
-	src/framework \
-	src/framework/event \
-	src/framework/log \
-	src/framework/util \
-	src/framework/widget \
-	src/framework/window
-
-CPP = $(sort $(foreach dir, $(DIRS), $(wildcard $(dir)/*.cpp) ) )
-HPP = $(sort $(foreach dir, $(DIRS), $(wildcard $(dir)/*.hpp) ) )
-O = $(notdir $(patsubst $(SRC_DIR)/%.cpp, %.o, $(CPP) ) )
-
-test:
-	@echo $(DIRS)
-	@echo
-	@echo $(CPP)
-	@echo
-	@echo $(HPP)
-	@echo
-	@echo $(O)
-
-
-test1: $(O)
-
-test2:
-
-
-
 
 
 valgrind:
@@ -185,7 +128,7 @@ prepare:
 	@mkdir -p $(OBJ_DIRS)
 
 clean:
-	@rm -f $(OBJ_FILES_PATH) $(FRAMEWORK_LIB)
+	@rm -f $(OBJ_FILES_PATH)
 
 clean_examples:
 	@rm -f $(EXAMPLES_EXEC_FILES_PATH)

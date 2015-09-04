@@ -1,9 +1,9 @@
 #ifndef KEYBOARD_CONTROLLER_TEST
 #define KEYBOARD_CONTROLLER_TEST
 
-#include "../src/framework/window/controller.hpp"
-#include "../src/framework/event/event_handler.hpp"
-#include "../src/framework/event/keyboard_listener.hpp"
+#include "../src/window/controller.hpp"
+#include "../src/event/event_handler.hpp"
+#include "../src/event/keyboard_listener.hpp"
 
 class KeyboardControllerTest :
 	public Controller,
