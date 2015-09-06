@@ -1,3 +1,6 @@
+* doxygen:
+	- ba y a tout à faire en fait
+
 * ShortcutListener:
 	- ecouter les événements clavier à plusieurs touches en même temps
 
@@ -40,10 +43,6 @@
 
 * Color:
 	- FIX alpha color
-
-* Makefile:
-	- supprimer le dossier framework/. juste faire des dossiers directement dans src/
-	- ne plus faire de libframework.a, juste utiliser l'ensemble des .o
 
 * CppUnit:
 	- tester tous les sous systèmes

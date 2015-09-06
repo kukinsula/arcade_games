@@ -90,6 +90,10 @@ examples/%: examples/%.cpp examples/%.hpp
 	@echo "$(YELLOW)$(notdir $@)$(CLOSE_COLOR)"
 
 
+
+doc:
+	doxygen
+
 valgrind:
 	valgrind ./$(EXEC) --leak-check=full --track-origins=yes -v
 
@@ -112,8 +116,9 @@ help:
 	@echo " Regles disponnibles"
 	@echo
 	@echo " * make           : compilation"
-	@echo " * prepare        : préparation au build"
+	@echo " * examples       : compilation des exemples"
 	@echo
+	@echo " * prepare        : préparation au build"
 	@echo " * doc            : génération de la documentation"
 	@echo " * clean          : nettoyage des fichiers objets temporaires"
 	@echo " * purge          : nettoyage de $(EXEC)"
@@ -138,4 +143,4 @@ purge:
 
 mrproper: clean clean_examples purge
 
-.PHONY: help clean purge examples
+.PHONY: help clean purge examples doc
