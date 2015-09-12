@@ -138,6 +138,9 @@ clean:
 clean_examples:
 	@rm -f $(EXAMPLES_EXEC_FILES_PATH)
 
+clean_doc:
+	@find doc/ref/ -type f -delete
+
 purge:
 	@rm -f $(EXEC)
 
