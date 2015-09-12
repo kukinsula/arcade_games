@@ -17,7 +17,7 @@ class EventHandler;
  *
  * KeyboardListeners can listen to keyboard events. Subclasses should
  * register to an EventHandler and override the methods on_key_press or
- * on_key_unpress to be notified of a keyboard event.
+ * on_key_unpress to be notified of keyboard events.
  */
 class KeyboardListener {
 	public:
