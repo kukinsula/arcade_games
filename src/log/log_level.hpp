@@ -12,12 +12,12 @@
  * LogLevel defines the criticity of a LogMessage.
  */
 enum LogLevel {
-	spam, /**< SPAM LogLevel */
-	debug, /**< DEBUG LogLevel */
-	info, /**< INFO LogLevel */
-	warnin /**< WARNING LogLevelg */
-	error, /**< ERROR LogLevel */
-	critical /**< CRITICAL LogLevel */
+	spam, /// SPAM LogLevel
+	debug, /// DEBUG LogLev
+	info, /// INFO LogLevel
+	warning, /// WARNING LogLev
+	error, /// ERROR LogLevel
+	critical /// CRITICAL LogLevel
 };
 
 /**

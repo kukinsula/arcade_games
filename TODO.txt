@@ -26,6 +26,10 @@
 * LogMessage:
 	- surcharger l'opérateur << pour pouvoir écrire MSG(info, "test i = ") << i
 
+* Widget:
+	- renommé la fonction draw en draw_background et la passer en protected, Widget::draw devient virtuelle pure.
+		les sous classes doivent définit draw et peuvent utiliser draw_background
+
 * View:
 	- ajouter classe Panel classe fille de Widget: un Panel contiendra des Widget* 
 	- système de View en arbre: une View peut contenir des Widget* et des View*. Widget devient une sous class de View cela
