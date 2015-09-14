@@ -4,19 +4,22 @@
 #include "widget.hpp"
 
 Widget::Widget () :
-	window(NULL) {
+	window(NULL),
+	parent(NULL) {
 }
 
 Widget::Widget (int x, int y, int width, int height) :
 	position(x, y),
 	dimension(width, height),
-	window(NULL) {
+	window(NULL),
+	parent(NULL) {
 }
 
 Widget::Widget (Position &position, Dimension &dimension) :
 	position(position),
 	dimension(dimension),
-	window(NULL) {
+	window(NULL),
+	parent(NULL) {
 }
 
 Widget::Widget (const Widget &widget) :
@@ -24,6 +27,7 @@ Widget::Widget (const Widget &widget) :
 	dimension(widget.dimension),
 	window(widget.window),
 	background_color(widget.background_color),
+	parent(widget.parent),
 	widget_listeners(widget.widget_listeners) {
 }
 
@@ -102,6 +106,10 @@ void Widget::set_background_color (Color &color) {
 	this->background_color = color;
 }
 
+void Widget::set_parent (Widget *parent) {
+	this->parent = parent;
+}
+
 SDL_Renderer* Widget::get_window_renderer () const {
 	return this->window->get_renderer();
 }
@@ -124,4 +132,8 @@ std::vector<WidgetListener*>& Widget::get_widget_listeners (void) {
 
 Color& Widget::get_background_color (void) {
 	return this->background_color;
+}
+
+Widget* Widget::get_parent (void) const {
+	return this->parent;
 }

@@ -18,6 +18,7 @@ class Widget {
 		Dimension dimension;
 		Window *window;
 		Color background_color;
+		Widget *parent;
 
 		std::vector<WidgetListener*> widget_listeners;
 
@@ -36,6 +37,7 @@ class Widget {
 		void set_dimension (Dimension &dimension);
 		void set_window (Window *window);
 		void set_background_color (Color &color);
+		void set_parent (Widget *parent);
 
 		Position& get_position (void);
 		Dimension& get_dimension (void);
@@ -43,6 +45,7 @@ class Widget {
 		Window* get_window () const;
 		Color& get_background_color (void);
 		std::vector<WidgetListener*>& get_widget_listeners (void);
+		Widget* get_parent (void) const;
 
 		virtual void draw (void);
 

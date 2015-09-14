@@ -24,6 +24,7 @@ bool Panel::is_panel (void) const {
 }
 
 void Panel::add_widget (Widget *widget) {
+	widget->set_parent(this);
 	this->widgets.push_back(widget);
 }
 
