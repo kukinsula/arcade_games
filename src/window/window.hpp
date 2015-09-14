@@ -1,6 +1,11 @@
 #ifndef WINDOW
 #define WINDOW
 
+/**
+ * @file widget.hpp
+ * @version 0.1
+ */
+
 #include "SDL.h"
 
 #include <string>
@@ -13,6 +18,14 @@ class View;
 #define DEFAULT_WINDOW_HEIGHT 640
 #define DEFAULT_WINDOW_WIDTH 480
 
+/**
+ * @class Window
+ * @brief Simple window object to create simple programs
+ * @see EventHandler
+ * @see View
+ *
+ * Window links an EventHandler to a View.
+ */
 class Window {
 	private:
 		std::string title;
@@ -23,21 +36,81 @@ class Window {
 		View *view;
 
 	public:
+		/**
+		 * @brief Constructor
+		 * @param title: the Window's title
+		 * @param width: the Window's width
+		 * @param height: the Window's height
+		 */
 		Window (std::string title, int width = DEFAULT_WINDOW_WIDTH, int height = DEFAULT_WINDOW_HEIGHT);
+		
+		/**
+		 * @brief Constructor
+		 * @param title: the Window's title
+		 * @param position: the Window's position
+		 */
 		Window (std::string title, Dimension &dimension);
+		
+		/**
+		 * @brief Copy constructor
+		 */
 		Window (const Window &window);
+		
+		/**
+		 * @brief Destructor
+		 */
 		~Window ();
 
+		/**
+		 * @brief Opens the Window
+		 */
 		void open (void);
+		
+		/**
+		 * @brief Closes the Window
+		 */
 		void close (void);
 
+		/**
+		 * @brief Sets the Window's EventHandler
+		 * @param event_handler: the new EventHandler
+		 */
 		void set_event_handler (EventHandler &event_handler);
+		
+		/**
+		 * @brief Sets the Window's View
+		 * @param view: the new View
+		 */
 		void set_view (View *view);
 
+		/**
+		 * @brief Returns the Window's EventHandler
+		 * @return EventHandler
+		 */
 		EventHandler& get_event_handler (void);
+		
+		/**
+		 * @brief Returns the Window's SDL_Renderer
+		 * @return SDL_Renderer*
+		 */
 		SDL_Renderer* get_renderer (void) const;
+		
+		/**
+		 * @brief Returns the Window's View
+		 * @return View
+		 */
 		View* get_view (void) const;
+		
+		/**
+		 * @brief Returns the Window's Dimension
+		 * @return Dimension
+		 */
 		Dimension& get_dimension (void);
+
+		/**
+		 * @brief Returns the Window's SDL_Window*
+		 * @return SDL_Window*
+		 */
 		SDL_Window* get_window (void) const;
 };
 
