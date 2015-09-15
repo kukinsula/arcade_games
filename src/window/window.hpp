@@ -2,7 +2,7 @@
 #define WINDOW
 
 /**
- * @file widget.hpp
+ * @file window.hpp
  * @version 0.1
  */
 
@@ -47,7 +47,7 @@ class Window {
 		/**
 		 * @brief Constructor
 		 * @param title: the Window's title
-		 * @param position: the Window's position
+		 * @param dimension: the Window's dimension
 		 */
 		Window (std::string title, Dimension &dimension);
 		

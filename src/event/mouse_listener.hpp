@@ -43,7 +43,7 @@ class MouseListener {
 		/**
 		 * @brief method called when a mouse button press event occurs
 		 * @param event_handler: the EventHandler to which the MouseListener is attached to
-		 * @param keyboard_event: the SDL_MouseButtonEvent triggered
+		 * @param mouse_button_event: the SDL_MouseButtonEvent triggered
 		 *
 		 * MouseListeners can be notified of a mouse button press by overriding this method.
 		 * They first need to register to an EventHandler.
@@ -53,7 +53,7 @@ class MouseListener {
 		/**
 		 * @brief method called when a mouse button unpress event occurs
 		 * @param event_handler: the EventHandler to which the MouseListener is attached to
-		 * @param keyboard_event: the SDL_MouseButtonEvent triggered
+		 * @param mouse_button_event: the SDL_MouseButtonEvent triggered
 		 *
 		 * MouseListeners can be notified of a mouse button unpress by overriding this method.
 		 * They first need to register to an EventHandler.
@@ -63,7 +63,7 @@ class MouseListener {
 		/**
 		 * @brief method called when a mouse motion press event occurs
 		 * @param event_handler: the EventHandler to which the MouseListener is attached to
-		 * @param keyboard_event: the SDL_MouseMotionEvent triggered
+		 * @param mouse_motion_event: the SDL_MouseMotionEvent triggered
 		 *
 		 * MouseListeners can be notified of a mouse motion by overriding this method.
 		 * They first need to register to an EventHandler.
@@ -73,7 +73,7 @@ class MouseListener {
 		/**
 		 * @brief method called when a mouse wheel event occurs
 		 * @param event_handler: the EventHandler to which the MouseListener is attached to
-		 * @param keyboard_event: the SDL_MouseWheelEvent triggered
+		 * @param mouse_wheel_event: the SDL_MouseWheelEvent triggered
 		 *
 		 * MouseListeners can be notified of a mouse wheel by overriding this method.
 		 * They first need to register to an EventHandler.

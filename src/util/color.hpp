@@ -41,13 +41,13 @@ class Color {
 		 */
 		~Color ();
 
-		static Color RED;
-		static Color GREEN;
-		static Color BLUE;
-		static Color BLACK;
-		static Color WHITE;
-		static Color LIGHT_GRAY;
-		static Color STRONG_GRAY;
+		static Color RED; /**< Predefined red Color */
+		static Color GREEN; /**< Predefined green Color */
+		static Color BLUE; /**< Predefined blue Color */
+		static Color BLACK; /**< Predefined black Color */
+		static Color WHITE; /**< Predefined white Color */
+		static Color LIGHT_GRAY; /**< Predefined light gray Color */
+		static Color STRONG_GRAY; /**< Predefined strong gray Color */
 
 		/**
 		 * @brief Sets the amount of red

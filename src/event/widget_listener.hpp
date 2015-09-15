@@ -151,7 +151,7 @@ class WidgetListener {
 		 * @brief Sets the current dropped Widget Position
 		 * @param position: the drag widget position
 		 */
-		void set_drop_widget_point (Position &point);
+		void set_drop_widget_point (Position &position);
 
 		/**
 		 * @brief Returns the dragged Widget Position

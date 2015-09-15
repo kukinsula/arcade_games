@@ -2,7 +2,7 @@
 #define CONTROLLER
 
 /**
- * @file view.hpp
+ * @file controller.hpp
  * @version 0.1
  */
 

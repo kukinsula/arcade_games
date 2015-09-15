@@ -81,7 +81,7 @@ class GameControllerListener {
 		/**
 		 * @brief method called whenever a button is pressed on a game condroller
 		 * @param event_handler: the EventHandler to which the GameControllerListener is registered to
-		 * @param controller_device_event: the SDL_ControllerDeviceEvent triggered
+		 * @param controller_button_event: the SDL_ControllerButtonEvent triggered
 		 *
 		 * GameControllerListeners can be notified when a game controller button is
 		 * pressed by overriding this method. GameControllerListeners need to

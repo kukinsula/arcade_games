@@ -65,14 +65,15 @@ class Position {
 		void set_x (int x);
 		
 		/**
-		 * @brief Sets the x value
-		 * @param x: the new x value
+		 * @brief Sets the y value
+		 * @param y: the new y value
 		 */
 		void set_y (int y);
 };
 
 /**
  * @brief Writes a Position into an ostream
+ * @param os: the ostream in which to write
  * @param position: the Position to write
  */
 std::ostream& operator<<(std::ostream &os, Position &position);

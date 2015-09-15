@@ -37,7 +37,7 @@ class Log {
 
 		/**
 		 * @brief Makes all the Loggers write a LogMessages
-		 * @param logg_message: the LogMessage to send to all Loggers
+		 * @param log_message: the LogMessage to send to all Loggers
 		 */
 		static void write (LogMessage log_message);
 
@@ -47,6 +47,11 @@ class Log {
 		static void quit (void);
 };
 
+/**
+ * @brief Simple MACRO to write LogMessages.
+ * @param LEVEL: the criticity of the LogMessage
+ * @param MESSAGE: the text to write
+ */
 #define MSG(LEVEL, MESSAGE) \
 	Log::write(LogMessage(MESSAGE, LEVEL, __FILE__,	__func__, __LINE__) );
 

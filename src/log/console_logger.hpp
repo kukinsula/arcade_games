@@ -31,7 +31,7 @@ class ConsoleLogger : public Logger {
 
 		/**
 		 * @brief Constructor with a specific LogLevel
-		 * @param log_level: the specific LogLevel
+		 * @param level: the specific LogLevel
 		 */
 		ConsoleLogger (LogLevel level);
 

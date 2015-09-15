@@ -2,7 +2,7 @@
 #define DIMENSION
 
 /**
- * @file color.hpp
+ * @file dimension.hpp
  * @version 0.1
  */
 
@@ -57,7 +57,7 @@ class Dimension {
 		
 		/**
 		 * @brief Sets the height
-		 * @param width: the new height value
+		 * @param height: the new height value
 		 */
 		void set_height (int height);
 };

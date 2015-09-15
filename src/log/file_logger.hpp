@@ -50,6 +50,12 @@ class FileLogger : public Logger {
 		void write (LogMessage &log_message);
 
 	protected:
+		/**
+		 * @brief Returns the output file stream
+		 * @return std::ofstream
+		 *
+		 * Only subclasses can use it.
+		 */
 		std::ofstream& get_file (void);
 };
 

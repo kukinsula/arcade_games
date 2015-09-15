@@ -2,7 +2,7 @@
 #define LOG_LEVEL
 
 /**
- * @file log.hpp
+ * @file log_level.hpp
  * @version 0.1
  */
 
@@ -12,12 +12,12 @@
  * LogLevel defines the criticity of a LogMessage.
  */
 enum LogLevel {
-	spam, /// SPAM LogLevel
-	debug, /// DEBUG LogLev
-	info, /// INFO LogLevel
-	warning, /// WARNING LogLev
-	error, /// ERROR LogLevel
-	critical /// CRITICAL LogLevel
+	spam, /**< SPAM LogLevel */
+	debug, /**< DEBUG LogLev */
+	info, /**< INFO LogLevel */
+	warning, /**< WARNING LogLev */
+	error, /**< ERROR LogLevel */
+	critical /**< CRITICAL LogLevel */
 };
 
 /**

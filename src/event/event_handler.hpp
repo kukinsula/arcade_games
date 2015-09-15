@@ -2,7 +2,7 @@
 #define EVENT_HANDLER
 
 /**
- * @file event_listener.hpp
+ * @file event_handler.hpp
  * @version 0.1
  */
 
@@ -201,7 +201,18 @@ class EventHandler {
 		 */
 		void remove_quit_listener (QuitListener *quit_listener);
 
+		/**
+		 * @brief Returns true if key is pressed, false otherwise
+		 * @param key: the SDL_KeyCode to check
+		 * @return bool
+		 */
 		bool is_key_down (SDL_Keycode key) const;
+		
+		/**
+		 * @brief Returns true if key is unpressed, false otherwise
+		 * @param key: the SDL_KeyCode to check
+		 * @return bool
+		 */
 		bool is_key_up (SDL_Keycode key) const;
 
 		/**
@@ -210,9 +221,28 @@ class EventHandler {
 		 */
 		void set_window (Window *window);
 
+		/**
+		 * @brief Returns the x position of the mouse
+		 * @return int
+		 */
 		int get_mouse_x (void) const;
+		
+		/**
+		 * @brief Returns the y position of the mouse
+		 * @return int
+		 */
 		int get_mouse_y (void) const;
+		
+		/**
+		 * @brief Returns the relative x position of the mouse
+		 * @return int
+		 */
 		int get_mouse_x_rel (void) const;
+
+		/**
+		 * @brief Returns the relative y position of the mouse
+		 * @return int
+		 */
 		int get_mouse_y_rel (void) const;
 
 		/**

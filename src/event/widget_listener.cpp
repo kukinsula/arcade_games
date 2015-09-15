@@ -21,12 +21,12 @@ void WidgetListener::on_drop_widget (EventHandler *, Widget *) {}
 void WidgetListener::on_drop_on_widget (EventHandler *, Widget *) {}
 void WidgetListener::on_drop_widget_on_widget (EventHandler *, Widget *, Widget *) {}
 
-void WidgetListener::set_drag_widget_point (Position &point) {
-	this->drag_widget_point = point;
+void WidgetListener::set_drag_widget_point (Position &position) {
+	this->drag_widget_point = position;
 }
 
-void WidgetListener::set_drop_widget_point (Position &point) {
-	this->drop_widget_point = point;
+void WidgetListener::set_drop_widget_point (Position &position) {
+	this->drop_widget_point = position;
 }
 
 Position& WidgetListener::get_drag_widget_point (void) {
