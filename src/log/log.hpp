@@ -1,5 +1,5 @@
-#ifndef LOG
-#define LOG
+#ifndef __LOG__
+#define __LOG__
 
 /**
  * @file log.hpp
@@ -54,5 +54,8 @@ class Log {
  */
 #define MSG(LEVEL, MESSAGE) \
 	Log::write(LogMessage(MESSAGE, LEVEL, __FILE__,	__func__, __LINE__) );
+
+#define LOG(LEVEL, MESSAGE) \
+	LogMessage(MESSAGE, LEVEL, __FILE__,	__func__, __LINE__)
 
 #endif

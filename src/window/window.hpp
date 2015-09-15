@@ -15,8 +15,8 @@ class View;
 #include "../event/event_handler.hpp"
 #include "../util/dimension.hpp"
 
-#define DEFAULT_WINDOW_HEIGHT 640
-#define DEFAULT_WINDOW_WIDTH 480
+#define DEFAULT_WINDOW_WIDTH 480 /**< Default window width */
+#define DEFAULT_WINDOW_HEIGHT 640 /**< Default window height */
 
 /**
  * @class Window

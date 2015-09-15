@@ -7,6 +7,7 @@
  */
 
 #include <string>
+ #include <sstream>
 
 #include "log_level.hpp"
 
@@ -88,6 +89,19 @@ class LogMessage {
 		 * @return int
 		 */
 		int get_id (void) const;
+
+		/**
+		 * @brief 
+		 */
+		template<typename T>
+		LogMessage& operator<< (const T &t) {
+			std::stringstream ss;
+
+			ss << t;
+			this->text += ss.str();
+
+			return *this;
+		}
 };
 
 #endif

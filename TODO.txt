@@ -1,5 +1,5 @@
-* doxygen:
-	- ba y a tout à faire en fait
+* LogMessage:
+	- surcharger l'opérateur << pour pouvoir écrire MSG(info, "test i = ") << i
 
 * ShortcutListener:
 	- ecouter les événements clavier à plusieurs touches en même temps
@@ -22,9 +22,6 @@
 	- créer classes Image, Sound, ...
 	- créer une Factory par type d'asset
 	- créer AssetManager (lazy design pattern)
-
-* LogMessage:
-	- surcharger l'opérateur << pour pouvoir écrire MSG(info, "test i = ") << i
 
 * Widget:
 	- renommé la fonction draw en draw_background et la passer en protected, Widget::draw devient virtuelle pure.

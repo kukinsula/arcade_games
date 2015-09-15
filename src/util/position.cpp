@@ -50,5 +50,7 @@ std::ostream& operator<<(std::ostream &os, Position &position) {
 
 	os << sstm.str();
 
+	// os << "(" << position.get_x() << ", " << position.get_y() << ")";
+
 	return os;
 }
