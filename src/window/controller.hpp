@@ -1,5 +1,5 @@
-#ifndef CONTROLLER
-#define CONTROLLER
+#ifndef __CONTROLLER__
+#define __CONTROLLER__
 
 /**
  * @file controller.hpp

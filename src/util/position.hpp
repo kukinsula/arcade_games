@@ -1,5 +1,5 @@
-#ifndef POSITION
-#define POSITION
+#ifndef __POSITION__
+#define __POSITION__
 
 /**
  * @file position.hpp

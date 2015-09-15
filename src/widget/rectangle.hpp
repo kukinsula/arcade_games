@@ -1,5 +1,5 @@
-#ifndef RECTANGLE
-#define RECTANGLE
+#ifndef __RECTANGLE__
+#define __RECTANGLE__
 
 /**
  * @file rectangle.hpp

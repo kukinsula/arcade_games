@@ -1,5 +1,5 @@
-#ifndef WINDOW_LISTENER
-#define WINDOW_LISTENER
+#ifndef __WINDOW_LISTENER__
+#define __WINDOW_LISTENER__
 
 /**
  * @file window_listener.hpp

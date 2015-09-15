@@ -1,5 +1,5 @@
-#ifndef WIDGET_LISTENER
-#define WIDGET_LISTENER
+#ifndef __WIDGET_LISTENER__
+#define __WIDGET_LISTENER__
 
 /**
  * @file widget_listener.hpp

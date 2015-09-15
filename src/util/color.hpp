@@ -1,5 +1,5 @@
-#ifndef COLOR
-#define COLOR
+#ifndef __COLOR__
+#define __COLOR__
 
 /**
  * @file color.hpp

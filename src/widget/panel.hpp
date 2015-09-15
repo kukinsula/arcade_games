@@ -1,5 +1,5 @@
-#ifndef PANEL
-#define PANEL
+#ifndef __PANEL__
+#define __PANEL__
 
 /**
  * @file panel.hpp

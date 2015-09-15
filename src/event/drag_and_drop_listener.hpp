@@ -1,5 +1,5 @@
-#ifndef DRAG_AND_DROP_LISTENER
-#define DRAG_AND_DROP_LISTENER
+#ifndef __DRAG_AND_DROP_LISTENER__
+#define __DRAG_AND_DROP_LISTENER__
 
 /**
  * @file drag_and_drop_listener.hpp

@@ -1,5 +1,5 @@
-#ifndef EVENT_HANDLER
-#define EVENT_HANDLER
+#ifndef __EVENT_HANDLER__
+#define __EVENT_HANDLER__
 
 /**
  * @file event_handler.hpp

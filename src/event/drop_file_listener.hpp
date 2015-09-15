@@ -1,5 +1,5 @@
-#ifndef DROP_FILE_LISTENER
-#define DROP_FILE_LISTENER
+#ifndef __DROP_FILE_LISTENER__
+#define __DROP_FILE_LISTENER__
 
 /**
  * @file drop_file_listener.hpp

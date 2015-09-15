@@ -1,5 +1,5 @@
-#ifndef LOG_LEVEL
-#define LOG_LEVEL
+#ifndef __LOG_LEVEL__
+#define __LOG_LEVEL__
 
 /**
  * @file log_level.hpp

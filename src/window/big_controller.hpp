@@ -1,5 +1,5 @@
-#ifndef BIG_CONTROLLER
-#define BIG_CONTROLLER
+#ifndef __BIG_CONTROLLER__
+#define __BIG_CONTROLLER__
 
 /**
  * @file big_controller.hpp

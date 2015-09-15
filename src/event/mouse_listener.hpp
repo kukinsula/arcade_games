@@ -1,5 +1,5 @@
-#ifndef MOUSE_LISTENER
-#define MOUSE_LISTENER
+#ifndef __MOUSE_LISTENER__
+#define __MOUSE_LISTENER__
 
 /**
  * @file mouse_listener.hpp

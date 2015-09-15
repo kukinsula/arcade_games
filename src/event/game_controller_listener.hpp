@@ -1,5 +1,5 @@
-#ifndef GAME_CONTROLLER_LISTENER
-#define GAME_CONTROLLER_LISTENER
+#ifndef __GAME_CONTROLLER_LISTENER__
+#define __GAME_CONTROLLER_LISTENER__
 
 /**
  * @file game_controller_listener.hpp

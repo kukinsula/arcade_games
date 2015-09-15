@@ -1,5 +1,5 @@
-#ifndef WIDGET
-#define WIDGET
+#ifndef __WIDGET__
+#define __WIDGET__
 
 /**
  * @file widget.hpp

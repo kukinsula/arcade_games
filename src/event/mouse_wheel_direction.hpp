@@ -1,5 +1,5 @@
-#ifndef MOUSE_WHEEL_DIRECTION
-#define MOUSE_WHEEL_DIRECTION
+#ifndef __MOUSE_WHEEL_DIRECTION__
+#define __MOUSE_WHEEL_DIRECTION__
 
 /**
  * @file mouse_wheel_direction.hpp

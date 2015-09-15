@@ -1,5 +1,5 @@
-#ifndef CONSOLE_LOGGER
-#define CONSOLE_LOGGER
+#ifndef __CONSOLE_LOGGER__
+#define __CONSOLE_LOGGER__
 
 /**
  * @file console_logger.hpp

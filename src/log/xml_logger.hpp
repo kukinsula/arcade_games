@@ -1,5 +1,5 @@
-#ifndef XML_LOGGER
-#define XML_LOGGER
+#ifndef __XML_LOGGER__
+#define __XML_LOGGER__
 
 /**
  * @file xml_logger.hpp

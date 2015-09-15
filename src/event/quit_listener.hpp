@@ -1,5 +1,5 @@
-#ifndef QUIT_LISTENER
-#define QUIT_LISTENER
+#ifndef __QUIT_LISTENER__
+#define __QUIT_LISTENER__
 
 /**
  * @file quit_listener.hpp

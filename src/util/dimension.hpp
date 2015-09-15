@@ -1,5 +1,5 @@
-#ifndef DIMENSION
-#define DIMENSION
+#ifndef __DIMENSION__
+#define __DIMENSION__
 
 /**
  * @file dimension.hpp

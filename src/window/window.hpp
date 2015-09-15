@@ -1,5 +1,5 @@
-#ifndef WINDOW
-#define WINDOW
+#ifndef __WINDOW__
+#define __WINDOW__
 
 /**
  * @file window.hpp

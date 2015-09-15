@@ -1,5 +1,5 @@
-#ifndef LOG_MESSAGE
-#define LOG_MESSAGE
+#ifndef __LOG_MESSAGE__
+#define __LOG_MESSAGE__
 
 /**
  * @file log_message.hpp

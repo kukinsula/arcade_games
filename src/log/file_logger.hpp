@@ -1,5 +1,5 @@
-#ifndef FILE_LOGGER
-#define FILE_LOGGER
+#ifndef __FILE_LOGGER__
+#define __FILE_LOGGER__
 
 /**
  * @file file_logger.hpp

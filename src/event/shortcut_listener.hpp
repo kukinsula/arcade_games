@@ -1,5 +1,5 @@
-#ifndef SHORTCUT_LISTENER
-#define SHORTCUT_LISTENER
+#ifndef __SHORTCUT_LISTENER__
+#define __SHORTCUT_LISTENER__
 
 /**
  * @file shortcut_listener.hpp

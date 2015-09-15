@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_LISTENER
-#define KEYBOARD_LISTENER
+#ifndef __KEYBOARD_LISTENER__
+#define __KEYBOARD_LISTENER__
 
 /**
  * @file keyboard_listener.hpp

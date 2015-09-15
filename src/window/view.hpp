@@ -1,5 +1,5 @@
-#ifndef VIEW
-#define VIEW
+#ifndef __VIEW__
+#define __VIEW__
 
 /**
  * @file view.hpp
