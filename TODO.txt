@@ -47,3 +47,5 @@
 
 * CppUnit:
 	- tester tous les sous systèmes
+
+* namespace
