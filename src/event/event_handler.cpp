@@ -180,7 +180,7 @@ void EventHandler::keyboard_pressed (SDL_KeyboardEvent &keyboard_event) {
 		is_shortcut = true;
 
 		for (unsigned int j = 0; j < keycodes.size(); j++) {
-			printf("%d\n", keycodes[j]);
+			// printf("%d\n", keycodes[j]);
 
 			if (this->keys[SDL_GetScancodeFromKey(keycodes[j])] == 1) {
 				is_shortcut = is_shortcut && true;
@@ -195,7 +195,7 @@ void EventHandler::keyboard_pressed (SDL_KeyboardEvent &keyboard_event) {
 			shortcut_listener->on_shortcut(this);
 		}
 
-		printf("\n");
+		// printf("\n");
 	}
 }
 

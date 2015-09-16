@@ -25,14 +25,15 @@ bool Panel::is_panel (void) const {
 
 void Panel::add_widget (Widget *widget) {
 	widget->set_parent(this);
+	widget->set_window(this->get_window() );
+
 	this->widgets.push_back(widget);
 }
 
 void Panel::draw (void) {
-	Widget::draw();
-	MSG(info, "PANEL");
+	Widget::draw_background();
 
-	// for (unsigned int i = 0; i < this->widgets.size(); i++) {
-	// 	this->widgets[i]->draw();
-	// }
+	for (unsigned int i = 0; i < this->widgets.size(); i++) {
+		this->widgets[i]->draw();
+	}
 }

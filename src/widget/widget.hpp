@@ -36,6 +36,12 @@ class Widget {
 
 		std::vector<WidgetListener*> widget_listeners;
 
+	protected:
+		/**
+		 * @brief Draws a white background in the Window
+		 */
+		void draw_background (void);
+
 	public:
 		/**
 		 * @brief Constructor
@@ -171,7 +177,7 @@ class Widget {
 		/**
 		 * @brief Draws itself in the Window
 		 */
-		virtual void draw (void);
+		virtual void draw (void) = 0;
 
 		/**
 		 * @brief Returns true if the Widget is a Panel, false otherwise

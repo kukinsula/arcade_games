@@ -63,7 +63,7 @@ bool Widget::is_panel (void) const {
 	return false;
 }
 
-void Widget::draw (void) {
+void Widget::draw_background (void) {
 	Color background_color = this->get_background_color();
 	Dimension dimension = this->get_dimension();
 	Position position = this->get_position();

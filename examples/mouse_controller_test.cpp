@@ -1,6 +1,8 @@
 #include "mouse_controller_test.hpp"
 
 #include "../src/log/log.hpp"
+#include "../src/log/console_logger.hpp"
+
 #include "../src/widget/rectangle.hpp"
 #include "../src/widget/panel.hpp"
 
@@ -26,23 +28,22 @@ void MouseControllerTest::on_mouse_button_press (EventHandler *, SDL_MouseButton
 
 int main (void) {
 	Window window("Test mouse controller", 400, 400);
-	EventHandler event_handler = window.get_event_handler();	
+	EventHandler &event_handler = window.get_event_handler();	
 	MouseControllerTest controller;
-	Panel left_panel(0, 0, 100, 400);
-	Panel up_panel(100, 0, 400, 100);
 	Panel main_panel(100, 100, 300, 300);
-	View view;
 	Rectangle *rectangle = new Rectangle(150, 150, 20, 20);
+	ConsoleLogger logger(info);
+	View view;
 
-	left_panel.set_background_color(Color::RED);
-	up_panel.set_background_color(Color::BLUE);
-	main_panel.set_background_color(Color::GREEN);
+	Log::add_logger(&logger);
 
-	main_panel.add_widget(rectangle);
-
-	view.add_widget(&left_panel);
-	view.add_widget(&up_panel);
+	view.set_window(&window);
 	view.add_widget(&main_panel);
+
+	rectangle->set_background_color(Color::LIGHT_GRAY);
+
+	main_panel.set_background_color(Color::GREEN);
+	main_panel.add_widget(rectangle);
 
 	view.set_controller(&controller);
 	controller.set_view(&view);
@@ -54,6 +55,8 @@ int main (void) {
 
 	window.open();
 	window.close();
+
+	Log::quit();
 
 	return 0;
 }

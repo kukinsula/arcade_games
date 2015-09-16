@@ -51,11 +51,3 @@ int LogMessage::get_line_number (void) const {
 int LogMessage::get_id (void) const {
 	return this->id;
 }
-
-// std::ostream& operator<<(std::ostream& os, const LogMessage &log_message) {
-	// std::stringstream sstm;
-
-	// os << 
-
-	// return os;
-// }

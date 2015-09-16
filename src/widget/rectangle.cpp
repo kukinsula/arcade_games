@@ -24,5 +24,5 @@ Rectangle::~Rectangle () {
 }
 
 void Rectangle::draw (void) {
-	Widget::draw();
+	Widget::draw_background();
 }
