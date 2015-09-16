@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "color.hpp"
 
 Color Color::RED = Color(255, 0, 0);
@@ -28,7 +30,6 @@ Color::Color (const Color &color) :
 	blue(color.blue),
 	alpha(color.alpha) {
 }
-
 
 Color::~Color () {
 }
@@ -63,4 +64,14 @@ int Color::get_blue (void) const {
 
 int Color::get_alpha (void) const {
 	return this->alpha;
+}
+
+std::ostream& operator<< (std::ostream &os, const Color &color) {
+	os <<
+		"[red=" << color.get_red() <<
+		";green=" << color.get_green() <<
+		";blue=" << color.get_blue() <<
+		";alpha=" << color.get_alpha() << "]";
+
+	return os;
 }

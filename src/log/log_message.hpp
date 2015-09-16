@@ -7,7 +7,7 @@
  */
 
 #include <string>
- #include <sstream>
+#include <sstream>
 
 #include "log_level.hpp"
 
@@ -91,7 +91,15 @@ class LogMessage {
 		int get_id (void) const;
 
 		/**
-		 * @brief 
+		 * @brief Concats any type to the LogMessage's text.
+		 * @param t: any type which overrides operator<<
+		 * @return LogMessage&
+		 * @see LOG
+		 *
+		 * LogMessage behaves like an ostream so you can create more complexe
+		 * logs using the operator <<. T requires to have overrided the
+		 * function std::ostream& operator<< (std::ostream &os, const T &t) to
+		 * be able to use it through a LogMessage.
 		 */
 		template<typename T>
 		LogMessage& operator<< (const T &t) {

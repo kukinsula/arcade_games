@@ -1,6 +1,8 @@
 #ifndef __COLOR__
 #define __COLOR__
 
+#include <string>
+
 /**
  * @file color.hpp
  * @version 0.1
@@ -97,5 +99,12 @@ class Color {
 		 */
 		int get_alpha (void) const;
 };
+
+/**
+ * @brief Writes a Color into an ostream
+ * @param os: the ostream in which to write
+ * @param color: the Color to write
+ */
+std::ostream& operator<< (std::ostream &os, const Color &color);
 
 #endif

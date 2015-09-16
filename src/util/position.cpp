@@ -40,17 +40,8 @@ void Position::set_y (int y) {
 	this->y = y;
 }
 
-std::ostream& operator<<(std::ostream &os, Position &position) {
-	std::stringstream sstm;
-
-	sstm <<
-		"(" <<
-		position.get_x() << ", " <<
-		position.get_y() << ")";
-
-	os << sstm.str();
-
-	// os << "(" << position.get_x() << ", " << position.get_y() << ")";
+std::ostream& operator<<(std::ostream &os, const Position &position) {
+	os << "[x=" << position.get_x() << ";y=" << position.get_y() << "]";
 
 	return os;
 }

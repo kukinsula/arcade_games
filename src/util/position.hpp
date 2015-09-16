@@ -76,6 +76,6 @@ class Position {
  * @param os: the ostream in which to write
  * @param position: the Position to write
  */
-std::ostream& operator<<(std::ostream &os, Position &position);
+std::ostream& operator<<(std::ostream &os, const Position &position);
 
 #endif

@@ -48,14 +48,39 @@ class Log {
 };
 
 /**
- * @brief Simple MACRO to write LogMessages.
+ * @brief Simple MACRO to write simple LogMessages.
  * @param LEVEL: the criticity of the LogMessage
  * @param MESSAGE: the text to write
+ * @see LOG
+ *
+ * This MACRO helps the developper to write simple logs containing
+ * only a string as text: MSG(info, "test"); MSG takes care to gather
+ * all the metadata about that log.
  */
 #define MSG(LEVEL, MESSAGE) \
 	Log::write(LogMessage(MESSAGE, LEVEL, __FILE__,	__func__, __LINE__) );
 
+/**
+ * @brief Second MACRO to write more complexe logs
+ * @param LEVEL: the criticity of the LogMessage
+ * @param MESSAGE: the initial text to write
+ * @see MSG
+ *
+ * This MACRO helps the developper to write logs containing strings
+ * but also any type which has overrided the operator<< function.
+ *
+ * Log::write(
+ *		LOG(info, "test")
+ *			<< 1
+ *			<< 2
+ *			<< "azerty"
+ *			<< true
+ *			<< 'a'
+ *			<< position
+ *			<< color
+ *			<< ... );
+ */
 #define LOG(LEVEL, MESSAGE) \
-	LogMessage(MESSAGE, LEVEL, __FILE__,	__func__, __LINE__)
+	LogMessage(MESSAGE, LEVEL, __FILE__, __func__, __LINE__)
 
 #endif

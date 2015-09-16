@@ -1,6 +1,8 @@
 #ifndef __DIMENSION__
 #define __DIMENSION__
 
+#include <string>
+
 /**
  * @file dimension.hpp
  * @version 0.1
@@ -61,5 +63,12 @@ class Dimension {
 		 */
 		void set_height (int height);
 };
+
+/**
+ * @brief Writes a Dimension into an ostream
+ * @param os: the ostream in which to write
+ * @param dimension: the Dimension to write
+ */
+std::ostream& operator<< (std::ostream &os, const Dimension &dimension);
 
 #endif

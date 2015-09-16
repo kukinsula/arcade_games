@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "dimension.hpp"
 
 Dimension::Dimension () : 
@@ -31,4 +33,10 @@ void Dimension::set_width (int width) {
 
 void Dimension::set_height (int height) {
 	this->height = height;
+}
+
+std::ostream& operator<<(std::ostream &os, const Dimension &dimension) {
+	os << "[width=" << dimension.get_width() << ";height=" << dimension.get_height() << "]";
+
+	return os;
 }
