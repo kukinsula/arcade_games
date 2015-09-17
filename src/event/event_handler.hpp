@@ -21,6 +21,7 @@ class Window;
 #include "game_controller_listener.hpp"
 #include "quit_listener.hpp"
 #include "../widget/widget.hpp"
+#include "keyboard.hpp"
 
 /**
  * @class EventHandler
@@ -32,7 +33,6 @@ class Window;
 class EventHandler {
 	private:
 		Window *window;
-		const Uint8 *keys;
 		int mouse_x, mouse_y;
 		int mouse_x_rel, mouse_y_rel;
 		char mouse_buttons[8];
@@ -40,6 +40,8 @@ class EventHandler {
 		bool is_dragging;
 		bool is_dragging_widget;
 		Widget *dragged_widget;
+
+		Keyboard keyboard;
 
 		std::vector<KeyboardListener*> keyboard_listeners;
 		std::vector<ShortcutListener*> shortcut_listeners;
@@ -202,20 +204,6 @@ class EventHandler {
 		void remove_quit_listener (QuitListener *quit_listener);
 
 		/**
-		 * @brief Returns true if key is pressed, false otherwise
-		 * @param key: the SDL_KeyCode to check
-		 * @return bool
-		 */
-		bool is_key_down (SDL_Keycode key) const;
-		
-		/**
-		 * @brief Returns true if key is unpressed, false otherwise
-		 * @param key: the SDL_KeyCode to check
-		 * @return bool
-		 */
-		bool is_key_up (SDL_Keycode key) const;
-
-		/**
 		 * @brief Sets the EventHandler's Window it is attached to
 		 * @param window: the EventHandler's Window
 		 */
@@ -250,6 +238,8 @@ class EventHandler {
 		 * @return Window the EventHandler's Window
 		 */
 		Window* get_window (void) const;
+
+		Keyboard& get_keyboard (void);
 
 		/**
 		 * @brief Returns the EventHandler's running state

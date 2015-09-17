@@ -54,8 +54,8 @@ void WidgetControllerTest::on_dragging_widget (EventHandler *handler, Widget *wi
 	Position position;
 	int x, y;
 
-	x = handler->get_mouse_x(); // widget->get_position().get_x() + handler->get_mouse_x() - this->get_drag_widget_point().get_x();
-	y = handler->get_mouse_y(); // widget->get_position().get_y() + handler->get_mouse_y() - this->get_drag_widget_point().get_y();
+	x = handler->get_mouse_x();
+	y = handler->get_mouse_y();
 	position = Position(x, y);
 
 	sstm << "on_dragging_widget => widget = ";
@@ -257,15 +257,15 @@ int main (void) {
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
 	Color color(0x00, 0x00, 0xFF, 0xFF);
+	std::vector<SDL_Keycode> &keycodes = controller.get_keycodes();
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
 	SDL_GameControllerEventState(SDL_ENABLE);
 
 	Log::add_logger(logger);
 
-	std::vector<SDL_Keycode> keycodes(SDLK_a);
-
-	controller.set_keycodes(keycodes);
+	keycodes.push_back(SDLK_LCTRL);
+	keycodes.push_back(SDLK_a);
 
 	color.set_alpha(0);
 

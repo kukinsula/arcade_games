@@ -1,4 +1,3 @@
-
 #include <algorithm>
 #include "SDL.h"
 
@@ -8,22 +7,22 @@
 
 EventHandler::EventHandler (Window *window) : 
 	window(window),
-	keys(NULL),
 	running(false),
 	is_dragging(false),
 	is_dragging_widget(false),
-	dragged_widget(NULL) {
+	dragged_widget(NULL),
+	keyboard() {
 
 	memset(this->mouse_buttons, 0, sizeof(this->mouse_buttons) );
 }
 
 EventHandler::EventHandler (const EventHandler &event_handler) :
 	window(event_handler.window),
-	keys(event_handler.keys),
 	running(event_handler.running),
 	is_dragging(event_handler.is_dragging),
 	is_dragging_widget(event_handler.is_dragging_widget),
-	dragged_widget(event_handler.dragged_widget) {
+	dragged_widget(event_handler.dragged_widget),
+	keyboard(event_handler.keyboard) {
 }
 
 EventHandler::~EventHandler () {
@@ -150,57 +149,22 @@ void EventHandler::pause (void) {
 	this->running = false;
 }
 
-#include "stdio.h"
 void EventHandler::keyboard_pressed (SDL_KeyboardEvent &keyboard_event) {
-	ShortcutListener *shortcut_listener;
-	std::vector<SDL_Keycode> keycodes;
-	bool is_shortcut;
-
-	this->keys = SDL_GetKeyboardState(NULL);
+	this->keyboard.update();
 
 	for (int i = 0; (unsigned) i < this->keyboard_listeners.size(); i++) {
 		this->keyboard_listeners[i]->on_key_press(this, keyboard_event);
 	}
 
-	// if (this->keys[SDL_GetScancodeFromKey(SDLK_a) /* SDL_SCANCODE_A */ ] == 1 && this->keys[SDL_GetScancodeFromKey(SDLK_b) /* SDL_SCANCODE_B */] == 1) {
-	// 	MSG(info, "CA MARCHE !");
-	// }
-
-	// for (int i = 0; i < 256; i++) {
-	// 	if (this->keys[i] == 1) {
-	// 		printf("keys[%d] = %d => %s\n", i, this->keys[i], SDL_GetScancodeName( (SDL_Scancode) i) );
-	// 	}
-	// }
-
-	// printf("\n");
-
-	for (unsigned int i = 0; i < this->shortcut_listeners.size(); i++) {
-		shortcut_listener = this->shortcut_listeners[i];
-		keycodes = shortcut_listener->get_keycodes();
-		is_shortcut = true;
-
-		for (unsigned int j = 0; j < keycodes.size(); j++) {
-			// printf("%d\n", keycodes[j]);
-
-			if (this->keys[SDL_GetScancodeFromKey(keycodes[j])] == 1) {
-				is_shortcut = is_shortcut && true;
-			}
-
-			else {
-				is_shortcut = false;
-			}
+	for (int i = 0; (unsigned) i < this->shortcut_listeners.size(); i++) {
+		if (this->shortcut_listeners[i]->is_triggered(this->keyboard) ) {
+			this->shortcut_listeners[i]->on_shortcut(this);
 		}
-
-		if (is_shortcut) {
-			shortcut_listener->on_shortcut(this);
-		}
-
-		// printf("\n");
 	}
 }
 
 void EventHandler::keyboard_unpressed (SDL_KeyboardEvent &keyboard_event) {
-	this->keys = SDL_GetKeyboardState(NULL);
+	this->keyboard.update();
 
 	for (int i = 0; (unsigned) i < this->keyboard_listeners.size(); i++) {
 		this->keyboard_listeners[i]->on_key_unpress(this, keyboard_event);
@@ -447,7 +411,7 @@ void EventHandler::window_event (SDL_WindowEvent &window_event) {
 				break;
 
 			default:
-				printf("Window %d got unknown event %d\n", window_event.windowID, window_event.event);
+				Log::write(LOG(info, "Window ") << window_event.windowID);
 				break;
 		}
 	}
@@ -596,4 +560,8 @@ int EventHandler::get_mouse_y_rel (void) const {
 
 Window* EventHandler::get_window (void) const {
 	return this->window;
+}
+
+Keyboard& EventHandler::get_keyboard (void) {
+	return this->keyboard;
 }

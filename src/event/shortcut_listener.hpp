@@ -9,6 +9,7 @@
 #include "SDL.h"
 
 class EventHandler;
+#include "keyboard.hpp"
 
 /**
  * @class ShortcutListener
@@ -44,6 +45,11 @@ class ShortcutListener {
 		 * @brief Destructor
 		 */
 		~ShortcutListener ();
+
+		/**
+		 *
+		 */
+		bool is_triggered (const Keyboard &keyboard) const;
 
 		/**
 		 * @brief Sets the keycodes to listen to
