@@ -1,7 +1,3 @@
-* TextListener:
-	- voir les événements SDL SDL_TEXTINPUT et SDL_TEXTEDITING
-	- créer classe qui "listen" les saisies de texte (conserve tous les 100 derniers caractères tapés)
-
 * faire des tests avec valgrind
 
 * Window:
@@ -27,6 +23,7 @@
 * WidgetListener:
 	- découper en plusieurs classes: MouseOverWidgetListener, MouseClickListener et WidgetDragAndDropListener
 		- faudra faire des listes séparés de chacun des type de WidgetListener dans Widget
+	- verifier le bon comportement de on_drop_wdget_on_widget !
 
 * Color:
 	- FIX alpha color
@@ -35,3 +32,6 @@
 	- tester tous les sous systèmes
 
 * namespace
+
+* Widget:
+	- ajouter sous classes Label, Button, TextField, TextArea, ...

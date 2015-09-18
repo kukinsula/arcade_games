@@ -20,12 +20,22 @@ class Window;
 #include "drag_and_drop_listener.hpp"
 #include "game_controller_listener.hpp"
 #include "quit_listener.hpp"
+#include "text_input_listener.hpp"
 #include "../widget/widget.hpp"
 #include "keyboard.hpp"
 
 /**
  * @class EventHandler
  * @brief Handles all the events the SDL can.
+ * @see KeyboardListener
+ * @see ShortcutListener
+ * @see MouseListener
+ * @see WindowListener
+ * @see DropFileListener
+ * @see DragAndDropListener
+ * @see GameControllerListener
+ * @see QuitListener
+ * @see TextInputListener
  *
  * EventHandler handles all the events to notify its Listeners. Specific Listeners
  * can register to the EventHandler to be notified that a specific event occured.
@@ -51,6 +61,7 @@ class EventHandler {
 		std::vector<DragAndDropListener*> drag_and_drop_listeners;
 		std::vector<GameControllerListener*> game_controller_listeners;
 		std::vector<QuitListener*> quit_listeners;
+		std::vector<TextInputListener*> text_input_listeners;
 
 		void keyboard_pressed (SDL_KeyboardEvent &keyboard_event);
 		void keyboard_unpressed (SDL_KeyboardEvent &keyboard_event);
@@ -66,6 +77,7 @@ class EventHandler {
 		void game_controller_device_added (SDL_ControllerDeviceEvent &controller_device_event);
 		void game_controller_device_removed (SDL_ControllerDeviceEvent &controller_device_event);
 		void game_controller_device_remapped (SDL_ControllerDeviceEvent &controller_device_event);
+		void text_input (SDL_TextInputEvent &text_input_event);
 		void quit (void);
 
 	public:
@@ -150,6 +162,12 @@ class EventHandler {
 		void add_game_controller_listener (GameControllerListener *game_controller_listener);
 
 		/**
+		 * @brief Registers a TextInputListener to the EventHandler
+		 * @param text_input_listener: the TextInputListener to register
+		 */
+		void add_text_input_listener (TextInputListener *text_input_listener);
+
+		/**
 		 * @brief Registers a QuitListener to the EventHandler
 		 * @param quit_listener: the QuitListener to register
 		 */
@@ -196,6 +214,12 @@ class EventHandler {
 		 * @param game_controller_listener: the GameControllerListener to unregister
 		 */
 		void remove_game_controller_listener (GameControllerListener *game_controller_listener);
+
+		/**
+		 * @brief Unregisters a TextInputListener from the EventHandler
+		 * @param text_input_listener: the TextInputListener to unregister
+		 */
+		void remove_text_input_listener (TextInputListener *text_input_listener);
 		
 		/**
 		 * @brief Unregisters a QuitListener from the EventHandler

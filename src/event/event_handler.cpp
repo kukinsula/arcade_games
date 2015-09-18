@@ -11,7 +11,8 @@ EventHandler::EventHandler (Window *window) :
 	is_dragging(false),
 	is_dragging_widget(false),
 	dragged_widget(NULL),
-	keyboard() {
+	keyboard(),
+	text_input_listeners() {
 
 	memset(this->mouse_buttons, 0, sizeof(this->mouse_buttons) );
 }
@@ -30,11 +31,8 @@ EventHandler::~EventHandler () {
 
 void EventHandler::start (void) {
 	SDL_Event event;
-	// char *text = "";
-	// char *composition = NULL;
-	// Sint32 cursor;
-	// Sint32 selection_len;
-	// bool is_text_input_on = false;
+
+	SDL_StartTextInput();
 
 	this->running = true;
 
@@ -75,31 +73,11 @@ void EventHandler::start (void) {
 				break;
 
 			case SDL_TEXTINPUT:
-				// if (!is_text_input_on) {
-				// 	SDL_StartTextInput();
-				// 	is_text_input_on = true;
-				// }
-
-				// text = event.edit.text;
-
-				// if (strcmp(text, "X") == 0) {
-				// 	MSG(info, "ICI");
-				// 	SDL_StopTextInput();
-				// }
-
-				// MSG(info, "SDL_TEXTINPUT");
-				// MSG(info, text)
+				this->text_input(event.text);
 				break;
 
 			case SDL_TEXTEDITING:
-				// text = event.edit.text;
-
-				// MSG(info, "SDL_TEXTEDITING");
-				// MSG(info, text )
-
-				// text = event.edit.text;
-				// cursor = event.edit.start;
-				// selection_len = event.edit.length;
+				Log::write(LOG(info, "SDL_TEXTEDITING text = ") << event.edit.text);
 				break;
 
 			case SDL_DOLLARGESTURE:
@@ -462,6 +440,13 @@ void EventHandler::game_controller_device_remapped (SDL_ControllerDeviceEvent &c
 	}
 }
 
+void EventHandler::text_input (SDL_TextInputEvent &text_input_event) {
+	for (int i = 0; (unsigned) i < this->text_input_listeners.size(); i++) {
+		this->text_input_listeners[i]->get_text() += text_input_event.text;
+		this->text_input_listeners[i]->on_text_input(this, text_input_event);
+	}
+}
+
 void EventHandler::quit (void) {
 	this->running = false;
 
@@ -502,6 +487,10 @@ void EventHandler::add_game_controller_listener (GameControllerListener *game_co
 	this->game_controller_listeners.push_back(game_controller_listener);
 }
 
+void EventHandler::add_text_input_listener (TextInputListener *text_input_listener) {
+	this->text_input_listeners.push_back(text_input_listener);
+}
+
 void EventHandler::add_quit_listener (QuitListener *quit_listener) {
 	this->quit_listeners.push_back(quit_listener);
 }
@@ -532,6 +521,10 @@ void EventHandler::remove_drag_and_drop_listener (DragAndDropListener *drag_and_
 
 void EventHandler::remove_game_controller_listener (GameControllerListener *game_controller_listener) {
 	this->game_controller_listeners.erase(std::remove(this->game_controller_listeners.begin(), this->game_controller_listeners.end(), game_controller_listener), this->game_controller_listeners.end() );
+}
+
+void EventHandler::remove_text_input_listener (TextInputListener *text_input_listener) {
+	this->text_input_listeners.erase(std::remove(this->text_input_listeners.begin(), this->text_input_listeners.end(), text_input_listener), this->text_input_listeners.end() );
 }
 
 void EventHandler::remove_quit_listener (QuitListener *quit_listener) {
