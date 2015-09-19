@@ -219,7 +219,7 @@ void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_even
 	for (unsigned int i = 0; i < widgets.size(); i++) {
 		widget = widgets[i];
 
-		if (widget->is_over(mouse_button_event.x, mouse_button_event.y) ) {
+		if (widget->is_over(mouse_button_position) ) {
 			widget_listeners = widget->get_widget_listeners();
 
 			if (!this->is_dragging_widget) {
@@ -271,7 +271,7 @@ void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_ev
 			for (unsigned int i = 0; i < widgets.size(); i++) {
 				widget = widgets[i];
 
-				if (widget->is_over(mouse_button_event.x, mouse_button_event.y) ) {
+				if (widget->is_over(mouse_button_position) ) {
 					widget_listeners = widget->get_widget_listeners();
 
 					for (unsigned int j = 0; j < widget_listeners.size(); j++) {
@@ -302,7 +302,7 @@ void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_ev
 		for (unsigned int i = 0; i < widgets.size(); i++) {
 			widget = widgets[i];
 
-			if (widget->is_over(mouse_button_event.x, mouse_button_event.y) ) {
+			if (widget->is_over(mouse_button_position) && widget != this->dragged_widget) {
 				widget_listeners = widget->get_widget_listeners();
 
 				for (unsigned int j = 0; j < widget_listeners.size(); j++) {
