@@ -12,14 +12,6 @@ void KeyboardControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEv
 	Widget *widget = NULL;
 	Position position, copy;
 
-	Keyboard &keyboard = handler->get_keyboard();
-	Log::write(
-		LOG(info, "keyboard = ")
-			<< keyboard
-			<< " is_key_pressed(" << SDL_GetKeyName(keyboard_event.keysym.sym)
-			<< ") = " << keyboard.is_key_pressed(keyboard_event.keysym.sym)
-	);
-
 	if (widgets.size() != 0) {
 		widget = widgets[0];
 		position = widget->get_position();

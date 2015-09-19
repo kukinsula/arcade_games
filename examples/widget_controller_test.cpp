@@ -52,11 +52,8 @@ void WidgetControllerTest::on_drag_widget (EventHandler *, Widget *widget) {
 void WidgetControllerTest::on_dragging_widget (EventHandler *handler, Widget *widget) {
 	std::stringstream sstm;
 	Position position;
-	int x, y;
 
-	x = handler->get_mouse_x();
-	y = handler->get_mouse_y();
-	position = Position(x, y);
+	position = handler->get_mouse().get_position();
 
 	sstm << "on_dragging_widget => widget = ";
 	sstm << widget;
@@ -68,7 +65,7 @@ void WidgetControllerTest::on_dragging_widget (EventHandler *handler, Widget *wi
 }
 
 void WidgetControllerTest::on_drop_widget (EventHandler *handler, Widget *widget) {
-	Position position = Position(handler->get_mouse_x(), handler->get_mouse_y() );
+	Position position = handler->get_mouse().get_position();
 	std::stringstream sstm;
 
 	sstm << "on_drop_widget => widget = ";

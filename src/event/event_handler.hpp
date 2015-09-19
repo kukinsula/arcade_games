@@ -23,6 +23,7 @@ class Window;
 #include "text_input_listener.hpp"
 #include "../widget/widget.hpp"
 #include "keyboard.hpp"
+#include "mouse.hpp"
 
 /**
  * @class EventHandler
@@ -43,15 +44,13 @@ class Window;
 class EventHandler {
 	private:
 		Window *window;
-		int mouse_x, mouse_y;
-		int mouse_x_rel, mouse_y_rel;
-		char mouse_buttons[8];
 		bool running;
 		bool is_dragging;
 		bool is_dragging_widget;
 		Widget *dragged_widget;
 
 		Keyboard keyboard;
+		Mouse mouse;
 
 		std::vector<KeyboardListener*> keyboard_listeners;
 		std::vector<ShortcutListener*> shortcut_listeners;
@@ -234,36 +233,13 @@ class EventHandler {
 		void set_window (Window *window);
 
 		/**
-		 * @brief Returns the x position of the mouse
-		 * @return int
-		 */
-		int get_mouse_x (void) const;
-		
-		/**
-		 * @brief Returns the y position of the mouse
-		 * @return int
-		 */
-		int get_mouse_y (void) const;
-		
-		/**
-		 * @brief Returns the relative x position of the mouse
-		 * @return int
-		 */
-		int get_mouse_x_rel (void) const;
-
-		/**
-		 * @brief Returns the relative y position of the mouse
-		 * @return int
-		 */
-		int get_mouse_y_rel (void) const;
-
-		/**
 		 * @brief Returns the Window the EventHandler is attached to
 		 * @return Window the EventHandler's Window
 		 */
 		Window* get_window (void) const;
 
 		Keyboard& get_keyboard (void);
+		Mouse& get_mouse (void);
 
 		/**
 		 * @brief Returns the EventHandler's running state

@@ -17,14 +17,19 @@ void MouseControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEvent
 	}
 }
 
-void MouseControllerTest::on_mouse_button_press (EventHandler *, SDL_MouseButtonEvent mouse_button_event) {
-	if (mouse_button_event.button == SDL_BUTTON_LEFT) {
+void MouseControllerTest::on_mouse_button_press (EventHandler *event_handler, SDL_MouseButtonEvent mouse_button_event) {
+	if (event_handler->get_mouse().is_button_pressed(SDL_BUTTON_LEFT) ) {
 		Rectangle *rectangle = new Rectangle(mouse_button_event.x - 20, mouse_button_event.y - 20, 40, 40);
 
 		this->get_view()->add_widget(rectangle);
 		this->get_view()->draw();
 	}
 }
+
+void MouseControllerTest::on_mouse_move (EventHandler *event_handler, SDL_MouseMotionEvent /* mouse_motion_event */) {
+	Log::write(LOG(info, "mouse=") << event_handler->get_mouse() );
+}
+
 
 int main (void) {
 	Window window("Test mouse controller", 400, 400);

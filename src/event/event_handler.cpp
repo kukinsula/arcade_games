@@ -12,10 +12,7 @@ EventHandler::EventHandler (Window *window) :
 	is_dragging_widget(false),
 	dragged_widget(NULL),
 	keyboard(),
-	text_input_listeners() {
-
-	memset(this->mouse_buttons, 0, sizeof(this->mouse_buttons) );
-}
+	text_input_listeners() {}
 
 EventHandler::EventHandler (const EventHandler &event_handler) :
 	window(event_handler.window),
@@ -26,8 +23,7 @@ EventHandler::EventHandler (const EventHandler &event_handler) :
 	keyboard(event_handler.keyboard) {
 }
 
-EventHandler::~EventHandler () {
-}
+EventHandler::~EventHandler () {}
 
 void EventHandler::start (void) {
 	SDL_Event event;
@@ -154,10 +150,7 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 	std::vector<WidgetListener*> widget_listeners;
 	Widget *widget = NULL;
 
-	this->mouse_x = mouse_motion_event.x;
-	this->mouse_y = mouse_motion_event.y;
-	this->mouse_x_rel = mouse_motion_event.xrel;
-	this->mouse_y_rel = mouse_motion_event.yrel;
+	this->mouse.update(mouse_motion_event);
 
 	// ON_MOUSE_MOVE
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
@@ -205,7 +198,7 @@ void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_even
 	std::vector<WidgetListener*> widget_listeners;
 	Widget *widget = NULL;
 
-	this->mouse_buttons[mouse_button_event.button] = 1;
+	this->mouse.update(mouse_button_event);
 
 	// ON_MOUSE_BUTTON_PRESS
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
@@ -265,7 +258,7 @@ void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_ev
 	std::vector<WidgetListener*> widget_listeners;
 	Widget *widget = NULL;
 
-	this->mouse_buttons[mouse_button_event.button] = 0;
+	this->mouse.update(mouse_button_event);
 
 	// ON_MOUSE_BUTTON_UNPRESS
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
@@ -324,6 +317,8 @@ void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_ev
 }
 
 void EventHandler::mouse_wheeled (SDL_MouseWheelEvent &mouse_wheel_event) {
+	this->mouse.update(mouse_wheel_event);
+
 	for (int i = 0; (unsigned) i < this->mouse_listeners.size(); i++) {
 		this->mouse_listeners[i]->on_mouse_wheel(this, mouse_wheel_event);
 	}
@@ -535,26 +530,14 @@ void EventHandler::set_window (Window *window) {
 	this->window = window;
 }
 
-int EventHandler::get_mouse_x (void) const {
-	return this->mouse_x;
-}
-
-int EventHandler::get_mouse_y (void) const {
-	return this->mouse_y;
-}
-
-int EventHandler::get_mouse_x_rel (void) const {
-	return this->mouse_x_rel;
-}
-
-int EventHandler::get_mouse_y_rel (void) const {
-	return this->mouse_y_rel;
-}
-
 Window* EventHandler::get_window (void) const {
 	return this->window;
 }
 
 Keyboard& EventHandler::get_keyboard (void) {
 	return this->keyboard;
+}
+
+Mouse& EventHandler::get_mouse (void) {
+	return this->mouse;
 }

@@ -1,29 +1,23 @@
-* faire des tests avec valgrind
+* WidgetListener:
+	- découper en plusieurs classes: MouseWidgetListener et DragAndDropWidgetListener
+		- faudra faire des listes séparés de chacun des type de WidgetListener dans Widget
+	- verifier le bon comportement de on_drop_wdget_on_widget !
+
+* Widget:
+	- ajouter sous classes Label, Button, TextField, TextArea, ...
 
 * Window:
 	- voir la gestion du multi-window dans SDL sinon faire un mutliton
 	- si c'est la première fois qu'une Window est instanciée alors seulement on initialise la SDL_InitSubSystem(SDL_INIT_VIDEO)
 		- faire pareil pour les autres sous systèmes (Cf. SDL_InitSubSystem).
 
-* EventHandler:
-	- supprimer les attributs mouse_x/y
-	- ajouter classes Mouse la mettre dans EventHandler
-
 * Asset:
 	- créer classes Image, Sound, ...
 	- créer une Factory par type d'asset
 	- créer AssetManager (lazy design pattern)
 
-* Position:
-	- surcharger les opératuers +/-/+=/-=/
-
 * init:
 	- faire un fichier init.cpp et init_sdl.cpp
-
-* WidgetListener:
-	- découper en plusieurs classes: MouseOverWidgetListener, MouseClickListener et WidgetDragAndDropListener
-		- faudra faire des listes séparés de chacun des type de WidgetListener dans Widget
-	- verifier le bon comportement de on_drop_wdget_on_widget !
 
 * Color:
 	- FIX alpha color
@@ -33,5 +27,6 @@
 
 * namespace
 
-* Widget:
-	- ajouter sous classes Label, Button, TextField, TextArea, ...
+* faire des tests avec valgrind
+
+* Localisation/Internationalisation
