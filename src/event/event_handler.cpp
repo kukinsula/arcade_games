@@ -146,8 +146,10 @@ void EventHandler::keyboard_unpressed (SDL_KeyboardEvent &keyboard_event) {
 }
 
 void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
+	Position mouse_position(mouse_motion_event.x, mouse_motion_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<WidgetListener*> widget_listeners;
+	std::vector<MouseOverWidgetListener*> mouse_over_widget_listeners;
+	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse.update(mouse_motion_event);
@@ -166,26 +168,29 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 
 	// ON_DRAGGING_WIDGET
 	if (this->is_dragging_widget) {
-		widget_listeners = this->dragged_widget->get_widget_listeners();
+		drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
 
-		for (unsigned int i = 0; i < widget_listeners.size(); i++) {
-			widget_listeners[i]->on_dragging_widget(this, this->dragged_widget);
+		for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
+			drag_and_drop_widget_listeners[i]->on_dragging_widget(this, this->dragged_widget);
 		}
 	}
 
-	// ON_MOUSE_OVER_WIDGET
 	for (unsigned int i = 0; i < widgets.size(); i++) {
 		widget = widgets[i];
 
-		if (widget->is_over(mouse_motion_event.x, mouse_motion_event.y) ) {
-			widget_listeners = widget->get_widget_listeners();
+		if (widget->is_over(mouse_position) ) {
+			mouse_over_widget_listeners = widget->get_mouse_over_widget_listeners();
+			drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
 
-			for (int j = 0; (unsigned) j < widget_listeners.size(); j++) {
-				widget_listeners[j]->on_mouse_over_widget(this, widget);
+			// ON_MOUSE_OVER_WIDGET
+			for (int j = 0; (unsigned) j < mouse_over_widget_listeners.size(); j++) {
+				mouse_over_widget_listeners[j]->on_mouse_over_widget(this, widget);
+			}
 
-				// ON_DRAGGING_WIDGET_OVER_WIDGET
+			// ON_DRAGGING_WIDGET_OVER_WIDGET
+			for (int j = 0; (unsigned) j < drag_and_drop_widget_listeners.size(); j++) {
 				if (this->is_dragging_widget && widget != this->dragged_widget) {
-					widget_listeners[j]->on_dragging_widget_over_widget(this, this->dragged_widget, widget);
+					drag_and_drop_widget_listeners[j]->on_dragging_widget_over_widget(this, this->dragged_widget, widget);
 				}
 			}
 		}
@@ -193,9 +198,10 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 }
 
 void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_event) {
-	Position mouse_button_position(mouse_button_event.x, mouse_button_event.y);
+	Position mouse_position(mouse_button_event.x, mouse_button_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<WidgetListener*> widget_listeners;
+	std::vector<ClickOnWidgetListener*> click_on_widget_listeners;
+	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse.update(mouse_button_event);
@@ -210,7 +216,7 @@ void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_even
 		this->is_dragging = true;
 
 		for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
-			this->drag_and_drop_listeners[i]->set_drag_point(mouse_button_position);
+			this->drag_and_drop_listeners[i]->set_drag_point(mouse_position);
 			this->drag_and_drop_listeners[i]->on_drag(this);
 		}
 	}
@@ -219,43 +225,36 @@ void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_even
 	for (unsigned int i = 0; i < widgets.size(); i++) {
 		widget = widgets[i];
 
-		if (widget->is_over(mouse_button_position) ) {
-			widget_listeners = widget->get_widget_listeners();
+		if (widget->is_over(mouse_position) ) {
+			click_on_widget_listeners = widget->get_click_on_widget_listeners();
 
-			if (!this->is_dragging_widget) {
+			if (mouse_button_event.button == SDL_BUTTON_LEFT && !this->is_dragging_widget) {
 				this->is_dragging_widget = true;
 				this->dragged_widget = widget;
 			}
 
-			for (int j = 0; (unsigned) j < widget_listeners.size(); j++) {
-				// ON_MOUSE_LEFT_CLICK_ON_WIDGET
-				if (mouse_button_event.button == SDL_BUTTON_LEFT) {
-					widget_listeners[j]->on_left_click_on_widget(this, widget);
-				}
-
-				// ON_MOUSE_RIGHT_CLICK_ON_WIDGET
-				if (mouse_button_event.button == SDL_BUTTON_RIGHT) {
-					widget_listeners[j]->on_right_click_on_widget(this, widget);
-				}
+			// ON_MOUSE_CLICK_ON_WIDGET
+			for (int j = 0; (unsigned) j < click_on_widget_listeners.size(); j++) {
+				click_on_widget_listeners[j]->on_click_on_widget(this, widget, mouse_button_event);
 			}
 		}
 	}
 
 	// ON_DRAG_WIDGET
 	if (this->is_dragging_widget) {
-		widget_listeners = this->dragged_widget->get_widget_listeners();
+		drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
 
-		for (unsigned int i = 0; i < widget_listeners.size(); i++) {
-			widget_listeners[i]->set_drag_widget_point(mouse_button_position);
-			widget_listeners[i]->on_drag_widget(this, this->dragged_widget);
+		for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
+			drag_and_drop_widget_listeners[i]->set_drag_widget_point(mouse_position);
+			drag_and_drop_widget_listeners[i]->on_drag_widget(this, this->dragged_widget);
 		}
 	}
 }
 
 void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_event) {
-	Position mouse_button_position(mouse_button_event.x, mouse_button_event.y);
+	Position mouse_position(mouse_button_event.x, mouse_button_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<WidgetListener*> widget_listeners;
+	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse.update(mouse_button_event);
@@ -271,11 +270,11 @@ void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_ev
 			for (unsigned int i = 0; i < widgets.size(); i++) {
 				widget = widgets[i];
 
-				if (widget->is_over(mouse_button_position) ) {
-					widget_listeners = widget->get_widget_listeners();
+				if (widget->is_over(mouse_position) ) {
+					drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
 
-					for (unsigned int j = 0; j < widget_listeners.size(); j++) {
-						widget_listeners[j]->on_drop_on_widget(this, widget);
+					for (unsigned int j = 0; j < drag_and_drop_widget_listeners.size(); j++) {
+						drag_and_drop_widget_listeners[j]->on_drop_on_widget(this, widget);
 					}
 				}
 			}
@@ -284,29 +283,29 @@ void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_ev
 		this->is_dragging = false;
 
 		for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
-			this->drag_and_drop_listeners[i]->set_drop_point(mouse_button_position);
+			this->drag_and_drop_listeners[i]->set_drop_point(mouse_position);
 			this->drag_and_drop_listeners[i]->on_drop(this);
 		}
 	}
 
 	// ON_DROP_WIDGET
 	if (mouse_button_event.button == SDL_BUTTON_LEFT && this->is_dragging_widget) {
-		widget_listeners = this->dragged_widget->get_widget_listeners();
+		drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
 
-		for (unsigned int i = 0; i < widget_listeners.size(); i++) {
-			widget_listeners[i]->set_drop_widget_point(mouse_button_position);
-			widget_listeners[i]->on_drop_widget(this, this->dragged_widget);
+		for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
+			drag_and_drop_widget_listeners[i]->set_drop_widget_point(mouse_position);
+			drag_and_drop_widget_listeners[i]->on_drop_widget(this, this->dragged_widget);
 		}
 
 		// ON_DROP_WIDGET_ON_WIDGET
 		for (unsigned int i = 0; i < widgets.size(); i++) {
 			widget = widgets[i];
 
-			if (widget->is_over(mouse_button_position) && widget != this->dragged_widget) {
-				widget_listeners = widget->get_widget_listeners();
+			if (widget->is_over(mouse_position) && widget != this->dragged_widget) {
+				drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
 
-				for (unsigned int j = 0; j < widget_listeners.size(); j++) {
-					widget_listeners[j]->on_drop_widget_on_widget(this, this->dragged_widget, widget);
+				for (unsigned int j = 0; j < drag_and_drop_widget_listeners.size(); j++) {
+					drag_and_drop_widget_listeners[j]->on_drop_widget_on_widget(this, this->dragged_widget, widget);
 				}
 			}
 		}

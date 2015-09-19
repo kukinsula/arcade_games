@@ -10,7 +10,9 @@
 
 #include <vector>
 
-#include "../event/widget_listener.hpp"
+#include "../event/mouse_over_widget_listener.hpp"
+#include "../event/click_on_widget_listener.hpp"
+#include "../event/drag_and_drop_widget_listener.hpp"
 #include "../util/color.hpp"
 #include "../util/position.hpp"
 #include "../util/dimension.hpp"
@@ -34,7 +36,9 @@ class Widget {
 		Color background_color;
 		Widget *parent;
 
-		std::vector<WidgetListener*> widget_listeners;
+		std::vector<MouseOverWidgetListener*> mouse_over_widget_listeners;
+		std::vector<ClickOnWidgetListener*> click_on_widget_listeners;
+		std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 
 	protected:
 		/**
@@ -75,16 +79,40 @@ class Widget {
 		~Widget ();
 
 		/**
-		 * @brief Regiters a new WidgetListener
-		 * @param widget_listener: the WidgetListener to register
-		 * @see WidgetListener
+		 * @brief Regiters a new MouseOverWidgetListener
+		 * @param mouse_over_widget_listener: the MouseOverWidgetListener to register
+		 * @see MouseOverWidgetListener
 		 *
 		 * EventHandler can detect user interractions with Widgets, such as a click
 		 * on a Widget. To be notified of any interraction with a Widget you just need
-		 * to inherit from WidgetListener and register to the Widget to which you
+		 * to inherit from MouseOverWidgetListener and register to the Widget to which you
 		 * wish to listen.
 		 */
-		void add_widget_listener (WidgetListener *widget_listener);
+		void add_mouse_over_widget_listener (MouseOverWidgetListener *mouse_over_widget_listener);
+
+		/**
+		 * @brief Regiters a new ClickOnWidgetListener
+		 * @param clic_on_widget_listener: the ClickOnWidgetListener to register
+		 * @see ClickOnWidgetListener
+		 *
+		 * EventHandler can detect user interractions with Widgets, such as a click
+		 * on a Widget. To be notified of any interraction with a Widget you just need
+		 * to inherit from ClickOnWidgetListener and register to the Widget to which you
+		 * wish to listen.
+		 */
+		void add_clic_on_widget_listener (ClickOnWidgetListener *clic_on_widget_listener);
+
+		/**
+		 * @brief Regiters a new DragAndDropWidgetListener
+		 * @param drag_and_drop_widget_listener: the DragAndDropWidgetListener to register
+		 * @see DragAndDropWidgetListener
+		 *
+		 * EventHandler can detect user interractions with Widgets, such as a click
+		 * on a Widget. To be notified of any interraction with a Widget you just need
+		 * to inherit from DragAndDropWidgetListener and register to the Widget to which you
+		 * wish to listen.
+		 */
+		void add_drag_and_drop_widget_listener (DragAndDropWidgetListener *drag_and_drop_widget_listener);
 
 		/**
 		 * @brief Returns true if (x, y) is within the Widget's bounds, false otherwise
@@ -163,10 +191,22 @@ class Widget {
 		Color& get_background_color (void);
 		
 		/**
-		 * @brief Returns the Widget's WidgetListeners
-		 * @return std::vector<WidgetListener*>
+		 * @brief Returns the Widget's MouseOverWidgetListener
+		 * @return std::vector<MouseOverWidgetListener*>&
 		 */
-		std::vector<WidgetListener*>& get_widget_listeners (void);
+		std::vector<MouseOverWidgetListener*>& get_mouse_over_widget_listeners (void);
+
+		/**
+		 * @brief Returns the Widget's ClickOnWidgetListener
+		 * @return std::vector<ClickOnWidgetListener*>&
+		 */
+		std::vector<ClickOnWidgetListener*>& get_click_on_widget_listeners (void);
+
+		/**
+		 * @brief Returns the Widget's DragAndDropWidgetListener
+		 * @return std::vector<DragAndDropWidgetListener*>
+		 */
+		std::vector<DragAndDropWidgetListener*>& get_drag_and_drop_widget_listeners (void);
 		
 		/**
 		 * @brief Returns the Widget's parent

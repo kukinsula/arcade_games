@@ -2,7 +2,7 @@
 #define WIDGET_CONTROLLER_TEST
 
 #include "../src/window/controller.hpp"
-#include "../src/event/widget_listener.hpp"
+#include "../src/event/drag_and_drop_widget_listener.hpp"
 #include "../src/event/keyboard_listener.hpp"
 #include "../src/event/shortcut_listener.hpp"
 #include "../src/event/game_controller_listener.hpp"
@@ -11,7 +11,7 @@ class WidgetControllerTest :
 	public Controller,
 	public KeyboardListener,
 	public ShortcutListener,
-	public WidgetListener ,
+	public DragAndDropWidgetListener ,
 	public GameControllerListener {
 
 	private:

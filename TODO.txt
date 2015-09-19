@@ -1,10 +1,5 @@
-* WidgetListener:
-	- découper en plusieurs classes: MouseWidgetListener et DragAndDropWidgetListener
-		- faudra faire des listes séparés de chacun des type de WidgetListener dans Widget
-	- verifier le bon comportement de on_drop_wdget_on_widget !
-
 * Widget:
-	- ajouter sous classes Label, Button, TextField, TextArea, ...
+	- ajouter sous classes Label, Button/ButtonListener, TextField/TextInputListener, TextArea/TextInputListener, ...
 
 * Window:
 	- voir la gestion du multi-window dans SDL sinon faire un mutliton

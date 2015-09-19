@@ -4,14 +4,16 @@ BigController::BigController () {}
 
 BigController::BigController (const BigController &big_controller) :
 	Controller(big_controller),
-	DragAndDropListener(big_controller),
-	DropFileListener(big_controller),
-	GameControllerListener(big_controller),
-	KeyboardListener(big_controller),
-	MouseListener(big_controller),
-	QuitListener(big_controller),
-	WidgetListener(big_controller),
-	WindowListener(big_controller) {
+	DragAndDropListener(),
+	DropFileListener(),
+	GameControllerListener(),
+	KeyboardListener(),
+	MouseListener(),
+	QuitListener(),
+	MouseOverWidgetListener(),
+	ClickOnWidgetListener(),
+	DragAndDropWidgetListener(),
+	WindowListener() {
 }
 
 BigController::~BigController () {}

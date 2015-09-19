@@ -28,13 +28,21 @@ Widget::Widget (const Widget &widget) :
 	window(widget.window),
 	background_color(widget.background_color),
 	parent(widget.parent),
-	widget_listeners(widget.widget_listeners) {
+	drag_and_drop_widget_listeners(widget.drag_and_drop_widget_listeners) {
 }
 
 Widget::~Widget () {}
 
-void Widget::add_widget_listener (WidgetListener *widget_listener) {
-	this->widget_listeners.push_back(widget_listener);
+void Widget::add_mouse_over_widget_listener (MouseOverWidgetListener *mouse_over_widget_listener) {
+	this->mouse_over_widget_listeners.push_back(mouse_over_widget_listener);
+}
+
+void Widget::add_clic_on_widget_listener (ClickOnWidgetListener *clic_on_widget_listener) {
+	this->click_on_widget_listeners.push_back(clic_on_widget_listener);
+}
+
+void Widget::add_drag_and_drop_widget_listener (DragAndDropWidgetListener *drag_and_drop_widget_listener) {
+	this->drag_and_drop_widget_listeners.push_back(drag_and_drop_widget_listener);
 }
 
 void Widget::add_widget (Widget *) {}
@@ -126,8 +134,16 @@ Dimension& Widget::get_dimension (void) {
 	return this->dimension;
 }
 
-std::vector<WidgetListener*>& Widget::get_widget_listeners (void) {
-	return this->widget_listeners;
+std::vector<MouseOverWidgetListener*>& Widget::get_mouse_over_widget_listeners (void) {
+	return this->mouse_over_widget_listeners;
+}
+
+std::vector<ClickOnWidgetListener*>& Widget::get_click_on_widget_listeners (void) {
+	return this->click_on_widget_listeners;
+}
+
+std::vector<DragAndDropWidgetListener*>& Widget::get_drag_and_drop_widget_listeners (void) {
+	return this->drag_and_drop_widget_listeners;
 }
 
 Color& Widget::get_background_color (void) {

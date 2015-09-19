@@ -283,11 +283,11 @@ int main (void) {
 	event_handler.add_shortcut_listener(&controller);
 	event_handler.add_game_controller_listener(&controller);
 
-	rectangle.add_widget_listener(&controller);
-	rectangle2.add_widget_listener(&controller);
-	rectangle3.add_widget_listener(&controller);
-	rectangle4.add_widget_listener(&controller);
-	rectangle5.add_widget_listener(&controller);
+	rectangle.add_drag_and_drop_widget_listener(&controller);
+	rectangle2.add_drag_and_drop_widget_listener(&controller);
+	rectangle3.add_drag_and_drop_widget_listener(&controller);
+	rectangle4.add_drag_and_drop_widget_listener(&controller);
+	rectangle5.add_drag_and_drop_widget_listener(&controller);
 	controller.set_view(&view);
 
 	window.set_view(&view);
