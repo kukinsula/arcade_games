@@ -3,6 +3,8 @@
 
 #include "../src/window/controller.hpp"
 #include "../src/event/drag_and_drop_widget_listener.hpp"
+#include "../src/event/mouse_over_widget_listener.hpp"
+#include "../src/event/button_listener.hpp"
 #include "../src/event/keyboard_listener.hpp"
 #include "../src/event/shortcut_listener.hpp"
 #include "../src/event/game_controller_listener.hpp"
@@ -11,7 +13,9 @@ class WidgetControllerTest :
 	public Controller,
 	public KeyboardListener,
 	public ShortcutListener,
-	public DragAndDropWidgetListener ,
+	public MouseOverWidgetListener,
+	public ButtonListener,
+	public DragAndDropWidgetListener,
 	public GameControllerListener {
 
 	private:
@@ -21,8 +25,7 @@ class WidgetControllerTest :
 		WidgetControllerTest ();
 
 		void on_mouse_over_widget (EventHandler *handler, Widget *widget);
-		void on_left_click_on_widget (EventHandler *handler, Widget *widget);
-		void on_right_click_on_widget (EventHandler *handler, Widget *widget);
+		void on_click_on_widget (EventHandler *event_handler, Widget *widget, SDL_MouseButtonEvent &mouse_button_event);
 
 		void on_drag_widget (EventHandler *handler, Widget *widget);
 		void on_dragging_widget (EventHandler *handler, Widget *widget);

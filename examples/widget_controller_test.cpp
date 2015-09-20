@@ -11,31 +11,12 @@ WidgetControllerTest::WidgetControllerTest () :
 	selected_widget(NULL) {
 }
 
-void WidgetControllerTest::on_mouse_over_widget (EventHandler *, Widget *) {
-	// std::stringstream sstm;
-
-	// sstm << "on_mouse_over_widget => widget = ";
-	// sstm << widget;
-
-	// MSG(info, sstm.str() );
+void WidgetControllerTest::on_mouse_over_widget (EventHandler *event_handler, Widget *widget) {
+	Log::write(LOG(info, "over widget ") << widget << " at " << event_handler->get_mouse().get_position() );
 }
 
-void WidgetControllerTest::on_left_click_on_widget (EventHandler *, Widget *widget) {
-	std::stringstream sstm;
-
-	sstm << "on_left_click_on_widget => widget =  ";
-	sstm << widget;
-
-	MSG(info, sstm.str() );
-}
-
-void WidgetControllerTest::on_right_click_on_widget (EventHandler *, Widget *widget) {
-	std::stringstream sstm;
-
-	sstm << "on_right_click_on_widget => widget = ";
-	sstm << widget;
-
-	MSG(info, sstm.str() );
+void WidgetControllerTest::on_click_on_widget (EventHandler *, Widget *widget, SDL_MouseButtonEvent &) {
+	Log::write(LOG(info, "click on widget ") << widget);
 }
 
 void WidgetControllerTest::on_drag_widget (EventHandler *, Widget *widget) {
@@ -287,7 +268,9 @@ int main (void) {
 	rectangle2.add_drag_and_drop_widget_listener(&controller);
 	rectangle3.add_drag_and_drop_widget_listener(&controller);
 	rectangle4.add_drag_and_drop_widget_listener(&controller);
+	rectangle4.add_mouse_over_widget_listener(&controller);
 	rectangle5.add_drag_and_drop_widget_listener(&controller);
+	rectangle5.add_button_listener(&controller);
 	controller.set_view(&view);
 
 	window.set_view(&view);

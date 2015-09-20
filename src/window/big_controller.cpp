@@ -11,7 +11,7 @@ BigController::BigController (const BigController &big_controller) :
 	MouseListener(),
 	QuitListener(),
 	MouseOverWidgetListener(),
-	ClickOnWidgetListener(),
+	ButtonListener(),
 	DragAndDropWidgetListener(),
 	WindowListener() {
 }

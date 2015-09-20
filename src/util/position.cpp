@@ -20,8 +20,16 @@ Position::Position (const Position &position) :
 
 Position::~Position () {}
 
-double Position::distance_to (Position &position) const {
+double Position::distance_to (const Position &position) const {
 	return sqrt(pow(position.get_x() - this->get_x(), 2) + pow(position.get_y() - this->get_y(), 2) );
+}
+
+bool Position::operator== (const Position &position) const {
+	return this->x == position.get_x() && this->y == position.get_y();
+}
+
+bool Position::operator!= (const Position &position) const {
+	return !(*this == position);
 }
 
 int Position::get_x (void) const {

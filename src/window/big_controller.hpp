@@ -14,7 +14,7 @@
 #include "../event/mouse_listener.hpp"
 #include "../event/quit_listener.hpp"
 #include "../event/mouse_over_widget_listener.hpp"
-#include "../event/click_on_widget_listener.hpp"
+#include "../event/button_listener.hpp"
 #include "../event/drag_and_drop_widget_listener.hpp"
 #include "../event/window_listener.hpp"
 
@@ -37,7 +37,7 @@ class BigController :
 	public MouseListener,
 	public QuitListener,
 	public MouseOverWidgetListener,
-	public ClickOnWidgetListener,
+	public ButtonListener,
 	public DragAndDropWidgetListener,
 	public WindowListener {
 

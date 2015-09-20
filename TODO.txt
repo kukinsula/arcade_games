@@ -1,5 +1,6 @@
 * Widget:
-	- ajouter sous classes Label, Button/ButtonListener, TextField/TextInputListener, TextArea/TextInputListener, ...
+	- ajouter sous classes de Widget Label, Button/ButtonListener (renommer ClickOnWidgetListener en ButtonListener), TextField/TextInputListener, TextArea/TextInputListener, ...
+		- Button redéfinie la méthode click et pour notifier tous ses ButtonListeners
 
 * Window:
 	- voir la gestion du multi-window dans SDL sinon faire un mutliton
@@ -25,3 +26,15 @@
 * faire des tests avec valgrind
 
 * Localisation/Internationalisation
+
+* View:
+	- Composition de View*
+	- Ajouter sous classe de Widget ScrollBar (qui redéfinie la méthode click pour "scroller")
+	- ScrollBarView est une View décorée (Decorator design pattern) d'une ScrollBar (contient une ScrollBar, se redessine comme View mais dessine aussi la ScrollBar)
+
+* ShortcutListener:
+	- un ShortcutListener doit pouvoir écouter plusieurs Shortcut (une liste de SDL_Keycode)
+
+* GameController:
+	- conserve l'état de tout une manete de jeu (comme pour Mouse et Keyboard, dailleurs peut-être faire
+		un dossier pour toutes ces classes genre io_device)

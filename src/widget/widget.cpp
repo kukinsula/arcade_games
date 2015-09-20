@@ -37,8 +37,8 @@ void Widget::add_mouse_over_widget_listener (MouseOverWidgetListener *mouse_over
 	this->mouse_over_widget_listeners.push_back(mouse_over_widget_listener);
 }
 
-void Widget::add_clic_on_widget_listener (ClickOnWidgetListener *clic_on_widget_listener) {
-	this->click_on_widget_listeners.push_back(clic_on_widget_listener);
+void Widget::add_button_listener (ButtonListener *clic_on_widget_listener) {
+	this->button_listeners.push_back(clic_on_widget_listener);
 }
 
 void Widget::add_drag_and_drop_widget_listener (DragAndDropWidgetListener *drag_and_drop_widget_listener) {
@@ -138,8 +138,8 @@ std::vector<MouseOverWidgetListener*>& Widget::get_mouse_over_widget_listeners (
 	return this->mouse_over_widget_listeners;
 }
 
-std::vector<ClickOnWidgetListener*>& Widget::get_click_on_widget_listeners (void) {
-	return this->click_on_widget_listeners;
+std::vector<ButtonListener*>& Widget::get_button_listeners (void) {
+	return this->button_listeners;
 }
 
 std::vector<DragAndDropWidgetListener*>& Widget::get_drag_and_drop_widget_listeners (void) {
@@ -152,4 +152,10 @@ Color& Widget::get_background_color (void) {
 
 Widget* Widget::get_parent (void) const {
 	return this->parent;
+}
+
+void Widget::click (EventHandler *event_handler, SDL_MouseButtonEvent &mouse_button_event) {
+	for (int i = 0; (unsigned) i < this->button_listeners.size(); i++) {
+		this->button_listeners[i]->on_click_on_widget(event_handler, this, mouse_button_event);
+	}
 }

@@ -44,7 +44,10 @@ class Position {
 		 * @param position: the position to which calculate the distance
 		 * @return double
 		 */
-		double distance_to (Position &position) const;
+		double distance_to (const Position &position) const;
+
+		bool operator== (const Position &position) const;
+		bool operator!= (const Position &position) const;
 
 		/**
 		 * @brief Returns the x value

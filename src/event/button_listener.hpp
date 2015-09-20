@@ -1,7 +1,7 @@
-#ifndef __CLICK_ON_WIDGET_LISTENER__
-#define __CLICK_ON_WIDGET_LISTENER__
+#ifndef __BUTTON_LISTENER__
+#define __BUTTON_LISTENER__
 
-class ClickOnWidgetListener {
+class ButtonListener {
 	public:
 		/**
 		 * @brief method called when the user clicks on a Widget
