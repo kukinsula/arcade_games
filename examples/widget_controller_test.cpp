@@ -5,6 +5,8 @@
 #include "../src/log/log.hpp"
 #include "../src/log/console_logger.hpp"
 #include "../src/widget/rectangle.hpp"
+#include "../src/widget/button.hpp"
+#include "../src/widget/label.hpp"
 #include "../src/window/window.hpp"
 
 WidgetControllerTest::WidgetControllerTest () :
@@ -15,8 +17,8 @@ void WidgetControllerTest::on_mouse_over_widget (EventHandler *event_handler, Wi
 	Log::write(LOG(info, "over widget ") << widget << " at " << event_handler->get_mouse().get_position() );
 }
 
-void WidgetControllerTest::on_click_on_widget (EventHandler *, Widget *widget, SDL_MouseButtonEvent &) {
-	Log::write(LOG(info, "click on widget ") << widget);
+void WidgetControllerTest::on_click_on_button (EventHandler *, Button *button, SDL_MouseButtonEvent &) {
+	Log::write(LOG(info, "click on button ") << button);
 }
 
 void WidgetControllerTest::on_drag_widget (EventHandler *, Widget *widget) {
@@ -223,6 +225,11 @@ void WidgetControllerTest::on_shortcut (EventHandler *) {
 	MSG(info, "ICI ca marche");
 }
 
+void WidgetControllerTest::on_window_resize (EventHandler *, SDL_WindowEvent) {
+	this->get_view()->draw();
+}
+
+
 int main (void) {
 	Window window("Test widget controller", 400, 400);
 	EventHandler &event_handler = window.get_event_handler();	
@@ -231,16 +238,24 @@ int main (void) {
 	Rectangle rectangle2(0, 360, 40, 40);
 	Rectangle rectangle3(360, 0, 40, 40);
 	Rectangle rectangle4(360, 360, 40, 40);
-	Rectangle rectangle5(180, 180, 40, 40);
+	Button button(180, 180, 40, 40, "BOUTTON");
+	Label label(100, 100, 50, 50, "test");
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
 	Color color(0x00, 0x00, 0xFF, 0xFF);
 	std::vector<SDL_Keycode> &keycodes = controller.get_keycodes();
 
+	Log::add_logger(logger);
+
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER);
 	SDL_GameControllerEventState(SDL_ENABLE);
 
-	Log::add_logger(logger);
+	if (TTF_Init() != 0) {
+		MSG(error, "TTF_Init failed");
+		printf("TTF_Init failed: %s\n", SDL_GetError() );
+		SDL_Quit();
+		return 1;
+	}
 
 	keycodes.push_back(SDLK_LCTRL);
 	keycodes.push_back(SDLK_a);
@@ -250,27 +265,31 @@ int main (void) {
 	rectangle2.set_background_color(color);
 	rectangle3.set_background_color(Color::GREEN);
 	rectangle4.set_background_color(Color::RED);
-	rectangle5.set_background_color(Color::STRONG_GRAY);
+	button.set_background_color(Color::WHITE);
+	label.set_background_color(Color::LIGHT_GRAY);
 
 	view.add_widget(&rectangle);
 	view.add_widget(&rectangle2);
 	view.add_widget(&rectangle3);
 	view.add_widget(&rectangle4);
-	view.add_widget(&rectangle5);
+	view.add_widget(&button);
+	view.add_widget(&label);
 
 	view.set_controller(&controller);
 
 	event_handler.add_keyboard_listener(&controller);
 	event_handler.add_shortcut_listener(&controller);
 	event_handler.add_game_controller_listener(&controller);
+	event_handler.add_window_listener(&controller);
 
 	rectangle.add_drag_and_drop_widget_listener(&controller);
 	rectangle2.add_drag_and_drop_widget_listener(&controller);
 	rectangle3.add_drag_and_drop_widget_listener(&controller);
 	rectangle4.add_drag_and_drop_widget_listener(&controller);
 	rectangle4.add_mouse_over_widget_listener(&controller);
-	rectangle5.add_drag_and_drop_widget_listener(&controller);
-	rectangle5.add_button_listener(&controller);
+	button.add_button_listener(&controller);
+	label.add_mouse_over_widget_listener(&controller);
+	label.add_drag_and_drop_widget_listener(&controller);
 	controller.set_view(&view);
 
 	window.set_view(&view);

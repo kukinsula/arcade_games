@@ -8,6 +8,7 @@
 #include "../src/event/keyboard_listener.hpp"
 #include "../src/event/shortcut_listener.hpp"
 #include "../src/event/game_controller_listener.hpp"
+#include "../src/event/window_listener.hpp"
 
 class WidgetControllerTest :
 	public Controller,
@@ -16,7 +17,8 @@ class WidgetControllerTest :
 	public MouseOverWidgetListener,
 	public ButtonListener,
 	public DragAndDropWidgetListener,
-	public GameControllerListener {
+	public GameControllerListener,
+	public WindowListener {
 
 	private:
 		Widget *selected_widget;
@@ -25,7 +27,7 @@ class WidgetControllerTest :
 		WidgetControllerTest ();
 
 		void on_mouse_over_widget (EventHandler *handler, Widget *widget);
-		void on_click_on_widget (EventHandler *event_handler, Widget *widget, SDL_MouseButtonEvent &mouse_button_event);
+		void on_click_on_button (EventHandler *event_handler, Button *button, SDL_MouseButtonEvent &mouse_button_event);
 
 		void on_drag_widget (EventHandler *handler, Widget *widget);
 		void on_dragging_widget (EventHandler *handler, Widget *widget);
@@ -40,6 +42,8 @@ class WidgetControllerTest :
 		void on_game_controller_button_press (EventHandler *handler, SDL_ControllerButtonEvent controller_button_event);
 
 		void on_shortcut (EventHandler *handler);
+
+		void on_window_resize (EventHandler *event_handler, SDL_WindowEvent window_event);
 };
 
 #endif

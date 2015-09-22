@@ -18,7 +18,7 @@ else
 endif
 
 # library compilation options
-LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_image
+LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_image -lSDL2_ttf -lz -lm
 
 # directories
 SRC_DIR = src

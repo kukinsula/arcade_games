@@ -1,6 +1,15 @@
 * Widget:
-	- ajouter sous classes de Widget Label, Button/ButtonListener (renommer ClickOnWidgetListener en ButtonListener), TextField/TextInputListener, TextArea/TextInputListener, ...
-		- Button redéfinie la méthode click et pour notifier tous ses ButtonListeners
+	- ajouter sous classes Label, Button (qui hérite de Label pcq text, qui refinit click pour notifier ses ButtonListener), TextField/TextInputListener, TextArea/TextInputListener, ...
+	- ajouter sous classes Menu et MenuBar
+	- ajouter sous classe ScrollBar qui redéfinie la méthode click pour "scroller"
+	- ajouter sous classe ImageWidget
+	- renommer la méthode is_panel() par is_composite()
+	- implémenter Iterator design pattern pour abstraire le parcours d'un Widget sans connaitre le type exacte du Widget avec la STL
+	- implémenter Visitor design pattern pour abstrair la méhode de visite d'un Widget sans connaitre le type exact de ce Widget 
+
+* View:
+	- Composition de View*
+	- ScrollBarView est une View décorée (Decorator design pattern) d'une ScrollBar: se redessine puis dessine la ScrollBar
 
 * Window:
 	- voir la gestion du multi-window dans SDL sinon faire un mutliton
@@ -8,7 +17,7 @@
 		- faire pareil pour les autres sous systèmes (Cf. SDL_InitSubSystem).
 
 * Asset:
-	- créer classes Image, Sound, ...
+	- créer classes Image, Sound, Font, ...
 	- créer une Factory par type d'asset
 	- créer AssetManager (lazy design pattern)
 
@@ -27,14 +36,9 @@
 
 * Localisation/Internationalisation
 
-* View:
-	- Composition de View*
-	- Ajouter sous classe de Widget ScrollBar (qui redéfinie la méthode click pour "scroller")
-	- ScrollBarView est une View décorée (Decorator design pattern) d'une ScrollBar (contient une ScrollBar, se redessine comme View mais dessine aussi la ScrollBar)
-
 * ShortcutListener:
-	- un ShortcutListener doit pouvoir écouter plusieurs Shortcut (une liste de SDL_Keycode)
+	- un ShortcutListener doit pouvoir écouter plusieurs Shortcut (une liste de liste de SDL_Keycode)
 
 * GameController:
-	- conserve l'état de tout une manete de jeu (comme pour Mouse et Keyboard, dailleurs peut-être faire
-		un dossier pour toutes ces classes genre io_device)
+	- conserve l'état de toute la manete de jeu (faire un dossier pour toutes ces classes genre io_device)
+	- EventHandler instancie un GameController lorsqu'un nouveau est branché et les stocke dans une hashmap associé à un identifiant unique

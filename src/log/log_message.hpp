@@ -13,12 +13,12 @@
 
 /**
  * @class LogMessage
- * @brief Holds all the metadata about a log to be written through Loggers.
+ * @brief Holds all the metadata about a log.
  * @see Log
  * @see Loggers
  *
- * LogMessages will be written through Loggers. It contains metadata
- * which help the developper.
+ * LogMessages aim to be written through Loggers. It contains metadata
+ * which help the developper to debug.
  *
  * LogMessages have a unique id to identify them.
  */

@@ -200,7 +200,6 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_event) {
 	Position mouse_position(mouse_button_event.x, mouse_button_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<ButtonListener*> button_listeners;
 	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
@@ -226,7 +225,6 @@ void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_even
 		widget = widgets[i];
 
 		if (widget->is_over(mouse_position) ) {
-			button_listeners = widget->get_button_listeners();
 
 			if (mouse_button_event.button == SDL_BUTTON_LEFT && !this->is_dragging_widget) {
 				this->is_dragging_widget = true;
