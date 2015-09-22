@@ -8,7 +8,7 @@
 
 #include "widget.hpp"
 
-class Label : public Widget {
+class Label : virtual public Widget {
 	private:
 		std::string text;
 		TTF_Font *font;

@@ -225,7 +225,6 @@ void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_even
 		widget = widgets[i];
 
 		if (widget->is_over(mouse_position) ) {
-
 			if (mouse_button_event.button == SDL_BUTTON_LEFT && !this->is_dragging_widget) {
 				this->is_dragging_widget = true;
 				this->dragged_widget = widget;

@@ -2,17 +2,22 @@
 #define __BUTTON__
 
 #include "label.hpp"
+#include "widget_decorator.hpp"
 
 #include "../event/button_listener.hpp"
 
 class Button :
-	public Label {
+	public Label,
+	public WidgetDecorator {
 
 	private:
 		std::vector<ButtonListener*> button_listeners;
 
 	public:
 		Button (std::string text);
+		Button (Widget *widget);
+		Button (Label *label);
+		Button (std::string text, Widget *widget);
 		Button (int x, int y, int width, int height, std::string text);
 		Button (Position position, Dimension dimension, std::string text);
 		Button (const Button &button);

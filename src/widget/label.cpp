@@ -36,8 +36,6 @@ void Label::draw (void) {
 
 	renderer = this->get_window()->get_renderer();
 
-	Widget::draw_background();
-
 	this->font = TTF_OpenFont("assets/fonts/angelina.ttf", 10);
 	TTF_SetFontStyle(this->font, TTF_STYLE_NORMAL);
 
@@ -60,6 +58,7 @@ void Label::draw (void) {
 		return ;
 	}
 
+	Widget::draw_background();
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 	SDL_RenderPresent(renderer);
 

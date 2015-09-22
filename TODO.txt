@@ -1,5 +1,7 @@
 * Widget:
-	- ajouter sous classes Label, Button (qui hérite de Label pcq text, qui refinit click pour notifier ses ButtonListener), TextField/TextInputListener, TextArea/TextInputListener, ...
+	- Faire des WidgetDecorator: MouseOverWidgetDecorator, DragAndDropWidgetDecorator
+	- fix SDL_TTF qui fait un rendu flou
+	- ajouter sous classes TextField/TextInputListener, TextArea/TextInputListener, ...
 	- ajouter sous classes Menu et MenuBar
 	- ajouter sous classe ScrollBar qui redéfinie la méthode click pour "scroller"
 	- ajouter sous classe ImageWidget

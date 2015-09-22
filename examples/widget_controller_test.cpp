@@ -238,8 +238,10 @@ int main (void) {
 	Rectangle rectangle2(0, 360, 40, 40);
 	Rectangle rectangle3(360, 0, 40, 40);
 	Rectangle rectangle4(360, 360, 40, 40);
-	Button button(180, 180, 40, 40, "BOUTTON");
-	Label label(100, 100, 50, 50, "test");
+	Label label(100, 100, 50, 50, "label");
+	Label label2(300, 100, 50, 50, "label 2");
+	Button button("BOUTTON", &rectangle);
+	Button button2("BOUTTON 2", &label);
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
 	Color color(0x00, 0x00, 0xFF, 0xFF);
@@ -263,17 +265,19 @@ int main (void) {
 	color.set_alpha(0);
 
 	rectangle2.set_background_color(color);
-	rectangle3.set_background_color(Color::GREEN);
+	rectangle3.set_background_color(Color::BLACK);
 	rectangle4.set_background_color(Color::RED);
-	button.set_background_color(Color::WHITE);
-	label.set_background_color(Color::LIGHT_GRAY);
+	button.set_background_color(Color::BLUE);
+	button2.set_background_color(Color::LIGHT_GRAY);
+	label2.set_background_color(Color::LIGHT_GRAY);
 
-	view.add_widget(&rectangle);
+	// view.add_widget(&rectangle);
 	view.add_widget(&rectangle2);
 	view.add_widget(&rectangle3);
 	view.add_widget(&rectangle4);
+	view.add_widget(&label2);
 	view.add_widget(&button);
-	view.add_widget(&label);
+	view.add_widget(&button2);
 
 	view.set_controller(&controller);
 
@@ -282,14 +286,15 @@ int main (void) {
 	event_handler.add_game_controller_listener(&controller);
 	event_handler.add_window_listener(&controller);
 
-	rectangle.add_drag_and_drop_widget_listener(&controller);
+	// rectangle.add_drag_and_drop_widget_listener(&controller);
 	rectangle2.add_drag_and_drop_widget_listener(&controller);
 	rectangle3.add_drag_and_drop_widget_listener(&controller);
 	rectangle4.add_drag_and_drop_widget_listener(&controller);
 	rectangle4.add_mouse_over_widget_listener(&controller);
 	button.add_button_listener(&controller);
-	label.add_mouse_over_widget_listener(&controller);
-	label.add_drag_and_drop_widget_listener(&controller);
+	button2.add_button_listener(&controller);
+	// label.add_mouse_over_widget_listener(&controller);
+	// label.add_drag_and_drop_widget_listener(&controller);
 	controller.set_view(&view);
 
 	window.set_view(&view);
