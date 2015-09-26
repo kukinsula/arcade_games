@@ -1,5 +1,6 @@
 * Widget:
 	- Faire des WidgetDecorator: MouseOverWidgetDecorator, DragAndDropWidgetDecorator
+		- WidgetDecorator applique les méthodes de Widget à lui-même et au Widget qu'il décore
 	- fix SDL_TTF qui fait un rendu flou
 	- ajouter sous classes TextField/TextInputListener, TextArea/TextInputListener, ...
 	- ajouter sous classes Menu et MenuBar
@@ -17,6 +18,10 @@
 	- voir la gestion du multi-window dans SDL sinon faire un mutliton
 	- si c'est la première fois qu'une Window est instanciée alors seulement on initialise la SDL_InitSubSystem(SDL_INIT_VIDEO)
 		- faire pareil pour les autres sous systèmes (Cf. SDL_InitSubSystem).
+	- cnserver l'état de la Window à chaque SDL_WindowEvent
+
+* Mouse:
+	- ajouter un attribut MouseWheelDirection last_mouse_wheel_direction
 
 * Asset:
 	- créer classes Image, Sound, Font, ...

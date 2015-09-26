@@ -46,7 +46,18 @@ class Position {
 		 */
 		double distance_to (const Position &position) const;
 
+		/**
+		 * @brief Compares two Positions: returns true if equals, false otherwise
+		 * @param position: the Position to compare to
+		 * @return bool
+		 */
 		bool operator== (const Position &position) const;
+		
+		/**
+		 * @brief Compares two Positions: returns true if different, false otherwise
+		 * @param position: the Position to compare to
+		 * @return bool
+		 */
 		bool operator!= (const Position &position) const;
 
 		/**

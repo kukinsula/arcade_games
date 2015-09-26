@@ -8,7 +8,7 @@
 
 #include <vector>
 
-#include "widget.hpp"
+#include "rectangle.hpp"
 
 /**
  A rectangle shaped widget* @class Panel
@@ -18,7 +18,7 @@
  * Panel applies the Composite Design Pattern: it is itself a Wiget and
  * it contains other Widgets. You can add/remove Widgets from it.
  */
-class Panel : public Widget {
+class Panel : public Rectangle {
 	private:
 		std::vector<Widget*> widgets;
 

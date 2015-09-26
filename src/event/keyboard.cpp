@@ -17,7 +17,6 @@ void Keyboard::update (void) {
 
 bool Keyboard::is_key_pressed (SDL_Keycode key_code) const {
 	return this->state[SDL_GetScancodeFromKey(key_code)];
-	// return this->state[key_code];
 }
 
 int Keyboard::get_number_of_keys (void) const {

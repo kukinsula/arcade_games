@@ -47,7 +47,9 @@ class ShortcutListener {
 		~ShortcutListener ();
 
 		/**
-		 *
+		 * @brief Returns true if the shortcut is applied on the keyboard
+		 * @param keyboard: the current Keyboard
+		 * @return bool
 		 */
 		bool is_triggered (const Keyboard &keyboard) const;
 

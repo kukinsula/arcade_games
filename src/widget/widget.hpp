@@ -24,8 +24,7 @@ class Window;
  * @see Window
  * @see WidgetListener
  *
- * Widgets are simple object drawable on a Window. They can define their
- * bounds with a Dimension, change their background color, ...
+ * Widgets are simple object drawable on a Window.
  */
 class Widget {
 	private:
@@ -38,12 +37,6 @@ class Widget {
 		std::vector<MouseOverWidgetListener*> mouse_over_widget_listeners;
 		std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 
-	protected:
-		/**
-		 * @brief Draws a white background in the Window
-		 */
-		void draw_background (void);
-
 	public:
 		/**
 		 * @brief Constructor
@@ -54,8 +47,8 @@ class Widget {
 		 * @brief Constructor
 		 * @param x: the x position of the Widget
 		 * @param y: the y position of the Widget
-		 * @param width: the width of the Widget
-		 * @param height: the height of the Widget
+		 * @param width: the width Dimension of the Widget
+		 * @param height: the height Dimension of the Widget
 		 */
 		Widget (int x, int y, int width, int height);
 		
@@ -119,14 +112,14 @@ class Widget {
 		 * @brief Sets the Widget's Position
 		 * @param position: the new position
 		 */
-		void set_position (Position &position);
-		
+		virtual void set_position (Position &position);
+
 		/**
 		 * @brief Sets the Widget's Dimension
 		 * @param dimension: the new Dimension
 		 */
-		void set_dimension (Dimension &dimension);
-		
+		virtual void set_dimension (Dimension &dimension);
+
 		/**
 		 * @brief Sets the Widget's Window
 		 * @param window: the new Window
@@ -137,26 +130,14 @@ class Widget {
 		 * @brief Sets the Widget's background Color
 		 * @param color: the new bacground color
 		 */
-		void set_background_color (Color &color);
+		virtual void set_background_color (Color &color);
 		
 		/**
 		 * @brief Sets the Widget's parent Widget
 		 * @param parent: the new parent
 		 * @see Panel
 		 */
-		void set_parent (Widget *parent);
-
-		/**
-		 * @brief Returns the Widget's Position
-		 * @return Position
-		 */
-		Position& get_position (void);
-		
-		/**
-		 * @brief Returns the Widget's Dimension
-		 * @return Dimension
-		 */
-		Dimension& get_dimension (void);
+		virtual void set_parent (Widget *parent);
 		
 		/**
 		 * @brief Returns the Widget Window's SDL_Renderer
@@ -169,7 +150,19 @@ class Widget {
 		 * @return Window*
 		 */
 		Window* get_window () const;
-		
+
+		/**
+		 * @brief Returns the Widget's Position
+		 * @return Position&
+		 */
+		Position get_position (void) const;
+
+		/**
+		 * @brief Returns the Dimension
+		 * @return dimension&
+		 */
+		Dimension get_dimension (void) const;
+
 		/**
 		 * @brief Returns the Widget's background Color
 		 * @return Color
@@ -205,18 +198,28 @@ class Widget {
 		 * @see Panel 
 		 */
 		virtual bool is_panel (void) const;
-		
+
 		/**
 		 * @brief Adds a Widget to the current Widget
 		 * @param widget: the Widget to add
-		 * @see Panel 
+		 * @see Panel
 		 */
 		virtual void add_widget (Widget *widget);
 
 		/**
-		 *
+		 * @brief Method called by the EventHandler when the user clicks on a Widget
+		 * @param event_handler: the EventHandler attached to the Widget
+		 * @param mouse_button_event: the triggered SDL_MouseButtonEvent
 		 */
 		virtual void click (EventHandler *event_handler, SDL_MouseButtonEvent &mouse_button_event);
 };
+
+/**
+ * @brief Writes a Widget through an ostream
+ * @param os: the ostream to write into
+ * @param widget: the Widget to write
+ * @return ostream
+ */
+std::ostream& operator<<(std::ostream &os, const Widget &widget);
 
 #endif

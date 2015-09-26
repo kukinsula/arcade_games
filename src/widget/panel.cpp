@@ -2,19 +2,20 @@
 
 #include "../log/log.hpp"
 
-Panel::Panel (void) {}
+Panel::Panel () {}
 
 Panel::Panel (const Panel &panel) :
 	Widget(panel),
+	Rectangle(panel),
 	widgets(panel.widgets) {
 }
 
 Panel::Panel (int x, int y, int width, int height) :
-	Widget(x, y, width, height) {
+	Rectangle(x, y, width, height) {
 }
 
 Panel::Panel (Position &position, Dimension &dimension) :
-	Widget(position, dimension) {
+	Rectangle(position, dimension) {
 }
 
 Panel::~Panel () {}
@@ -31,7 +32,7 @@ void Panel::add_widget (Widget *widget) {
 }
 
 void Panel::draw (void) {
-	Widget::draw_background();
+	this->draw_background();
 
 	for (unsigned int i = 0; i < this->widgets.size(); i++) {
 		this->widgets[i]->draw();

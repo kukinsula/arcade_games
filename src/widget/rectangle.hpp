@@ -15,7 +15,13 @@
  *
  * Rectangle is the simplest Widget: it only has a background color.
  */
-class Rectangle : public Widget {
+class Rectangle : virtual public Widget {
+	protected:
+		/**
+		 * @brief Draws a white background in the Window
+		 */
+		void draw_background (void);
+
 	public:
 		/**
 		 * @brief Constructor
@@ -53,5 +59,13 @@ class Rectangle : public Widget {
 		 */
 		void draw (void);
 };
+
+/**
+ * @brief Writes a Rectangle through an ostream
+ * @param os: the ostream to write into
+ * @param rectangle: the Rectangle to write
+ * @return ostream
+ */
+std::ostream& operator<<(std::ostream &os, const Rectangle &rectangle);
 
 #endif

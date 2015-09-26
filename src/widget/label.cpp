@@ -3,7 +3,7 @@
 #include "label.hpp"
 
 Label::Label (std::string text) :
-	Widget(),
+	Rectangle(),
 	text(text) {}
 
 Label::Label (int x, int y, int width, int height, std::string text) :
@@ -16,6 +16,7 @@ Label::Label (Position position, Dimension dimension, std::string text) :
 
 Label::Label (const Label &label) :
 	Widget(label),
+	Rectangle(label),
 	text(label.text) {}
 
 Label::~Label () {
@@ -58,7 +59,7 @@ void Label::draw (void) {
 		return ;
 	}
 
-	Widget::draw_background();
+	this->draw_background();
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 	SDL_RenderPresent(renderer);
 
@@ -71,4 +72,12 @@ void Label::set_text (std::string &text) {
 
 std::string Label::get_text (void) const {
 	return this->text;
+}
+
+std::ostream& operator<<(std::ostream &os, const Label &label) {
+	const Widget &widget = label;
+
+	os << "[" << widget << ";text=" << label.get_text() << "]";
+
+	return os;
 }

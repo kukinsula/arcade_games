@@ -20,23 +20,23 @@ void KeyboardControllerTest::on_key_press (EventHandler *handler, SDL_KeyboardEv
 
 	switch (keyboard_event.keysym.sym) {
 		case SDLK_UP:
-			position.set_y(position.get_y() - widget->get_dimension().get_height() );
+			position.set_y(position.get_y() - 40);
 			MSG(info, "SDLK_UP");
 			break;
 
 		case SDLK_DOWN:
 			MSG(info, "SDLK_DOWN");
-			position.set_y(position.get_y() + widget->get_dimension().get_height() );
+			position.set_y(position.get_y() + 40);
 			break;
 
 		case SDLK_LEFT:
 			MSG(info, "SDLK_LEFT");
-			position.set_x(position.get_x() - widget->get_dimension().get_width() );
+			position.set_x(position.get_x() - 40);
 			break;
 
 		case SDLK_RIGHT:
 			MSG(info, "SDLK_RIGHT");
-			position.set_x(position.get_x() + widget->get_dimension().get_width() );
+			position.set_x(position.get_x() + 40);
 			break;
 
 		case SDLK_ESCAPE:

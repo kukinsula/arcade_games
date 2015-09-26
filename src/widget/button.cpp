@@ -7,6 +7,7 @@ Button::Button (std::string text) :
 	WidgetDecorator(NULL) {}
 
 Button::Button (Widget *widget) :
+	// Widget(*widget),
 	Label(""),
 	WidgetDecorator(widget) {}
 
@@ -15,6 +16,7 @@ Button::Button (Label *label) :
 	WidgetDecorator(label) {}
 
 Button::Button (std::string text, Widget *widget) :
+	Widget(*widget),
 	Label(text),
 	WidgetDecorator(widget) {}
 
@@ -28,6 +30,7 @@ Button::Button (Position position, Dimension dimension, std::string text) :
 
 Button::Button (const Button &button) :
 	Widget(button),
+	Rectangle(button),
 	Label(button),
 	WidgetDecorator(button),
 	button_listeners(button.button_listeners) {}
@@ -35,6 +38,8 @@ Button::Button (const Button &button) :
 Button::~Button () {}
 
 void Button::draw (void) {
+	Rectangle::draw();
+
 	if (this->is_decorating() ) {
 		WidgetDecorator::draw();
 	}
@@ -42,6 +47,14 @@ void Button::draw (void) {
 	else {
 		Label::draw();
 	}
+}
+
+bool Button::is_over (int x, int y) const {
+	return Widget::is_over(x, y);
+}
+
+bool Button::is_over (const Position &position) const {
+	return Widget::is_over(position);
 }
 
 void Button::add_button_listener (ButtonListener *button_listener) {
@@ -57,4 +70,13 @@ void Button::click (EventHandler *event_handler, SDL_MouseButtonEvent &mouse_but
 	for (int i = 0; (unsigned) i < this->button_listeners.size(); i++) {
 		this->button_listeners[i]->on_click_on_button(event_handler, this, mouse_button_event);
 	}
+}
+
+std::ostream& operator<<(std::ostream &os, const Button &button) {
+	const Widget &widget = button;
+
+	os
+		<< widget << ";text=" << button.get_text() << "]";
+
+	return os;
 }

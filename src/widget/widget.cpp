@@ -43,15 +43,17 @@ void Widget::add_drag_and_drop_widget_listener (DragAndDropWidgetListener *drag_
 
 void Widget::add_widget (Widget *) {}
 
+bool Widget::is_panel (void) const {
+	return false;
+}
+
 bool Widget::is_over (int x, int y) const {
-	Position position = this->position;
-	Dimension dimension = this->dimension;
 	bool result = false;
 
-	if (x >= position.get_x() &&
-		x <= position.get_x() + dimension.get_width() &&
-		y >= position.get_y() &&
-		y <= position.get_y() + dimension.get_height() ) {
+	if (x >= this->position.get_x() &&
+		x <= this->position.get_x() + this->dimension.get_width() &&
+		y >= this->position.get_y() &&
+		y <= this->position.get_y() + this->dimension.get_height() ) {
 
 		result = true;
 	}
@@ -61,37 +63,6 @@ bool Widget::is_over (int x, int y) const {
 
 bool Widget::is_over (const Position &position) const {
 	return this->is_over(position.get_x(), position.get_y() );
-}
-
-bool Widget::is_panel (void) const {
-	return false;
-}
-
-void Widget::draw_background (void) {
-	Color background_color = this->get_background_color();
-	Dimension dimension = this->get_dimension();
-	Position position = this->get_position();
-	SDL_Renderer *renderer = NULL;
-	SDL_Rect rect;
-
-	rect.x = position.get_x();
-	rect.y = position.get_y();
-	rect.w = dimension.get_width();
-	rect.h = dimension.get_height();
-
-	renderer = this->get_window_renderer();
-
-	if (renderer != NULL) {
-		SDL_SetRenderDrawColor(
-			renderer,
-			background_color.get_red(),
-			background_color.get_green(),
-			background_color.get_blue(),
-			background_color.get_alpha() );
-
-		SDL_RenderFillRect(renderer, &rect);
-		SDL_RenderPresent(renderer);
-	}
 }
 
 void Widget::set_position (Position &position) {
@@ -115,6 +86,10 @@ void Widget::set_parent (Widget *parent) {
 }
 
 SDL_Renderer* Widget::get_window_renderer () const {
+	if (this->window == NULL) {
+		return NULL;
+	}
+
 	return this->window->get_renderer();
 }
 
@@ -122,11 +97,11 @@ Window* Widget::get_window (void) const {
 	return this->window;
 }
 
-Position& Widget::get_position (void) {
+Position Widget::get_position (void) const {
 	return this->position;
 }
 
-Dimension& Widget::get_dimension (void) {
+Dimension Widget::get_dimension (void) const {
 	return this->dimension;
 }
 
@@ -147,3 +122,10 @@ Widget* Widget::get_parent (void) const {
 }
 
 void Widget::click (EventHandler *, SDL_MouseButtonEvent &) {}
+
+std::ostream& operator<<(std::ostream &os, const Widget &widget) {
+	os <<
+		"position=" << widget.get_position() << ";dimension=" << widget.get_dimension();
+
+	return os;
+}

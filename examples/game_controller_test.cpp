@@ -10,12 +10,11 @@ void GameControllerTest::on_game_controller_button_press (EventHandler *, SDL_Co
 	std::string str = "on_game_controller_button_press => ";
 	Widget *widget = NULL;
 	Position position;
-	Dimension widget_dimension, window_dimension = this->get_view()->get_window()->get_dimension();
+	Dimension window_dimension = this->get_view()->get_window()->get_dimension();
 
 	if (this->get_view()->get_widgets().size() != 0) {
 		widget = this->get_view()->get_widgets().at(0);
 		position = widget->get_position();
-		widget_dimension = widget->get_dimension();
 	}
 
 	else {
@@ -95,12 +94,12 @@ void GameControllerTest::on_game_controller_button_press (EventHandler *, SDL_Co
 			position.set_y(0);
 		}
 
-		if (position.get_x() > window_dimension.get_width() - widget->get_dimension().get_width() ) {
-			position.set_x(window_dimension.get_width() - widget->get_dimension().get_width() );
+		if (position.get_x() > window_dimension.get_width() - 40) {
+			position.set_x(window_dimension.get_width() - 40);
 		}
 
-		if (position.get_y() > window_dimension.get_height() - widget->get_dimension().get_height() ) {
-			position.set_y(window_dimension.get_height() - widget->get_dimension().get_height() );
+		if (position.get_y() > window_dimension.get_height() - 40) {
+			position.set_y(window_dimension.get_height() - 40);
 		}
 
 		widget->set_position(position);

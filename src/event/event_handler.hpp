@@ -238,7 +238,16 @@ class EventHandler {
 		 */
 		Window* get_window (void) const;
 
+		/**
+		 * @brief Returns the Keyboard
+		 * @return Keyboard&
+		 */
 		Keyboard& get_keyboard (void);
+		
+		/**
+		 * @brief Returns the Mouse
+		 * @return Mouse&
+		 */
 		Mouse& get_mouse (void);
 
 		/**
