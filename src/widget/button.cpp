@@ -7,7 +7,7 @@ Button::Button (std::string text) :
 	WidgetDecorator(NULL) {}
 
 Button::Button (Widget *widget) :
-	// Widget(*widget),
+	Widget(*widget),
 	Label(""),
 	WidgetDecorator(widget) {}
 
@@ -49,21 +49,9 @@ void Button::draw (void) {
 	}
 }
 
-bool Button::is_over (int x, int y) const {
-	return Widget::is_over(x, y);
-}
-
-bool Button::is_over (const Position &position) const {
-	return Widget::is_over(position);
-}
-
 void Button::add_button_listener (ButtonListener *button_listener) {
 	this->button_listeners.push_back(button_listener);
 	button_listener->set_listened_button(this);
-}
-
-std::vector<ButtonListener*>& Button::get_button_listeners (void) {
-	return this->button_listeners;
 }
 
 void Button::click (EventHandler *event_handler, SDL_MouseButtonEvent &mouse_button_event) {

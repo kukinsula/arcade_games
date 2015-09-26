@@ -26,7 +26,7 @@ class WidgetControllerTest :
 	public:
 		WidgetControllerTest ();
 
-		void on_mouse_over_widget (EventHandler *handler, Widget *widget);
+		void on_mouse_over_widget (EventHandler *handler, MouseOverWidgetDecorator *widget, SDL_MouseMotionEvent &mouse_motion_event);
 		void on_click_on_button (EventHandler *event_handler, Button *button, SDL_MouseButtonEvent &mouse_button_event);
 
 		void on_drag_widget (EventHandler *handler, Widget *widget);

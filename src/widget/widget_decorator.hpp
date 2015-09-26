@@ -101,11 +101,7 @@ class WidgetDecorator : virtual public Widget {
 		 */
 		Widget* get_original (void) const;
 
-		/**
-		 * @brief Handles clicks over a WidgetDecorator
-		 * @param event_handler: the EventHandler attached to the WidgetDecorator
-		 * @param mouse_button_event: the triggered SDL_MouseButtonEvent
-		 */
+		void over (EventHandler *event_handler, SDL_MouseMotionEvent &mouse_motion_event);
 		void click (EventHandler *event_handler, SDL_MouseButtonEvent &mouse_button_event);
 };
 

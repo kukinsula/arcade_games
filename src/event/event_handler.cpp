@@ -148,7 +148,6 @@ void EventHandler::keyboard_unpressed (SDL_KeyboardEvent &keyboard_event) {
 void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 	Position mouse_position(mouse_motion_event.x, mouse_motion_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<MouseOverWidgetListener*> mouse_over_widget_listeners;
 	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
@@ -179,13 +178,10 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 		widget = widgets[i];
 
 		if (widget->is_over(mouse_position) ) {
-			mouse_over_widget_listeners = widget->get_mouse_over_widget_listeners();
 			drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
 
 			// ON_MOUSE_OVER_WIDGET
-			for (int j = 0; (unsigned) j < mouse_over_widget_listeners.size(); j++) {
-				mouse_over_widget_listeners[j]->on_mouse_over_widget(this, widget);
-			}
+			widget->over(this, mouse_motion_event);
 
 			// ON_DRAGGING_WIDGET_OVER_WIDGET
 			for (int j = 0; (unsigned) j < drag_and_drop_widget_listeners.size(); j++) {
@@ -452,12 +448,12 @@ void EventHandler::add_keyboard_listener (KeyboardListener *keyboard_listener) {
 	this->keyboard_listeners.push_back(keyboard_listener);
 }
 
-void EventHandler::add_shortcut_listener (ShortcutListener *shortcut_listener) {
-	this->shortcut_listeners.push_back(shortcut_listener);
-}
-
 void EventHandler::add_mouse_listener (MouseListener *mouse_listener) {
 	this->mouse_listeners.push_back(mouse_listener);
+}
+
+void EventHandler::add_shortcut_listener (ShortcutListener *shortcut_listener) {
+	this->shortcut_listeners.push_back(shortcut_listener);
 }
 
 void EventHandler::add_window_listener (WindowListener *window_listener) {
@@ -488,12 +484,12 @@ void EventHandler::remove_keyboard_listener (KeyboardListener *keyboard_listener
 	this->keyboard_listeners.erase(std::remove(this->keyboard_listeners.begin(), this->keyboard_listeners.end(), keyboard_listener), this->keyboard_listeners.end() );
 }
 
-void EventHandler::remove_shortcut_listener (ShortcutListener *shortcut_listener) {
-	this->shortcut_listeners.erase(std::remove(this->shortcut_listeners.begin(), this->shortcut_listeners.end(), shortcut_listener), this->shortcut_listeners.end() );
-}
-
 void EventHandler::remove_mouse_listener (MouseListener *mouse_listener) {
 	this->mouse_listeners.erase(std::remove(this->mouse_listeners.begin(), this->mouse_listeners.end(), mouse_listener), this->mouse_listeners.end() );
+}
+
+void EventHandler::remove_shortcut_listener (ShortcutListener *shortcut_listener) {
+	this->shortcut_listeners.erase(std::remove(this->shortcut_listeners.begin(), this->shortcut_listeners.end(), shortcut_listener), this->shortcut_listeners.end() );
 }
 
 void EventHandler::remove_window_listener (WindowListener *window_listener) {

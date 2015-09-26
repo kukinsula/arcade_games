@@ -33,10 +33,6 @@ Widget::Widget (const Widget &widget) :
 
 Widget::~Widget () {}
 
-void Widget::add_mouse_over_widget_listener (MouseOverWidgetListener *mouse_over_widget_listener) {
-	this->mouse_over_widget_listeners.push_back(mouse_over_widget_listener);
-}
-
 void Widget::add_drag_and_drop_widget_listener (DragAndDropWidgetListener *drag_and_drop_widget_listener) {
 	this->drag_and_drop_widget_listeners.push_back(drag_and_drop_widget_listener);
 }
@@ -105,10 +101,6 @@ Dimension Widget::get_dimension (void) const {
 	return this->dimension;
 }
 
-std::vector<MouseOverWidgetListener*>& Widget::get_mouse_over_widget_listeners (void) {
-	return this->mouse_over_widget_listeners;
-}
-
 std::vector<DragAndDropWidgetListener*>& Widget::get_drag_and_drop_widget_listeners (void) {
 	return this->drag_and_drop_widget_listeners;
 }
@@ -122,6 +114,8 @@ Widget* Widget::get_parent (void) const {
 }
 
 void Widget::click (EventHandler *, SDL_MouseButtonEvent &) {}
+
+void Widget::over (EventHandler *, SDL_MouseMotionEvent &) {}
 
 std::ostream& operator<<(std::ostream &os, const Widget &widget) {
 	os <<

@@ -8,12 +8,13 @@
 #include "../src/widget/button.hpp"
 #include "../src/widget/label.hpp"
 #include "../src/window/window.hpp"
+#include "../src/widget/mouse_over_widget_decorator.hpp"
 
 WidgetControllerTest::WidgetControllerTest () :
 	selected_widget(NULL) {
 }
 
-void WidgetControllerTest::on_mouse_over_widget (EventHandler *event_handler, Widget *widget) {
+void WidgetControllerTest::on_mouse_over_widget (EventHandler *event_handler, MouseOverWidgetDecorator *widget, SDL_MouseMotionEvent &) {
 	Log::write(LOG(info, "over widget ") << widget << " at " << event_handler->get_mouse().get_position() );
 }
 
@@ -216,8 +217,10 @@ int main (void) {
 	Rectangle rectangle2(0, 360, 40, 40);
 	Rectangle rectangle3(360, 0, 40, 40);
 	Rectangle rectangle4(360, 360, 40, 40);
+	MouseOverWidgetDecorator mouse_over_widget_decorator(&rectangle4);
 	Label label(100, 100, 50, 50, "AAAA");
 	Button button("BUTTON", &rectangle3);
+	MouseOverWidgetDecorator *mouse_over_widget_decorator2 = NULL;
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
 	Color color(0x00, 0x00, 0xFF, 0xFF);
@@ -250,7 +253,7 @@ int main (void) {
 	view.add_widget(&rectangle2);
 	view.add_widget(&rectangle4);
 	view.add_widget(&label);
-	view.add_widget(&button);
+	// view.add_widget(&button);
 
 	view.set_controller(&controller);
 
@@ -259,8 +262,11 @@ int main (void) {
 	event_handler.add_game_controller_listener(&controller);
 	event_handler.add_window_listener(&controller);
 
-	rectangle4.add_mouse_over_widget_listener(&controller);
 	button.add_button_listener(&controller);
+	mouse_over_widget_decorator2 = new MouseOverWidgetDecorator(&button);
+	mouse_over_widget_decorator2->add_mouse_over_widget_listener(&controller);
+	view.add_widget(mouse_over_widget_decorator2);
+	// mouse_over_widget_decorator.add_mouse_over_widget_listener(&controller);
 
 	controller.set_view(&view);
 	window.set_view(&view);

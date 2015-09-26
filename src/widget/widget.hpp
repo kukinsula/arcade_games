@@ -10,7 +10,6 @@
 
 #include <vector>
 
-#include "../event/mouse_over_widget_listener.hpp"
 #include "../event/drag_and_drop_widget_listener.hpp"
 #include "../util/color.hpp"
 #include "../util/position.hpp"
@@ -34,7 +33,6 @@ class Widget {
 		Color background_color;
 		Widget *parent;
 
-		std::vector<MouseOverWidgetListener*> mouse_over_widget_listeners;
 		std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 
 	public:
@@ -68,18 +66,6 @@ class Widget {
 		 * @brief Destructor
 		 */
 		~Widget ();
-
-		/**
-		 * @brief Regiters a new MouseOverWidgetListener
-		 * @param mouse_over_widget_listener: the MouseOverWidgetListener to register
-		 * @see MouseOverWidgetListener
-		 *
-		 * EventHandler can detect user interractions with Widgets, such as a click
-		 * on a Widget. To be notified of any interraction with a Widget you just need
-		 * to inherit from MouseOverWidgetListener and register to the Widget to which you
-		 * wish to listen.
-		 */
-		void add_mouse_over_widget_listener (MouseOverWidgetListener *mouse_over_widget_listener);
 
 		/**
 		 * @brief Regiters a new DragAndDropWidgetListener
@@ -170,12 +156,6 @@ class Widget {
 		Color& get_background_color (void);
 		
 		/**
-		 * @brief Returns the Widget's MouseOverWidgetListener
-		 * @return std::vector<MouseOverWidgetListener*>&
-		 */
-		std::vector<MouseOverWidgetListener*>& get_mouse_over_widget_listeners (void);
-
-		/**
 		 * @brief Returns the Widget's DragAndDropWidgetListener
 		 * @return std::vector<DragAndDropWidgetListener*>
 		 */
@@ -205,6 +185,13 @@ class Widget {
 		 * @see Panel
 		 */
 		virtual void add_widget (Widget *widget);
+
+		/**
+		 * @brief Method called by the EventHandler when the user moves the mouse over a Widget
+		 * @param event_handler: the EventHandler attached to the Widget
+		 * @param mouse_motion_event: the triggered SDL_MouseMotionEvent
+		 */
+		virtual void over (EventHandler *event_handler, SDL_MouseMotionEvent &mouse_motion_event);
 
 		/**
 		 * @brief Method called by the EventHandler when the user clicks on a Widget

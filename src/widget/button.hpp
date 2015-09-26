@@ -92,21 +92,6 @@ class Button :
 		void draw (void);
 
 		/**
-		 * @brief Returns true if (x, y) is within the Widget's bounds, false otherwise
-		 * @param x: the x position
-		 * @param y: the y position
-		 * @return bool
-		 */
-		bool is_over (int x, int y) const;
-
-		/**
-		 * @brief Returns true if position is within the Widget's bounds, false otherwise
-		 * @param position: the position to check
-		 * @return bool
-		 */
-		bool is_over (const Position &position) const;
-
-		/**
 		 * @brief Regiters a new ButtonListener
 		 * @param button_listener: the ButtonListener to register
 		 * @see ButtonListener
@@ -117,12 +102,6 @@ class Button :
 		 * wish to listen.
 		 */
 		void add_button_listener (ButtonListener *button_listener);
-
-		/**
-		 * @brief Returns the Widget's ButtonListener
-		 * @return std::vector<ButtonListener*>&
-		 */
-		std::vector<ButtonListener*>& get_button_listeners (void);
 
 		/**
 		 * @brief Receives click events to notify its ButtonListeners

@@ -80,8 +80,14 @@ Widget* WidgetDecorator::get_original (void) const {
 	return this->original;
 }
 
-void WidgetDecorator::click (EventHandler *event_handler, SDL_MouseButtonEvent & mouse_button_event) {
-	MSG(info, "ATTENTION");
+void WidgetDecorator::over (EventHandler *event_handler, SDL_MouseMotionEvent &mouse_motion_event) {
+	if (this->is_decorating() ) {
+		this->original->over(event_handler, mouse_motion_event);
+	}
+}
 
-	this->original->click(event_handler, mouse_button_event);
+void WidgetDecorator::click (EventHandler *event_handler, SDL_MouseButtonEvent &mouse_button_event) {
+	if (this->is_decorating() ) {
+		this->original->click(event_handler, mouse_button_event);
+	}
 }

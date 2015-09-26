@@ -9,6 +9,7 @@
 #include <vector>
 
 class Window;
+class Widget;
 
 #include "../util/position.hpp"
 
@@ -125,16 +126,16 @@ class EventHandler {
 		void add_keyboard_listener (KeyboardListener *keyboard_listener);
 
 		/**
-		 * @brief Registers a ShortcutListener to the EventHandler
-		 * @param shortcut_listener: the ShortcutListener to register
-		 */
-		void add_shortcut_listener (ShortcutListener *shortcut_listener);
-
-		/**
 		 * @brief Registers a MouseListener to the EventHandler
 		 * @param mouse_listener: the MouseListener to register
 		 */
 		void add_mouse_listener (MouseListener *mouse_listener);
+
+		/**
+		 * @brief Registers a ShortcutListener to the EventHandler
+		 * @param shortcut_listener: the ShortcutListener to register
+		 */
+		void add_shortcut_listener (ShortcutListener *shortcut_listener);
 
 		/**
 		 * @brief Registers a WindowListener to the EventHandler
@@ -179,16 +180,17 @@ class EventHandler {
 		void remove_keyboard_listener (KeyboardListener *keyboard_listener);
 
 		/**
-		 * @brief Unregisters a ShortcutListener from the EventHandler
-		 * @param shortcut_listener: the ShortcutListener to unregister
-		 */
-		void remove_shortcut_listener (ShortcutListener *shortcut_listener);
-
-		/**
 		 * @brief Unregisters a MouseListener from the EventHandler
 		 * @param mouse_listener: the MouseListener to unregister
 		 */
 		void remove_mouse_listener (MouseListener *mouse_listener);
+
+
+		/**
+		 * @brief Unregisters a ShortcutListener from the EventHandler
+		 * @param shortcut_listener: the ShortcutListener to unregister
+		 */
+		void remove_shortcut_listener (ShortcutListener *shortcut_listener);
 
 		/**
 		 * @brief Unregisters a WindowListener from the EventHandler
