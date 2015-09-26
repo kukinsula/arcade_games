@@ -22,20 +22,6 @@ bool WidgetDecorator::is_decorating (void) const {
 	return this->original != NULL;
 }
 
-bool WidgetDecorator::is_over (int x, int y) const {
-	bool result = false;
-
-	if (this->is_decorating() ) {
-		result = this->original->is_over(x, y);
-	}
-
-	return result;
-}
-
-bool WidgetDecorator::is_over (const Position &position) const {
-	return this->is_over(position.get_x(), position.get_y() );
-}
-
 void WidgetDecorator::set_position (Position &position) {
 	if (this->is_decorating() ) {
 		this->original->set_position(position);

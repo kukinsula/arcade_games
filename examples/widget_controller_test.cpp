@@ -218,8 +218,10 @@ int main (void) {
 	Rectangle rectangle3(360, 0, 40, 40);
 	Rectangle rectangle4(360, 360, 40, 40);
 	MouseOverWidgetDecorator mouse_over_widget_decorator(&rectangle4);
+	MouseOverWidgetDecorator tmp(&rectangle2);
 	Label label(100, 100, 50, 50, "AAAA");
 	Button button("BUTTON", &rectangle3);
+	Button *button2 = NULL;
 	MouseOverWidgetDecorator *mouse_over_widget_decorator2 = NULL;
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
@@ -250,7 +252,7 @@ int main (void) {
 	label.set_background_color(Color::LIGHT_GRAY);
 
 	view.add_widget(&rectangle);
-	view.add_widget(&rectangle2);
+	// view.add_widget(&rectangle2);
 	view.add_widget(&rectangle4);
 	view.add_widget(&label);
 	// view.add_widget(&button);
@@ -266,6 +268,11 @@ int main (void) {
 	mouse_over_widget_decorator2 = new MouseOverWidgetDecorator(&button);
 	mouse_over_widget_decorator2->add_mouse_over_widget_listener(&controller);
 	view.add_widget(mouse_over_widget_decorator2);
+
+	tmp.add_mouse_over_widget_listener(&controller);
+	button2 = new Button("BBBB", &tmp);
+	button2->add_button_listener(&controller);
+	view.add_widget(button2);
 	// mouse_over_widget_decorator.add_mouse_over_widget_listener(&controller);
 
 	controller.set_view(&view);
