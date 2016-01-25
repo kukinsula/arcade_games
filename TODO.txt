@@ -1,3 +1,14 @@
+* Ravalement de Facade de SDL:
+    - Window
+    - Event
+    - Mouse
+    - Keyboard
+    - ...
+
+* Refaire tout le Makefile:
+    - Déplacer tous les sources de la lib dans src/lib et compiler en libarcade_game.so
+    - mettre tous les examples dans src/examples
+
 * Widget:
 	- Faire des WidgetDecorator: DragAndDropWidgetDecorator
 	- fix SDL_TTF qui fait un rendu flou
@@ -8,6 +19,11 @@
 	- renommer la méthode is_panel() par is_composite()
 	- implémenter Iterator design pattern pour abstraire le parcours d'un Widget sans connaitre le type exacte du Widget avec la STL
 	- implémenter Visitor design pattern pour abstrair la méhode de visite d'un Widget sans connaitre le type exact de ce Widget 
+
+* ClickableWidgetDecorator:
+    - herite de WidgetDecorator et WidgetListener
+    - WidgetDecorator qui intercepte les clicks et applique 
+    - Exemple de sous classes: Button, MenuItem, ...
 
 * View:
 	- ajouter ViewDecorator
