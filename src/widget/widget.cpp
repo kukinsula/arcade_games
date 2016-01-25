@@ -117,6 +117,8 @@ void Widget::click (EventHandler *, SDL_MouseButtonEvent &) {}
 
 void Widget::over (EventHandler *, SDL_MouseMotionEvent &) {}
 
+void Widget::drag_and_drop (EventHandler *, DragAndDropWidgetEvent, Widget *) {}
+
 std::ostream& operator<<(std::ostream &os, const Widget &widget) {
 	os <<
 		"position=" << widget.get_position() << ";dimension=" << widget.get_dimension();

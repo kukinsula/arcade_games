@@ -9,6 +9,7 @@
 #include "../src/widget/label.hpp"
 #include "../src/window/window.hpp"
 #include "../src/widget/mouse_over_widget_decorator.hpp"
+#include "../src/widget/drag_and_drop_widget_decorator.hpp"
 
 WidgetControllerTest::WidgetControllerTest () :
 	selected_widget(NULL) {
@@ -223,6 +224,7 @@ int main (void) {
 	Button button("BUTTON", &rectangle3);
 	Button *button2 = NULL;
 	MouseOverWidgetDecorator *mouse_over_widget_decorator2 = NULL;
+	DragAndDropWidgetDecorator drag_and_drop_widget_decorator(&rectangle);
 	View view;
 	ConsoleLogger *logger = new ConsoleLogger(info);
 	Color color(0x00, 0x00, 0xFF, 0xFF);
@@ -251,7 +253,7 @@ int main (void) {
 	button.set_background_color(Color::GREEN);
 	label.set_background_color(Color::LIGHT_GRAY);
 
-	view.add_widget(&rectangle);
+	// view.add_widget(&rectangle);
 	// view.add_widget(&rectangle2);
 	view.add_widget(&rectangle4);
 	view.add_widget(&label);
@@ -274,6 +276,9 @@ int main (void) {
 	button2->add_button_listener(&controller);
 	view.add_widget(button2);
 	// mouse_over_widget_decorator.add_mouse_over_widget_listener(&controller);
+
+	drag_and_drop_widget_decorator.add_drag_and_drop_widget_listener(&controller);
+	view.add_widget(&drag_and_drop_widget_decorator);
 
 	controller.set_view(&view);
 	window.set_view(&view);

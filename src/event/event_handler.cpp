@@ -12,6 +12,7 @@ EventHandler::EventHandler (Window *window) :
 	is_dragging_widget(false),
 	dragged_widget(NULL),
 	keyboard(),
+	mouse(),
 	text_input_listeners() {}
 
 EventHandler::EventHandler (const EventHandler &event_handler) :
@@ -148,7 +149,7 @@ void EventHandler::keyboard_unpressed (SDL_KeyboardEvent &keyboard_event) {
 void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 	Position mouse_position(mouse_motion_event.x, mouse_motion_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
+	// std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse.update(mouse_motion_event);
@@ -167,27 +168,33 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 
 	// ON_DRAGGING_WIDGET
 	if (this->is_dragging_widget) {
-		drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
+		// drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
 
-		for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
-			drag_and_drop_widget_listeners[i]->on_dragging_widget(this, this->dragged_widget);
-		}
+		// for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
+		// 	drag_and_drop_widget_listeners[i]->on_dragging_widget(this, this->dragged_widget);
+		// }
+
+		this->dragged_widget->drag_and_drop(this, ON_DRAGGING_WIDGET);
 	}
 
 	for (unsigned int i = 0; i < widgets.size(); i++) {
 		widget = widgets[i];
 
 		if (widget->is_over(mouse_position) ) {
-			drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
+			// drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
 
 			// ON_MOUSE_OVER_WIDGET
 			widget->over(this, mouse_motion_event);
 
 			// ON_DRAGGING_WIDGET_OVER_WIDGET
-			for (int j = 0; (unsigned) j < drag_and_drop_widget_listeners.size(); j++) {
-				if (this->is_dragging_widget && widget != this->dragged_widget) {
-					drag_and_drop_widget_listeners[j]->on_dragging_widget_over_widget(this, this->dragged_widget, widget);
-				}
+			// for (int j = 0; (unsigned) j < drag_and_drop_widget_listeners.size(); j++) {
+			// 	if (this->is_dragging_widget && widget != this->dragged_widget) {
+			// 		drag_and_drop_widget_listeners[j]->on_dragging_widget_over_widget(this, this->dragged_widget, widget);
+			// 	}
+			// }
+
+			if (this->is_dragging_widget && widget != this->dragged_widget) {
+				this->dragged_widget->drag_and_drop(this, ON_DRAGGING_WIDGET_OVER_WIDGET);
 			}
 		}
 	}
@@ -196,7 +203,7 @@ void EventHandler::mouse_moved (SDL_MouseMotionEvent &mouse_motion_event) {
 void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_event) {
 	Position mouse_position(mouse_button_event.x, mouse_button_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
+	// std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse.update(mouse_button_event);
@@ -206,46 +213,67 @@ void EventHandler::mouse_button_pressed (SDL_MouseButtonEvent &mouse_button_even
 		this->mouse_listeners[i]->on_mouse_button_press(this, mouse_button_event);
 	}
 
-	// ON_DRAG
-	if (mouse_button_event.button == SDL_BUTTON_LEFT && !this->is_dragging) {
-		this->is_dragging = true;
+	// ON_DRAG_WIDGET
+	if (mouse_button_event.button == SDL_BUTTON_LEFT) {
+		if (!this->is_dragging) {
+			this->is_dragging = true;
 
-		for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
-			this->drag_and_drop_listeners[i]->set_drag_point(mouse_position);
-			this->drag_and_drop_listeners[i]->on_drag(this);
+			for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
+				this->drag_and_drop_listeners[i]->set_drag_point(mouse_position);
+				this->drag_and_drop_listeners[i]->on_drag(this);
+			}
+		}
+
+		if (!this->is_dragging_widget) {
+			for (unsigned int i = 0; i < widgets.size(); i++) {
+				widget = widgets[i];
+
+				if (widget->is_over(mouse_position) ) {
+					if (!this->is_dragging_widget) {
+						this->is_dragging_widget = true;
+						this->dragged_widget = widget;
+					}
+
+					// ON_MOUSE_CLICK_ON_WIDGET
+					widget->click(this, mouse_button_event);
+				}
+			}
+
+			if (this->is_dragging_widget) {
+				this->dragged_widget->drag_and_drop(this, ON_DRAG_WIDGET);
+			}
 		}
 	}
 
 	// ON_CLICK_ON_WIDGET
-	for (unsigned int i = 0; i < widgets.size(); i++) {
-		widget = widgets[i];
+	// if (mouse_button_event.button == SDL_BUTTON_LEFT) {
+	// 	for (unsigned int i = 0; i < widgets.size(); i++) {
+	// 		widget = widgets[i];
 
-		if (widget->is_over(mouse_position) ) {
-			if (mouse_button_event.button == SDL_BUTTON_LEFT && !this->is_dragging_widget) {
-				this->is_dragging_widget = true;
-				this->dragged_widget = widget;
-			}
-
-			// ON_MOUSE_CLICK_ON_WIDGET
-			widget->click(this, mouse_button_event);
-		}
-	}
+	// 		if (widget->is_over(mouse_position) ) {
+	// 			if (!this->is_dragging_widget) {
+	// 				this->is_dragging_widget = true;
+	// 				this->dragged_widget = widget;
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	// ON_DRAG_WIDGET
-	if (this->is_dragging_widget) {
-		drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
+	// if (this->is_dragging_widget) {
+	// 	drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
 
-		for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
-			drag_and_drop_widget_listeners[i]->set_drag_widget_point(mouse_position);
-			drag_and_drop_widget_listeners[i]->on_drag_widget(this, this->dragged_widget);
-		}
-	}
+	// 	for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
+	// 		drag_and_drop_widget_listeners[i]->set_drag_widget_point(mouse_position);
+	// 		drag_and_drop_widget_listeners[i]->on_drag_widget(this, this->dragged_widget);
+	// 	}
+	// }
 }
 
 void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_event) {
 	Position mouse_position(mouse_button_event.x, mouse_button_event.y);
 	std::vector<Widget*> widgets = this->window->get_view()->get_widgets();
-	std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
+	// std::vector<DragAndDropWidgetListener*> drag_and_drop_widget_listeners;
 	Widget *widget = NULL;
 
 	this->mouse.update(mouse_button_event);
@@ -256,54 +284,69 @@ void EventHandler::mouse_button_unpressed (SDL_MouseButtonEvent &mouse_button_ev
 	}
 
 	// ON_DROP_ON_WIDGET
-	if (mouse_button_event.button == SDL_BUTTON_LEFT && this->is_dragging) {
-		if (!this->is_dragging_widget) {
-			for (unsigned int i = 0; i < widgets.size(); i++) {
-				widget = widgets[i];
+	if (mouse_button_event.button == SDL_BUTTON_LEFT) {
+		if (this->is_dragging) {
+			this->is_dragging = false;
 
-				if (widget->is_over(mouse_position) ) {
-					drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
-
-					for (unsigned int j = 0; j < drag_and_drop_widget_listeners.size(); j++) {
-						drag_and_drop_widget_listeners[j]->on_drop_on_widget(this, widget);
-					}
-				}
+			for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
+				this->drag_and_drop_listeners[i]->set_drop_point(mouse_position);
+				this->drag_and_drop_listeners[i]->on_drop(this);
 			}
 		}
 
-		this->is_dragging = false;
+		// ON_DROP_WIDGET
+		if (this->is_dragging_widget) {
+			this->dragged_widget->drag_and_drop(this, ON_DROP_WIDGET);
 
-		for (unsigned int i = 0; i < this->drag_and_drop_listeners.size(); i++) {
-			this->drag_and_drop_listeners[i]->set_drop_point(mouse_position);
-			this->drag_and_drop_listeners[i]->on_drop(this);
+			for (unsigned int i = 0; i < widgets.size(); i++) {
+				widget = widgets[i];
+
+				if (widget->is_over(mouse_position) && this->dragged_widget != widget) {
+					// drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
+
+					// for (unsigned int j = 0; j < drag_and_drop_widget_listeners.size(); j++) {
+					// 	drag_and_drop_widget_listeners[j]->on_drop_on_widget(this, widget);
+					// }
+
+					// ON_DROP_WIDGET_ON_WIDGET
+					this->dragged_widget->drag_and_drop(this, ON_DROP_WIDGET_ON_WIDGET);
+				}
+			}
+
+			this->is_dragging_widget = false;
+			this->dragged_widget = NULL;
 		}
 	}
 
 	// ON_DROP_WIDGET
-	if (mouse_button_event.button == SDL_BUTTON_LEFT && this->is_dragging_widget) {
-		drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
+	// if (mouse_button_event.button == SDL_BUTTON_LEFT && this->is_dragging_widget) {
+		// drag_and_drop_widget_listeners = this->dragged_widget->get_drag_and_drop_widget_listeners();
 
-		for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
-			drag_and_drop_widget_listeners[i]->set_drop_widget_point(mouse_position);
-			drag_and_drop_widget_listeners[i]->on_drop_widget(this, this->dragged_widget);
-		}
+		// for (unsigned int i = 0; i < drag_and_drop_widget_listeners.size(); i++) {
+		// 	drag_and_drop_widget_listeners[i]->set_drop_widget_point(mouse_position);
+		// 	drag_and_drop_widget_listeners[i]->on_drop_widget(this, this->dragged_widget);
+		// }
+
+		// this->dragged_widget->drag_and_drop(this, ON_DROP_WIDGET);
 
 		// ON_DROP_WIDGET_ON_WIDGET
-		for (unsigned int i = 0; i < widgets.size(); i++) {
-			widget = widgets[i];
+		// for (unsigned int i = 0; i < widgets.size(); i++) {
+		// 	widget = widgets[i];
 
-			if (widget->is_over(mouse_position) && widget != this->dragged_widget) {
-				drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
+		// 	if (widget->is_over(mouse_position) && widget != this->dragged_widget) {
+				// drag_and_drop_widget_listeners = widget->get_drag_and_drop_widget_listeners();
 
-				for (unsigned int j = 0; j < drag_and_drop_widget_listeners.size(); j++) {
-					drag_and_drop_widget_listeners[j]->on_drop_widget_on_widget(this, this->dragged_widget, widget);
-				}
-			}
-		}
+				// for (unsigned int j = 0; j < drag_and_drop_widget_listeners.size(); j++) {
+				// 	drag_and_drop_widget_listeners[j]->on_drop_widget_on_widget(this, this->dragged_widget, widget);
+				// }
 
-		this->is_dragging_widget = false;
-		this->dragged_widget = NULL;
-	}
+		// 		widget->drag_and_drop(this, ON_DROP_WIDGET_ON_WIDGET);
+		// 	}
+		// }
+
+		// this->is_dragging_widget = false;
+		// this->dragged_widget = NULL;
+	// }
 }
 
 void EventHandler::mouse_wheeled (SDL_MouseWheelEvent &mouse_wheel_event) {

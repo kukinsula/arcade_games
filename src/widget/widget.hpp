@@ -14,6 +14,7 @@
 #include "../util/color.hpp"
 #include "../util/position.hpp"
 #include "../util/dimension.hpp"
+#include "drag_and_drop_widget_event.hpp"
 
 class Window;
 
@@ -199,6 +200,11 @@ class Widget {
 		 * @param mouse_button_event: the triggered SDL_MouseButtonEvent
 		 */
 		virtual void click (EventHandler *event_handler, SDL_MouseButtonEvent &mouse_button_event);
+
+		/**
+		 *
+		 */
+		virtual void drag_and_drop (EventHandler *event_handler, DragAndDropWidgetEvent drag_and_drop_widget_event, Widget *widget = NULL);
 };
 
 /**
